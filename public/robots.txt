@@ -5,4 +5,4 @@ Allow: /
 # Disallow: /admin/
 
 # Sitemap
-Sitemap: https://chae-dahee.github.io/sitemap.xml
+Sitemap: https://chae-dahee.vercel.app/sitemap.xml
