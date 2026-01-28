@@ -35,6 +35,12 @@ export default function SEO({
       {/* Canonical URL */}
       <link rel="canonical" href={pageUrl} />
 
+      {/* Google Verification */}
+      <meta
+        name="google-site-verification"
+        content="La4WTRbjzAGgtadTuyaR_XEv2bTVa-fxccxwTWCL_9Y"
+      />
+
       {/* Open Graph */}
       <meta property="og:type" content={pageType} />
       <meta property="og:url" content={pageUrl} />
