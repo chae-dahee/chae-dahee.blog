@@ -35,6 +35,12 @@ export default function SEO({
       {/* Canonical URL */}
       <link rel="canonical" href={pageUrl} />
 
+      {/* Google Search Console */}
+      <meta
+        name="google-site-verification"
+        content="QVszARVjzcRPs2sXSQCSDREFyQZ3pnWHJ3U2ge3aM70"
+      />
+
       {/* RSS Feed */}
       <link
         rel="alternate"
