@@ -1,26 +1,102 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 html,
 body {
   width: 100%;
-  background-color: theme("colors.bg");
-  color: theme("colors.textDark");
+  background-color: #f9fafb;
+  color: #1f2937;
+  scroll-behavior: smooth;
 }
 
-.light-theme {
-  background-color: theme("colors.light");
-  color: theme("colors.textLight");
+/* 커스텀 스크롤바 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-.dark-theme {
-  background-color: theme("colors.dark");
-  color: theme("colors.textLight");
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }
 
-@media (min-width: 768px) {
-  body {
-    width: 100%;
-    margin: 0;
-  }
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* 포스트 상세 콘텐츠 스타일 */
+.post-content {
+  line-height: 1.8;
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3 {
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #111827;
+}
+
+.post-content h1 {
+  font-size: 2rem;
+}
+
+.post-content h2 {
+  font-size: 1.5rem;
+}
+
+.post-content h3 {
+  font-size: 1.25rem;
+}
+
+.post-content p {
+  margin-bottom: 1rem;
+}
+
+.post-content code {
+  background-color: #f3f4f6;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-family: "Courier New", monospace;
+}
+
+.post-content pre {
+  background-color: #1f2937;
+  color: #f9fafb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.post-content ul,
+.post-content ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.post-content li {
+  margin-bottom: 0.5rem;
+}
+
+/* 텍스트 잘림 유틸리티 */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
