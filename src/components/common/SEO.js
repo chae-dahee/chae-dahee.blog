@@ -49,12 +49,6 @@ export default function SEO({
         href={`${siteConfig.siteUrl}/rss.xml`}
       />
 
-      {/* Google Verification */}
-      <meta
-        name="google-site-verification"
-        content="La4WTRbjzAGgtadTuyaR_XEv2bTVa-fxccxwTWCL_9Y"
-      />
-
       {/* Open Graph */}
       <meta property="og:type" content={pageType} />
       <meta property="og:url" content={pageUrl} />
