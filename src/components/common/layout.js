@@ -1,12 +1,7 @@
-import Footer from "./footer";
-import Header from "./header";
-
 export default function Layout({ children }) {
   return (
     <>
-      <Header />
-      <div className="w-full max-w-[100%] bg-bg">{children}</div>
-      <Footer />
+      <div className="w-full bg-white">{children}</div>
     </>
   );
 }

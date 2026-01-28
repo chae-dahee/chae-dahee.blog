@@ -1,36 +1,19 @@
-import Layout from "@/components/common/layout";
-import Head from "next/head";
-
-import AboutMe from "@/components/home/about-me";
-import Stack from "@/components/home/stack";
-import Project from "@/components/home/projects";
-import Activity from "@/components/home/activity";
-import Learned from "@/components/home/learned";
+import BlogLayout from "@/components/blog/BlogLayout";
+import PostList from "@/components/blog/PostList";
+import SEO from "@/components/common/SEO";
+import { posts } from "@/data/dummyData";
 
 export default function Home() {
   return (
-    <Layout>
-      <Head>
-        <title>ChaeDahee</title>
-        <meta
-          name="description"
-          content="chae-dahee FrontEnd Developer Portfolio"
-        />
-        <link rel="icon" href="chae-dahee.png" />
-      </Head>
-      <div id="about-me">
-        <AboutMe />
-      </div>
-      <div id="stack">
-        <Stack />
-      </div>
-      <div id="activity">
-        <Activity />
-      </div>
-      <div id="projects">
-        <Project />
-        <Learned />
-      </div>
-    </Layout>
+    <>
+      <SEO
+        title="홈"
+        description="프론트엔드 개발과 기술에 대한 블로그. React, Next.js, TypeScript, 웹 성능 최적화 등 다양한 주제를 다룹니다."
+        url="/"
+      />
+      <BlogLayout>
+        <PostList posts={posts} />
+      </BlogLayout>
+    </>
   );
 }
