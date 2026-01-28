@@ -35,6 +35,14 @@ export default function SEO({
       {/* Canonical URL */}
       <link rel="canonical" href={pageUrl} />
 
+      {/* RSS Feed */}
+      <link
+        rel="alternate"
+        type="application/rss+xml"
+        title={`${siteConfig.title} RSS Feed`}
+        href={`${siteConfig.siteUrl}/rss.xml`}
+      />
+
       {/* Google Verification */}
       <meta
         name="google-site-verification"

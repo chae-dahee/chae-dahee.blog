@@ -4,16 +4,16 @@ export const siteConfig = {
   title: "Chae Dahee's Tech Blog",
   description:
     "프론트엔드 개발과 기술에 대한 블로그. React, Next.js, TypeScript, 웹 성능 최적화 등 다양한 주제를 다룹니다.",
-  siteUrl: "https://chae-dahee.github.io",
+  siteUrl: "https://chae-dahee.vercel.app",
   author: {
     name: "채다희",
-    email: "chae-dahee@example.com",
-    twitter: "@chae-dahee",
+    email: "cdh010126r@gmail.com",
+    twitter: "@Djocken86",
   },
   social: {
     github: "https://github.com/chae-dahee",
     linkedin: "https://linkedin.com/in/chae-dahee",
-    twitter: "https://twitter.com/chae-dahee",
+    twitter: "https://twitter.com/Djocken86",
   },
   keywords: [
     "프론트엔드",
