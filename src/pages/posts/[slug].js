@@ -3,6 +3,7 @@ import PostDetail from "@/components/blog/PostDetail";
 import SEO from "@/components/common/SEO";
 import { posts } from "@/data/dummyData";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function Post() {
   const router = useRouter();
@@ -22,12 +23,12 @@ export default function Post() {
           <p className="text-gray-600 mb-8">
             요청하신 포스트가 존재하지 않습니다.
           </p>
-          <a
+          <Link
             href="/"
             className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             홈으로 돌아가기
-          </a>
+          </Link>
         </div>
       </BlogLayout>
     );

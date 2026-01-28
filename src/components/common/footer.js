@@ -6,7 +6,7 @@ export default function Footer() {
           {/* 저작권 */}
           <div className="mb-4 md:mb-0 text-center md:text-left">
             <p className="text-sm">
-              © 2026 Chae Dahee's Tech Blog. All rights reserved.
+              © 2026 Chae Dahee&apos;s Tech Blog. All rights reserved.
             </p>
             <p className="text-xs text-gray-500 mt-1">
               Built with Next.js & TailwindCSS
