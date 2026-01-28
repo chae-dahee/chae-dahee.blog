@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function PostDetail({ post }) {
   const [activeSection, setActiveSection] = useState("");
@@ -217,7 +218,7 @@ export default function PostDetail({ post }) {
       {/* 이전/다음 포스트 네비게이션 */}
       <div className="mt-16 pt-8 border-t-2 border-gray-200">
         <div className="grid md:grid-cols-2 gap-4">
-          <a
+          <Link
             href="/posts/prev"
             className="flex items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors group"
           >
@@ -240,8 +241,8 @@ export default function PostDetail({ post }) {
                 이전 포스트 제목
               </div>
             </div>
-          </a>
-          <a
+          </Link>
+          <Link
             href="/posts/next"
             className="flex items-center justify-end p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors group"
           >
@@ -264,7 +265,7 @@ export default function PostDetail({ post }) {
                 d="M9 5l7 7-7 7"
               />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
