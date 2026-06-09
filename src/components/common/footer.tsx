@@ -9,7 +9,7 @@ export default function Footer() {
               © 2026 Chae Dahee&apos;s Tech Blog. All rights reserved.
             </p>
             <p className="text-xs text-gray-500 mt-1">
-              Built with Next.js & TailwindCSS
+              Built with Next.js &amp; TailwindCSS
             </p>
           </div>
 

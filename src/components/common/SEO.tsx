@@ -1,6 +1,17 @@
 import Head from "next/head";
 import { siteConfig } from "@/config/seo.config";
 
+interface SEOProps {
+  title?: string;
+  description?: string;
+  url?: string;
+  image?: string;
+  type?: string;
+  author?: string;
+  publishedTime?: string;
+  tags?: string[];
+}
+
 export default function SEO({
   title,
   description,
@@ -10,7 +21,7 @@ export default function SEO({
   author,
   publishedTime,
   tags = [],
-}) {
+}: SEOProps) {
   // 기본값 설정
   const pageTitle = title ? `${title} | ${siteConfig.title}` : siteConfig.title;
   const pageDescription = description || siteConfig.description;
