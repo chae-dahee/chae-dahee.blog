@@ -1,11 +1,11 @@
-import Image from "next/image";
+import Link from "next/link";
+import type { Post } from "@/types";
 
-export default function PostList({ posts }) {
-  const prefix =
-    process.env.NODE_ENV === "production"
-      ? "https://chae-dahee.github.io/"
-      : "";
+interface PostListProps {
+  posts: Post[];
+}
 
+export default function PostList({ posts }: PostListProps) {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-8">
@@ -21,7 +21,7 @@ export default function PostList({ posts }) {
             key={post.id}
             className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group cursor-pointer"
           >
-            <a href={`/posts/${post.slug}`} className="block">
+            <Link href={`/posts/${post.slug}`} className="block">
               {/* 이미지 영역 */}
               <div className="relative h-48 bg-gradient-to-br from-blue-400 to-purple-500 overflow-hidden">
                 <div className="absolute inset-0 flex items-center justify-center text-white text-6xl font-bold opacity-20">
@@ -106,14 +106,17 @@ export default function PostList({ posts }) {
                   </svg>
                 </div>
               </div>
-            </a>
+            </Link>
           </article>
         ))}
       </div>
 
       {/* 모든 포스트 보기 버튼 */}
       <div className="mt-12 text-center">
-        <button className="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg">
+        <Link
+          href="/"
+          className="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg"
+        >
           모든 포스트 보기
           <svg
             className="w-5 h-5 ml-2"
@@ -128,7 +131,7 @@ export default function PostList({ posts }) {
               d="M17 8l4 4m0 0l-4 4m4-4H3"
             />
           </svg>
-        </button>
+        </Link>
       </div>
     </div>
   );

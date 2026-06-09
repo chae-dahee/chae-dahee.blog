@@ -1,7 +1,12 @@
+import type { ReactNode } from "react";
 import LeftSidebar from "./LeftSidebar";
 import RightSidebar from "./RightSidebar";
 
-export default function BlogLayout({ children }) {
+interface BlogLayoutProps {
+  children: ReactNode;
+}
+
+export default function BlogLayout({ children }: BlogLayoutProps) {
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* 좌측 사이드바 */}
