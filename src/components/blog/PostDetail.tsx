@@ -1,11 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
+import type { Post, TocItem } from "@/types";
 
-export default function PostDetail({ post }) {
-  const [activeSection, setActiveSection] = useState("");
+interface PostDetailProps {
+  post: Post;
+}
+
+export default function PostDetail({ post }: PostDetailProps) {
+  const [activeSection, setActiveSection] = useState<string>("");
 
   // 목차 생성 (간단한 버전)
-  const tableOfContents = [
+  const tableOfContents: TocItem[] = [
     { id: "intro", title: "소개", level: 1 },
     { id: "section1", title: "주요 개념", level: 1 },
     { id: "section2", title: "실전 예제", level: 1 },
@@ -18,12 +23,12 @@ export default function PostDetail({ post }) {
       {/* 헤더 */}
       <header className="mb-8 pb-8 border-b-2 border-gray-200">
         <div className="mb-4">
-          <a
+          <Link
             href={`/category/${post.categorySlug}`}
             className="inline-block px-3 py-1 text-sm font-semibold text-blue-700 bg-blue-100 rounded-full hover:bg-blue-200 transition-colors"
           >
             {post.category}
-          </a>
+          </Link>
         </div>
 
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
@@ -90,13 +95,13 @@ export default function PostDetail({ post }) {
         {/* 태그 */}
         <div className="flex flex-wrap gap-2 mt-4">
           {post.tags.map((tag, index) => (
-            <a
+            <Link
               key={index}
               href={`/tag/${tag.toLowerCase()}`}
               className="inline-block px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
             >
               #{tag}
-            </a>
+            </Link>
           ))}
         </div>
       </header>

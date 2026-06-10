@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { categories, tags, sitemap } from "@/data/dummyData";
 
 export default function LeftSidebar() {
@@ -24,7 +25,7 @@ export default function LeftSidebar() {
         <ul className="space-y-2">
           {categories.map((category) => (
             <li key={category.id}>
-              <a
+              <Link
                 href={`/category/${category.slug}`}
                 className="flex items-center justify-between text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg transition-colors"
               >
@@ -32,7 +33,7 @@ export default function LeftSidebar() {
                 <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
                   {category.count}
                 </span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -58,14 +59,14 @@ export default function LeftSidebar() {
         </h3>
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
-            <a
+            <Link
               key={tag.id}
               href={`/tag/${tag.name.toLowerCase()}`}
               className="inline-flex items-center px-3 py-1 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-blue-100 hover:text-blue-700 rounded-full transition-colors"
             >
               #{tag.name}
               <span className="ml-1 text-gray-500">({tag.count})</span>
-            </a>
+            </Link>
           ))}
         </div>
       </div>
@@ -91,12 +92,12 @@ export default function LeftSidebar() {
         <ul className="space-y-2">
           {sitemap.map((item, index) => (
             <li key={index}>
-              <a
+              <Link
                 href={item.path}
                 className="block text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg transition-colors"
               >
                 {item.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

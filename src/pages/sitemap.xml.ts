@@ -1,7 +1,8 @@
+import type { GetServerSideProps } from "next";
 import { posts } from "@/data/dummyData";
 import { siteConfig } from "@/config/seo.config";
 
-function generateSiteMap() {
+function generateSiteMap(): string {
   const baseUrl = siteConfig.siteUrl;
 
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -33,15 +34,13 @@ function SiteMap() {
   return null;
 }
 
-export async function getServerSideProps({ res }) {
-  // sitemap 생성
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const sitemap = generateSiteMap();
 
   res.setHeader("Content-Type", "text/xml");
-  // 캐싱 설정 - 1시간 동안 캐시, 24시간 동안 stale 허용
   res.setHeader(
     "Cache-Control",
-    "public, s-maxage=3600, stale-while-revalidate=86400",
+    "public, s-maxage=3600, stale-while-revalidate=86400"
   );
   res.write(sitemap);
   res.end();
@@ -49,6 +48,6 @@ export async function getServerSideProps({ res }) {
   return {
     props: {},
   };
-}
+};
 
 export default SiteMap;

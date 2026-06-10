@@ -1,7 +1,8 @@
+import type { GetServerSideProps } from "next";
 import { posts } from "@/data/dummyData";
 import { siteConfig } from "@/config/seo.config";
 
-function generateRssFeed() {
+function generateRssFeed(): string {
   const baseUrl = siteConfig.siteUrl;
   const buildDate = new Date().toUTCString();
 
@@ -40,15 +41,13 @@ function RssFeed() {
   return null;
 }
 
-export async function getServerSideProps({ res }) {
-  // RSS 피드 생성
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const feed = generateRssFeed();
 
   res.setHeader("Content-Type", "application/rss+xml; charset=utf-8");
-  // 캐싱 설정 - 1시간 동안 캐시
   res.setHeader(
     "Cache-Control",
-    "public, s-maxage=3600, stale-while-revalidate=86400",
+    "public, s-maxage=3600, stale-while-revalidate=86400"
   );
   res.write(feed);
   res.end();
@@ -56,6 +55,6 @@ export async function getServerSideProps({ res }) {
   return {
     props: {},
   };
-}
+};
 
 export default RssFeed;

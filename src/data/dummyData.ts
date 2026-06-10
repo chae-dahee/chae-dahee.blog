@@ -1,6 +1,7 @@
 // 블로그 더미 데이터
+import type { BlogInfo, Category, Tag, Post, SitemapItem } from "@/types";
 
-export const blogInfo = {
+export const blogInfo: BlogInfo = {
   title: "Chae Dahee's Tech Blog",
   subtitle: "프론트엔드 개발과 기술 이야기",
   author: {
@@ -22,7 +23,7 @@ export const blogInfo = {
   ],
 };
 
-export const categories = [
+export const categories: Category[] = [
   { id: 1, name: "React 시리즈", slug: "react-series", count: 8 },
   { id: 2, name: "Next.js 완벽 가이드", slug: "nextjs-guide", count: 6 },
   { id: 3, name: "웹 성능 최적화", slug: "web-performance", count: 5 },
@@ -30,7 +31,7 @@ export const categories = [
   { id: 5, name: "JavaScript 심화", slug: "javascript-deep-dive", count: 7 },
 ];
 
-export const tags = [
+export const tags: Tag[] = [
   { id: 1, name: "React", count: 15 },
   { id: 2, name: "Next.js", count: 12 },
   { id: 3, name: "TypeScript", count: 10 },
@@ -43,7 +44,7 @@ export const tags = [
   { id: 10, name: "Web Vitals", count: 6 },
 ];
 
-export const posts = [
+export const posts: Post[] = [
   {
     id: 1,
     title: "React 18의 새로운 기능들: Concurrent Rendering 이해하기",
@@ -285,7 +286,7 @@ Promise는 비동기 작업의 결과를 나타내는 객체입니다...
   },
 ];
 
-export const sitemap = [
+export const sitemap: SitemapItem[] = [
   { label: "홈", path: "/" },
   { label: "카테고리", path: "#categories" },
   { label: "태그", path: "#tags" },

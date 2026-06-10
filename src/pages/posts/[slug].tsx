@@ -2,15 +2,18 @@ import BlogLayout from "@/components/blog/BlogLayout";
 import PostDetail from "@/components/blog/PostDetail";
 import SEO from "@/components/common/SEO";
 import { posts } from "@/data/dummyData";
-import { useRouter } from "next/router";
+import type { GetStaticPaths, GetStaticProps } from "next";
 import Link from "next/link";
+import type { Post } from "@/types";
 
-export default function Post() {
-  const router = useRouter();
-  const { slug } = router.query;
+interface PostPageProps {
+  slug: string;
+}
+
+export default function PostPage({ slug }: PostPageProps) {
 
   // 슬러그로 포스트 찾기
-  const post = posts.find((p) => p.slug === slug);
+  const post: Post | undefined = posts.find((p) => p.slug === slug);
 
   // 포스트가 없는 경우
   if (!post) {
@@ -53,7 +56,7 @@ export default function Post() {
 }
 
 // 정적 경로 생성 (SSG)
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const paths = posts.map((post) => ({
     params: { slug: post.slug },
   }));
@@ -62,13 +65,15 @@ export async function getStaticPaths() {
     paths,
     fallback: false,
   };
-}
+};
 
 // 정적 props 생성
-export async function getStaticProps({ params }) {
+export const getStaticProps: GetStaticProps<PostPageProps> = async ({
+  params,
+}) => {
   return {
     props: {
-      slug: params.slug,
+      slug: params?.slug as string,
     },
   };
-}
+};
