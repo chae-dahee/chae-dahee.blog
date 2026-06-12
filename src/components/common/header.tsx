@@ -2,11 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Header() {
-  const prefix =
-    process.env.NODE_ENV === "production"
-      ? "https://chae-dahee.github.io/"
-      : "";
-
   return (
     <header className="w-full bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
       <div className="container mx-auto px-6 py-4">
@@ -17,7 +12,7 @@ export default function Header() {
             className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
           >
             <Image
-              src={`${prefix}/chae-dahee.png`}
+              src="/chae-dahee.png"
               alt="chae-dahee"
               width={40}
               height={40}
