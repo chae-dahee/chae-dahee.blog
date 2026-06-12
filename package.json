@@ -2,7 +2,7 @@
   "name": "chae-dahee.github.io",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://chae-dahee.github.io/",
+  "homepage": "https://chae-dahee.vercel.app/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
