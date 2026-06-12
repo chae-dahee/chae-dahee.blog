@@ -2,11 +2,6 @@ import Image from "next/image";
 import { blogInfo } from "@/data/dummyData";
 
 export default function RightSidebar() {
-  const prefix =
-    process.env.NODE_ENV === "production"
-      ? "https://chae-dahee.github.io/"
-      : "";
-
   return (
     <aside className="w-80 bg-gradient-to-b from-blue-50 to-white border-l border-gray-200 p-6 overflow-y-auto sticky top-0 h-screen">
       {/* 블로그명 */}
@@ -22,7 +17,7 @@ export default function RightSidebar() {
         <div className="flex flex-col items-center">
           <div className="relative w-24 h-24 mb-4">
             <Image
-              src={`${prefix}${blogInfo.author.avatar}`}
+              src={blogInfo.author.avatar}
               alt={blogInfo.author.name}
               width={96}
               height={96}
