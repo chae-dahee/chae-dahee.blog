@@ -1,19 +1,33 @@
 import Image from "next/image";
+import { useState, useEffect } from "react";
 import { blogInfo } from "@/data/dummyData";
 
 export default function RightSidebar() {
+  const [typedName, setTypedName] = useState("");
+  const fullName = blogInfo.author.name;
+
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      setTypedName(fullName.slice(0, i + 1));
+      i++;
+      if (i >= fullName.length) clearInterval(interval);
+    }, 150);
+    return () => clearInterval(interval);
+  }, [fullName]);
+
   return (
-    <aside className="w-80 bg-gradient-to-b from-blue-50 to-white border-l border-gray-200 p-6 overflow-y-auto sticky top-0 h-screen">
+    <aside className="w-80 bg-gray-900 border border-gray-800 p-6 overflow-y-auto sticky top-8 h-[calc(100vh-4rem)]">
       {/* 블로그명 */}
       <div className="mb-8 text-center">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+        <h2 className="text-2xl font-bold text-green-500 mb-2">
           {blogInfo.title}
         </h2>
-        <p className="text-sm text-gray-600">{blogInfo.subtitle}</p>
+        <p className="text-sm text-gray-400">{blogInfo.subtitle}</p>
       </div>
 
       {/* 프로필 */}
-      <div className="mb-8 bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <div className="mb-8 bg-gray-800 p-6 border border-gray-700">
         <div className="flex flex-col items-center">
           <div className="relative w-24 h-24 mb-4">
             <Image
@@ -21,25 +35,25 @@ export default function RightSidebar() {
               alt={blogInfo.author.name}
               width={96}
               height={96}
-              className="rounded-full border-4 border-blue-100"
+              className=""
             />
-            <div className="absolute bottom-0 right-0 w-6 h-6 bg-green-500 rounded-full border-2 border-white"></div>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-1">
-            {blogInfo.author.name}
+          <h3 className="text-xl font-bold text-green-500 mb-1 mx-auto flex items-center">
+            {typedName}
+            <span className="w-2 h-5 bg-green-500 animate-pulse ml-1"></span>
           </h3>
-          <p className="text-sm text-blue-600 font-medium mb-3">
+          <p className="text-sm text-green-400 font-medium mb-3">
             {blogInfo.author.role}
           </p>
-          <p className="text-sm text-gray-600 text-center leading-relaxed">
+          <p className="text-sm text-gray-300 text-center leading-relaxed">
             {blogInfo.author.bio}
           </p>
         </div>
       </div>
 
       {/* 소셜 미디어 */}
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+      <div className="bg-gray-800 p-6 border border-gray-700">
+        <h3 className="text-lg font-bold text-green-500 mb-4 flex items-center">
           <svg
             className="w-5 h-5 mr-2"
             fill="none"
@@ -62,7 +76,7 @@ export default function RightSidebar() {
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all group"
+              className="flex items-center justify-between px-4 py-3 text-gray-300 hover:text-green-500 hover:bg-gray-700 transition-all group terminal-hover"
             >
               <span className="flex items-center font-medium">
                 {social.icon === "github" && (
@@ -132,24 +146,24 @@ export default function RightSidebar() {
       </div>
 
       {/* 통계 */}
-      <div className="mt-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl shadow-sm p-6 text-white">
+      <div className="mt-6 bg-gray-800 border border-gray-700 p-6 text-green-500">
         <h3 className="text-lg font-bold mb-4">Blog Stats</h3>
         <div className="grid grid-cols-2 gap-4">
           <div className="text-center">
-            <div className="text-3xl font-bold">8</div>
-            <div className="text-xs opacity-90">Posts</div>
+            <div className="text-3xl font-bold text-green-400">8</div>
+            <div className="text-xs opacity-90 text-gray-400">Posts</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold">5</div>
-            <div className="text-xs opacity-90">Categories</div>
+            <div className="text-3xl font-bold text-green-400">5</div>
+            <div className="text-xs opacity-90 text-gray-400">Categories</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold">10</div>
-            <div className="text-xs opacity-90">Tags</div>
+            <div className="text-3xl font-bold text-green-400">10</div>
+            <div className="text-xs opacity-90 text-gray-400">Tags</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold">2.5K</div>
-            <div className="text-xs opacity-90">Views</div>
+            <div className="text-3xl font-bold text-green-400">2.5K</div>
+            <div className="text-xs opacity-90 text-gray-400">Views</div>
           </div>
         </div>
       </div>

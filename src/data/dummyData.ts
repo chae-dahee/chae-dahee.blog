@@ -2,10 +2,10 @@
 import type { BlogInfo, Category, Tag, Post, SitemapItem } from "@/types";
 
 export const blogInfo: BlogInfo = {
-  title: "Chae Dahee's Tech Blog",
+  title: "닿망징창의 터미널",
   subtitle: "프론트엔드 개발과 기술 이야기",
   author: {
-    name: "채다희",
+    name: "닿다라다나닷",
     role: "Frontend Developer",
     bio: "사용자 경험을 중시하는 프론트엔드 개발자입니다. React, Next.js, TypeScript를 주로 다루며, 아름다운 UI와 성능 최적화에 관심이 많습니다.",
     avatar: "/chae-dahee.png",
