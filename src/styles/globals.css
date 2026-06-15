@@ -2,151 +2,114 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "./tokens.css";
+
+/* Base styles */
 html,
 body {
   width: 100%;
-  background-color: #111827;
-  color: #d1d5db;
-  font-family: 'Courier New', Courier, monospace;
+  background-color: var(--color-bg);
+  color: var(--color-secondary);
+  font-family: var(--font-mono);
   scroll-behavior: smooth;
 }
 
-/* 터미널 타이핑 효과 */
+/* Terminal typing effect */
 .typing-effect {
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
-  border-right: 0.15em solid #22c55e;
+  border-right: 0.15em solid var(--color-accent);
   width: 10ch;
   animation: typing 1.5s steps(10, end), blink-caret 0.75s step-end infinite;
 }
 
 @keyframes typing {
-  from { width: 0 }
-  to { width: 10ch }
+  from { width: 0; }
+  to { width: 10ch; }
 }
 
 @keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: #22c55e; }
+  from, to { border-color: transparent; }
+  50% { border-color: var(--color-accent); }
 }
 
-/* 터미널 호버 마이크로 인터랙션 */
+/* Terminal hover micro interaction */
 .terminal-hover {
   position: relative;
   transition: all 0.2s ease-in-out;
 }
-
 .terminal-hover:hover {
   padding-left: 1.5rem !important;
 }
-
 .terminal-hover::before {
-  content: '>';
+  content: ">";
   position: absolute;
   left: 0.5rem;
   opacity: 0;
-  color: #22c55e;
+  color: var(--color-accent);
   font-weight: bold;
   transition: opacity 0.2s ease-in-out;
 }
-
 .terminal-hover:hover::before {
   opacity: 1;
 }
 
-/* 커스텀 스크롤바 */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #1f2937;
-  border-left: 1px solid #374151;
+  background: var(--color-surface);
+  border-left: 1px solid var(--color-muted);
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #374151;
-  border: 1px solid #22c55e;
+  background: var(--color-muted);
+  border: 1px solid var(--color-accent);
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #22c55e;
+  background: var(--color-accent);
 }
 
-/* 포스트 상세 콘텐츠 스타일 */
+/* Post content styling */
 .post-content {
   line-height: 1.6;
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans);
 }
-
 .post-content h1,
 .post-content h2,
 .post-content h3 {
   font-weight: 700;
   margin-top: 2rem;
   margin-bottom: 1rem;
-  color: #22c55e;
+  color: var(--color-accent);
 }
-
-.post-content h1 {
-  font-size: 2rem;
-}
-
-.post-content h2 {
-  font-size: 1.5rem;
-}
-
-.post-content h3 {
-  font-size: 1.25rem;
-}
-
-.post-content p {
-  margin-bottom: 1rem;
-  color: #d1d5db;
-}
-
+.post-content h1 { font-size: 2rem; }
+.post-content h2 { font-size: 1.5rem; }
+.post-content h3 { font-size: 1.25rem; }
+.post-content p { margin-bottom: 1rem; color: var(--color-secondary); }
 .post-content code {
-  background-color: #1f2937;
-  color: #22c55e;
+  background-color: var(--color-surface);
+  color: var(--color-accent);
   padding: 0.2rem 0.4rem;
-  border: 1px solid #374151;
+  border: 1px solid var(--color-muted);
   font-size: 0.875rem;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: var(--font-mono);
 }
-
 .post-content pre {
-  background-color: #1f2937;
-  color: #22c55e;
+  background-color: var(--color-surface);
+  color: var(--color-accent);
   padding: 1rem;
-  border: 1px solid #374151;
+  border: 1px solid var(--color-muted);
   overflow-x: auto;
   margin-bottom: 1rem;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: var(--font-mono);
 }
-
 .post-content ul,
-.post-content ol {
-  margin-left: 1.5rem;
-  margin-bottom: 1rem;
-}
+.post-content ol { margin-left: 1.5rem; margin-bottom: 1rem; }
+.post-content li { margin-bottom: 0.5rem; }
 
-.post-content li {
-  margin-bottom: 0.5rem;
-}
-
-/* 텍스트 잘림 유틸리티 */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+/* Text truncation utilities */
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
