@@ -3,10 +3,10 @@ import { categories, tags, sitemap } from "@/data/dummyData";
 
 export default function LeftSidebar() {
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 p-6 overflow-y-auto sticky top-0 h-screen">
+    <aside className="w-64 bg-gray-900 border border-gray-800 p-6 overflow-y-auto sticky top-8 h-[calc(100vh-4rem)]">
       {/* 카테고리(시리즈) */}
       <div className="mb-8">
-        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+        <h3 className="text-lg font-bold text-green-500 mb-4 flex items-center">
           <svg
             className="w-5 h-5 mr-2"
             fill="none"
@@ -27,10 +27,10 @@ export default function LeftSidebar() {
             <li key={category.id}>
               <Link
                 href={`/category/${category.slug}`}
-                className="flex items-center justify-between text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg transition-colors"
+                className="flex items-center justify-between text-gray-300 hover:text-green-500 hover:bg-gray-800 px-3 py-2 transition-colors border border-transparent hover:border-gray-700 terminal-hover"
               >
                 <span className="text-sm font-medium">{category.name}</span>
-                <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                <span className="text-xs bg-gray-800 text-green-400 px-2 py-1 border border-gray-700">
                   {category.count}
                 </span>
               </Link>
@@ -41,7 +41,7 @@ export default function LeftSidebar() {
 
       {/* 태그 */}
       <div className="mb-8">
-        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+        <h3 className="text-lg font-bold text-green-500 mb-4 flex items-center">
           <svg
             className="w-5 h-5 mr-2"
             fill="none"
@@ -62,10 +62,10 @@ export default function LeftSidebar() {
             <Link
               key={tag.id}
               href={`/tag/${tag.name.toLowerCase()}`}
-              className="inline-flex items-center px-3 py-1 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-blue-100 hover:text-blue-700 rounded-full transition-colors"
+              className="inline-flex items-center px-3 py-1 text-xs font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 hover:text-green-500 border border-gray-700 transition-colors"
             >
               #{tag.name}
-              <span className="ml-1 text-gray-500">({tag.count})</span>
+              <span className="ml-1 text-green-600">({tag.count})</span>
             </Link>
           ))}
         </div>
@@ -73,7 +73,7 @@ export default function LeftSidebar() {
 
       {/* 사이트맵 */}
       <div>
-        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+        <h3 className="text-lg font-bold text-green-500 mb-4 flex items-center">
           <svg
             className="w-5 h-5 mr-2"
             fill="none"
@@ -94,7 +94,7 @@ export default function LeftSidebar() {
             <li key={index}>
               <Link
                 href={item.path}
-                className="block text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg transition-colors"
+                className="block text-sm text-gray-300 hover:text-green-500 hover:bg-gray-800 px-3 py-2 border border-transparent hover:border-gray-700 transition-colors terminal-hover"
               >
                 {item.label}
               </Link>
