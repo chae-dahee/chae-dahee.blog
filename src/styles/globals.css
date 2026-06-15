@@ -5,9 +5,54 @@
 html,
 body {
   width: 100%;
-  background-color: #f9fafb;
-  color: #1f2937;
+  background-color: #111827;
+  color: #d1d5db;
+  font-family: 'Courier New', Courier, monospace;
   scroll-behavior: smooth;
+}
+
+/* 터미널 타이핑 효과 */
+.typing-effect {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 0.15em solid #22c55e;
+  width: 10ch;
+  animation: typing 1.5s steps(10, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 10ch }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #22c55e; }
+}
+
+/* 터미널 호버 마이크로 인터랙션 */
+.terminal-hover {
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.terminal-hover:hover {
+  padding-left: 1.5rem !important;
+}
+
+.terminal-hover::before {
+  content: '>';
+  position: absolute;
+  left: 0.5rem;
+  opacity: 0;
+  color: #22c55e;
+  font-weight: bold;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.terminal-hover:hover::before {
+  opacity: 1;
 }
 
 /* 커스텀 스크롤바 */
@@ -17,21 +62,23 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #1f2937;
+  border-left: 1px solid #374151;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+  background: #374151;
+  border: 1px solid #22c55e;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #22c55e;
 }
 
 /* 포스트 상세 콘텐츠 스타일 */
 .post-content {
-  line-height: 1.8;
+  line-height: 1.6;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 .post-content h1,
@@ -40,7 +87,7 @@ body {
   font-weight: 700;
   margin-top: 2rem;
   margin-bottom: 1rem;
-  color: #111827;
+  color: #22c55e;
 }
 
 .post-content h1 {
@@ -57,23 +104,26 @@ body {
 
 .post-content p {
   margin-bottom: 1rem;
+  color: #d1d5db;
 }
 
 .post-content code {
-  background-color: #f3f4f6;
+  background-color: #1f2937;
+  color: #22c55e;
   padding: 0.2rem 0.4rem;
-  border-radius: 0.25rem;
+  border: 1px solid #374151;
   font-size: 0.875rem;
-  font-family: "Courier New", monospace;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .post-content pre {
   background-color: #1f2937;
-  color: #f9fafb;
+  color: #22c55e;
   padding: 1rem;
-  border-radius: 0.5rem;
+  border: 1px solid #374151;
   overflow-x: auto;
   margin-bottom: 1rem;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .post-content ul,

@@ -10,11 +10,28 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        bg: "#B0AFA6",
-        light: "#9E9D92",
-        dark: "#78776A",
-        textLight: "#4A5568", // text-gray-600
-        textDark: "#1F2937", // text-gray-900
+        bg: "#111827",
+        light: "#374151",
+        dark: "#1f2937",
+        textLight: "#d1d5db",
+        textDark: "#22c55e", // terminal green
+        terminal: "#22c55e",
+      },
+      fontFamily: {
+        sans: [
+          "'Pretendard'",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "system-ui",
+          "Roboto",
+          "'Helvetica Neue'",
+          "'Segoe UI'",
+          "'Apple SD Gothic Neo'",
+          "'Noto Sans KR'",
+          "'Malgun Gothic'",
+          "sans-serif",
+        ],
+        mono: ["'Courier New'", "Courier", "monospace"],
       },
       animation: {
         typing: "fadeIn 1s forwards 1s , typing 4s steps(40, end) 1s forwards",
