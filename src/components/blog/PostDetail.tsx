@@ -21,21 +21,21 @@ export default function PostDetail({ post }: PostDetailProps) {
   return (
     <div className="max-w-5xl mx-auto">
       {/* 헤더 */}
-      <header className="mb-8 pb-8 border-b-2 border-gray-200">
+      <header className="mb-8 pb-8 border-b border-gray-700">
         <div className="mb-4">
           <Link
             href={`/category/${post.categorySlug}`}
-            className="inline-block px-3 py-1 text-sm font-semibold text-blue-700 bg-blue-100 rounded-full hover:bg-blue-200 transition-colors"
+            className="inline-block px-3 py-1 text-sm font-semibold text-green-400 bg-gray-800 border border-green-500/30 hover:bg-gray-700 transition-colors"
           >
             {post.category}
           </Link>
         </div>
 
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+        <h1 className="text-4xl md:text-5xl font-bold text-green-500 mb-4 leading-tight">
           {post.title}
         </h1>
 
-        <div className="flex items-center text-gray-600 space-x-6">
+        <div className="flex items-center text-gray-400 space-x-6">
           <span className="flex items-center">
             <svg
               className="w-5 h-5 mr-2"
@@ -98,7 +98,7 @@ export default function PostDetail({ post }: PostDetailProps) {
             <Link
               key={index}
               href={`/tag/${tag.toLowerCase()}`}
-              className="inline-block px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+              className="inline-block px-3 py-1 text-sm font-medium text-green-400 bg-gray-900 border border-green-500/30 hover:bg-gray-800 transition-colors"
             >
               #{tag}
             </Link>
@@ -108,25 +108,25 @@ export default function PostDetail({ post }: PostDetailProps) {
 
       <div className="flex gap-8">
         {/* 콘텐츠 */}
-        <article className="flex-1 prose prose-lg max-w-none">
-          <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded">
-            <p className="text-gray-700 italic">{post.excerpt}</p>
+        <article className="flex-1">
+          <div className="bg-gray-900 border-l-4 border-green-500 p-4 mb-6">
+            <p className="text-gray-300 italic">{post.excerpt}</p>
           </div>
 
           <div
-            className="post-content text-gray-800 leading-relaxed"
+            className="post-content text-gray-300 leading-relaxed"
             dangerouslySetInnerHTML={{
               __html: post.content.replace(/\n/g, "<br />"),
             }}
           />
 
           {/* 공유 버튼 */}
-          <div className="mt-12 pt-8 border-t-2 border-gray-200">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">
+          <div className="mt-12 pt-8 border-t border-gray-700">
+            <h3 className="text-xl font-bold text-green-500 mb-4">
               이 글이 도움이 되셨나요?
             </h3>
             <div className="flex gap-4">
-              <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              <button className="flex items-center px-4 py-2 bg-gray-800 border border-green-500 text-green-500 hover:bg-gray-700 transition-colors">
                 <svg
                   className="w-5 h-5 mr-2"
                   fill="none"
@@ -142,7 +142,7 @@ export default function PostDetail({ post }: PostDetailProps) {
                 </svg>
                 좋아요
               </button>
-              <button className="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+              <button className="flex items-center px-4 py-2 bg-gray-800 border border-gray-600 text-gray-300 hover:bg-gray-700 transition-colors">
                 <svg
                   className="w-5 h-5 mr-2"
                   fill="none"
@@ -165,8 +165,8 @@ export default function PostDetail({ post }: PostDetailProps) {
         {/* 목차 (우측 고정) */}
         <aside className="hidden lg:block w-64 flex-shrink-0">
           <div className="sticky top-24">
-            <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+            <div className="bg-gray-900 border border-gray-800 p-5">
+              <h3 className="text-lg font-bold text-green-500 mb-4 flex items-center">
                 <svg
                   className="w-5 h-5 mr-2"
                   fill="none"
@@ -188,10 +188,10 @@ export default function PostDetail({ post }: PostDetailProps) {
                     <li key={item.id}>
                       <a
                         href={`#${item.id}`}
-                        className={`block text-sm py-1 px-2 rounded transition-colors ${
+                        className={`block text-sm py-1 px-2 transition-colors ${
                           activeSection === item.id
-                            ? "text-blue-600 font-semibold bg-blue-50"
-                            : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                            ? "text-green-500 font-semibold border-l-2 border-green-500 bg-gray-800"
+                            : "text-gray-400 hover:text-green-400 hover:bg-gray-800 border-l-2 border-transparent"
                         }`}
                         style={{ paddingLeft: `${item.level * 0.75}rem` }}
                       >
@@ -203,14 +203,14 @@ export default function PostDetail({ post }: PostDetailProps) {
               </nav>
 
               {/* 스크롤 진행률 */}
-              <div className="mt-6 pt-4 border-t border-gray-200">
-                <div className="flex justify-between text-xs text-gray-600 mb-2">
+              <div className="mt-6 pt-4 border-t border-gray-700">
+                <div className="flex justify-between text-xs text-gray-400 mb-2">
                   <span>읽기 진행률</span>
                   <span>45%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-gray-800 border border-gray-700 h-2">
                   <div
-                    className="bg-blue-600 h-2 rounded-full"
+                    className="bg-green-500 h-2"
                     style={{ width: "45%" }}
                   ></div>
                 </div>
@@ -221,14 +221,14 @@ export default function PostDetail({ post }: PostDetailProps) {
       </div>
 
       {/* 이전/다음 포스트 네비게이션 */}
-      <div className="mt-16 pt-8 border-t-2 border-gray-200">
+      <div className="mt-16 pt-8 border-t border-gray-700">
         <div className="grid md:grid-cols-2 gap-4">
           <Link
             href="/posts/prev"
-            className="flex items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors group"
+            className="flex items-center p-4 bg-gray-800 border border-gray-700 hover:border-green-500 transition-colors group"
           >
             <svg
-              className="w-6 h-6 mr-3 text-gray-400 group-hover:text-gray-600"
+              className="w-6 h-6 mr-3 text-gray-500 group-hover:text-green-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -241,24 +241,24 @@ export default function PostDetail({ post }: PostDetailProps) {
               />
             </svg>
             <div>
-              <div className="text-xs text-gray-500 mb-1">이전 글</div>
-              <div className="font-semibold text-gray-900">
+              <div className="text-xs text-gray-400 mb-1">이전 글</div>
+              <div className="font-semibold text-green-500">
                 이전 포스트 제목
               </div>
             </div>
           </Link>
           <Link
             href="/posts/next"
-            className="flex items-center justify-end p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors group"
+            className="flex items-center justify-end p-4 bg-gray-800 border border-gray-700 hover:border-green-500 transition-colors group"
           >
             <div className="text-right">
-              <div className="text-xs text-gray-500 mb-1">다음 글</div>
-              <div className="font-semibold text-gray-900">
+              <div className="text-xs text-gray-400 mb-1">다음 글</div>
+              <div className="font-semibold text-green-500">
                 다음 포스트 제목
               </div>
             </div>
             <svg
-              className="w-6 h-6 ml-3 text-gray-400 group-hover:text-gray-600"
+              className="w-6 h-6 ml-3 text-gray-500 group-hover:text-green-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
