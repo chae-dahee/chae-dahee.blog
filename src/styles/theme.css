@@ -1,0 +1,29 @@
+/* src/styles/theme.css */
+/* CSS custom properties mirroring Tailwind color keys */
+:root {
+  /* Background tones */
+  --color-bg: #111827; /* matches tailwind.colors.bg */
+  --color-light: #374151; /* matches tailwind.colors.light */
+  --color-dark: #1f2937; /* matches tailwind.colors.dark */
+
+  /* Text tones */
+  --color-text-light: #d1d5db; /* matches tailwind.colors.textLight */
+  --color-text-dark: #22c55e; /* matches tailwind.colors.textDark (terminal green) */
+
+  /* Accent / terminal */
+  --color-terminal: #22c55e; /* matches tailwind.colors.terminal */
+}
+
+/* Optional utility classes for convenience */
+.bg-custom {
+  background-color: var(--color-bg);
+}
+.text-custom-light {
+  color: var(--color-text-light);
+}
+.text-custom-dark {
+  color: var(--color-text-dark);
+}
+.border-custom {
+  border-color: var(--color-light);
+}
