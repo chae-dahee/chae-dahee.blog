@@ -5,6 +5,9 @@ import { tags, posts } from '@/data/dummyData';
 
 export default function TagPage() {
   const { slug } = useRouter().query as { slug: string };
+
+  if (!slug) return null;
+
   const tagName = slug.replace(/-/g, ' ');
   const tag = tags.find((t) => t.name.toLowerCase() === slug.toLowerCase());
   const filteredPosts = posts.filter((p) => p.tags.map((t) => t.toLowerCase()).includes(slug.toLowerCase()));
