@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const themeColors = require("./src/styles/colors");
 module.exports = {
   mode: "jit",
   content: [
@@ -9,14 +10,7 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
-      colors: {
-        bg: "#111827",
-        light: "#374151",
-        dark: "#1f2937",
-        textLight: "#d1d5db",
-        textDark: "#22c55e", // terminal green
-        terminal: "#22c55e",
-      },
+      colors: themeColors,
       fontFamily: {
         sans: [
           "'Pretendard'",

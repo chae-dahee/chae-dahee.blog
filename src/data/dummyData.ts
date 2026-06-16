@@ -288,7 +288,6 @@ Promise는 비동기 작업의 결과를 나타내는 객체입니다...
 
 export const sitemap: SitemapItem[] = [
   { label: "홈", path: "/" },
-  { label: "카테고리", path: "#categories" },
-  { label: "태그", path: "#tags" },
-  { label: "소개", path: "#about" },
+  { label: "소개", path: "/about" },
+  { label: "블로그", path: "/blog" },
 ];
