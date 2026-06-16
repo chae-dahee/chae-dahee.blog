@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { categories, tags, sitemap, blogInfo } from "@/data/dummyData";
 
-export default function Sidebar({ className }: { className?: string }) {
+export default function Sidebar({ className, hideLogo }: { className?: string; hideLogo?: boolean }) {
   const [typedName, setTypedName] = useState("");
   const fullName = blogInfo.author.name;
 
@@ -18,13 +18,15 @@ export default function Sidebar({ className }: { className?: string }) {
   }, [fullName]);
 
   return (
-    <aside className={`hidden md:flex flex-col w-72 bg-[var(--color-bg)] border-r border-[var(--color-surface)] sticky top-0 h-screen overflow-y-auto p-6 ${className ?? ''}`}>
+    <aside className={`flex flex-col w-72 bg-[var(--color-bg)] border-r border-[var(--color-surface)] sticky top-0 h-screen overflow-y-auto p-6 ${className ?? ''}`}>
 
       {/* Logo + Site name */}
-      <div className="flex items-center mb-8">
-        <Image src="/chae-dahee.png" alt="logo" width={40} height={40} />
-        <h1 className="ml-2 text-xl font-bold text-[var(--color-accent)]">닿망징창의 터미널</h1>
-      </div>
+      {!hideLogo && (
+        <div className="flex items-center mb-8">
+          <Image src="/chae-dahee.png" alt="logo" width={40} height={40} />
+          <h1 className="ml-2 text-xl font-bold text-[var(--color-accent)]">닿망징창의 터미널</h1>
+        </div>
+      )}
 
       {/* Profile */}
       <div className="mb-8 text-center">

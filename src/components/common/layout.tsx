@@ -11,7 +11,7 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="flex min-h-screen bg-[var(--color-bg)]">
       {/* Desktop Sidebar */}
-      <Sidebar className="hidden md:block" />
+      <Sidebar className="hidden md:flex" />
 
       {/* Mobile Top Bar */}
       <MobileBar />
