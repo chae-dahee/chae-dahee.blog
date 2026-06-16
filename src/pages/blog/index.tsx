@@ -1,6 +1,6 @@
 import Layout from '@/components/common/layout';
 import Link from 'next/link';
-import { dummyPosts } from '@/data/dummyData';
+import { posts } from '@/data/dummyData';
 
 export default function Blog() {
   return (
@@ -8,7 +8,7 @@ export default function Blog() {
       <section className="max-w-4xl mx-auto py-12 px-4">
         <h1 className="text-4xl font-bold mb-8 text-[var(--color-accent)]">Blog</h1>
         <ul className="space-y-6">
-          {dummyPosts.map((post) => (
+          {posts.map((post) => (
             <li key={post.id} className="bg-[var(--color-surface)] p-4 hover:bg-[var(--color-muted)] transition">
               <Link href={`/blog/${post.slug}`} className="text-xl font-medium text-[var(--color-accent)] hover:underline">
                 {post.title}
