@@ -1,14 +1,13 @@
 import Layout from '@/components/common/layout';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { tags, posts } from '@/data/dummyData';
+import type { GetStaticPaths, GetStaticProps } from 'next';
 
-export default function TagPage() {
-  const { slug } = useRouter().query as { slug: string };
+interface TagPageProps {
+  slug: string;
+}
 
-  if (!slug) return null;
-
-  const tagName = slug.replace(/-/g, ' ');
+export default function TagPage({ slug }: TagPageProps) {
   const tag = tags.find((t) => t.name.toLowerCase() === slug.toLowerCase());
   const filteredPosts = posts.filter((p) => p.tags.map((t) => t.toLowerCase()).includes(slug.toLowerCase()));
 
@@ -29,7 +28,7 @@ export default function TagPage() {
         <ul className="space-y-6">
           {filteredPosts.map((post) => (
             <li key={post.id} className="bg-[var(--color-surface)] rounded-lg p-4 hover:bg-[var(--color-muted)] transition">
-              <Link href={`/blog/${post.slug}`} className="text-xl font-medium text-[var(--color-accent)] hover:underline">
+              <Link href={`/posts/${post.slug}`} className="text-xl font-medium text-[var(--color-accent)] hover:underline">
                 {post.title}
               </Link>
               <p className="text-[var(--color-secondary)] mt-2">{post.excerpt}</p>
@@ -40,3 +39,12 @@ export default function TagPage() {
     </Layout>
   );
 }
+
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: tags.map((t) => ({ params: { slug: t.name.toLowerCase() } })),
+  fallback: false,
+});
+
+export const getStaticProps: GetStaticProps<TagPageProps> = async ({ params }) => ({
+  props: { slug: params?.slug as string },
+});
