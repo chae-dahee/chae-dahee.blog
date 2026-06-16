@@ -43,19 +43,19 @@ export default function Header() {
               Home
             </Link>
             <Link
-              href="/#categories"
+              href="/category"
               className="text-[var(--color-secondary)] hover:text-[var(--color-accent)] font-medium transition-colors"
             >
               Categories
             </Link>
             <Link
-              href="/#tags"
+              href="/tag"
               className="text-[var(--color-secondary)] hover:text-[var(--color-accent)] font-medium transition-colors"
             >
               Tags
             </Link>
             <Link
-              href="/#about"
+              href="/about"
               className="text-[var(--color-secondary)] hover:text-[var(--color-accent)] font-medium transition-colors"
             >
               About
