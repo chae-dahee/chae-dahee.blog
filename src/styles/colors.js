@@ -1,7 +1,8 @@
 // src/styles/colors.js
 /**
  * Centralized color palette for Tailwind and CSS variables.
- * Keys match those defined in `theme.css` and are used via `themeColors` import.
+ * Single source of truth for raw hex values. Exposed to Tailwind via
+ * `tailwind.config.js` and mapped to semantic CSS variables in `tokens.css`.
  */
 module.exports = {
   bg: "#111827",
