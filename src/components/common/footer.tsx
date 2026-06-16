@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="w-full bg-gray-900 text-gray-300 py-8">
+    <footer className="w-full bg-[var(--color-bg)] text-[var(--color-secondary)] py-8">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-center">
           {/* 저작권 */}
@@ -8,7 +8,7 @@ export default function Footer() {
             <p className="text-sm">
               © 2026 Chae Dahee&apos;s Tech Blog. All rights reserved.
             </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-[var(--color-secondary)] mt-1">
               Built with Next.js &amp; TailwindCSS
             </p>
           </div>
@@ -19,7 +19,7 @@ export default function Footer() {
               href="https://github.com/chae-dahee"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors"
               aria-label="GitHub"
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -34,7 +34,7 @@ export default function Footer() {
               href="https://twitter.com/chae-dahee"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors"
               aria-label="Twitter"
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -45,7 +45,7 @@ export default function Footer() {
               href="https://linkedin.com/in/chae-dahee"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors"
               aria-label="LinkedIn"
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">

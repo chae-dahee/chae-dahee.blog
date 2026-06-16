@@ -12,7 +12,7 @@ export default function CategoryPage() {
     return (
       <Layout>
         <section className="max-w-4xl mx-auto py-12 px-4">
-          <h1 className="text-3xl font-bold text-white">Category not found</h1>
+          <h1 className="text-3xl font-bold text-[var(--color-accent)]">Category not found</h1>
         </section>
       </Layout>
     );
@@ -21,14 +21,14 @@ export default function CategoryPage() {
   return (
     <Layout>
       <section className="max-w-4xl mx-auto py-12 px-4">
-        <h1 className="text-4xl font-bold mb-6 text-white">{category.name}</h1>
+        <h1 className="text-4xl font-bold mb-6 text-[var(--color-accent)]">{category.name}</h1>
         <ul className="space-y-6">
           {filteredPosts.map((post) => (
-            <li key={post.id} className="bg-gray-800 rounded-lg p-4 hover:bg-gray-700 transition">
-              <Link href={`/blog/${post.slug}`} className="text-xl font-medium text-green-400 hover:underline">
+            <li key={post.id} className="bg-[var(--color-surface)] rounded-lg p-4 hover:bg-[var(--color-muted)] transition">
+              <Link href={`/blog/${post.slug}`} className="text-xl font-medium text-[var(--color-accent)] hover:underline">
                 {post.title}
               </Link>
-              <p className="text-gray-300 mt-2">{post.excerpt}</p>
+              <p className="text-[var(--color-secondary)] mt-2">{post.excerpt}</p>
             </li>
           ))}
         </ul>

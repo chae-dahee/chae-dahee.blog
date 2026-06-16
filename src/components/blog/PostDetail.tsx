@@ -21,21 +21,21 @@ export default function PostDetail({ post }: PostDetailProps) {
   return (
     <div className="max-w-5xl mx-auto">
       {/* 헤더 */}
-      <header className="mb-8 pb-8 border-b border-gray-700">
+      <header className="mb-8 pb-8 border-b border-[var(--color-muted)]">
         <div className="mb-4">
           <Link
             href={`/category/${post.categorySlug}`}
-            className="inline-block px-3 py-1 text-sm font-semibold text-green-400 bg-gray-800 border border-green-500/30 hover:bg-gray-700 transition-colors"
+            className="inline-block px-3 py-1 text-sm font-semibold text-[var(--color-accent)] bg-[var(--color-surface)] border border-[var(--color-accent)]/30 hover:bg-[var(--color-muted)] transition-colors"
           >
             {post.category}
           </Link>
         </div>
 
-        <h1 className="text-4xl md:text-5xl font-bold text-green-500 mb-4 leading-tight">
+        <h1 className="text-4xl md:text-5xl font-bold text-[var(--color-accent)] mb-4 leading-tight">
           {post.title}
         </h1>
 
-        <div className="flex items-center text-gray-400 space-x-6">
+        <div className="flex items-center text-[var(--color-secondary)] space-x-6">
           <span className="flex items-center">
             <svg
               className="w-5 h-5 mr-2"
@@ -98,7 +98,7 @@ export default function PostDetail({ post }: PostDetailProps) {
             <Link
               key={index}
               href={`/tag/${tag.toLowerCase()}`}
-              className="inline-block px-3 py-1 text-sm font-medium text-green-400 bg-gray-900 border border-green-500/30 hover:bg-gray-800 transition-colors"
+              className="inline-block px-3 py-1 text-sm font-medium text-[var(--color-accent)] bg-[var(--color-bg)] border border-[var(--color-accent)]/30 hover:bg-[var(--color-surface)] transition-colors"
             >
               #{tag}
             </Link>
@@ -109,24 +109,24 @@ export default function PostDetail({ post }: PostDetailProps) {
       <div className="flex gap-8">
         {/* 콘텐츠 */}
         <article className="flex-1">
-          <div className="bg-gray-900 border-l-4 border-green-500 p-4 mb-6">
-            <p className="text-gray-300 italic">{post.excerpt}</p>
+          <div className="bg-[var(--color-bg)] border-l-4 border-[var(--color-accent)] p-4 mb-6">
+            <p className="text-[var(--color-secondary)] italic">{post.excerpt}</p>
           </div>
 
           <div
-            className="post-content text-gray-300 leading-relaxed"
+            className="post-content text-[var(--color-secondary)] leading-relaxed"
             dangerouslySetInnerHTML={{
               __html: post.content.replace(/\n/g, "<br />"),
             }}
           />
 
           {/* 공유 버튼 */}
-          <div className="mt-12 pt-8 border-t border-gray-700">
-            <h3 className="text-xl font-bold text-green-500 mb-4">
+          <div className="mt-12 pt-8 border-t border-[var(--color-muted)]">
+            <h3 className="text-xl font-bold text-[var(--color-accent)] mb-4">
               이 글이 도움이 되셨나요?
             </h3>
             <div className="flex gap-4">
-              <button className="flex items-center px-4 py-2 bg-gray-800 border border-green-500 text-green-500 hover:bg-gray-700 transition-colors">
+              <button className="flex items-center px-4 py-2 bg-[var(--color-surface)] border border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-muted)] transition-colors">
                 <svg
                   className="w-5 h-5 mr-2"
                   fill="none"
@@ -142,7 +142,7 @@ export default function PostDetail({ post }: PostDetailProps) {
                 </svg>
                 좋아요
               </button>
-              <button className="flex items-center px-4 py-2 bg-gray-800 border border-gray-600 text-gray-300 hover:bg-gray-700 transition-colors">
+              <button className="flex items-center px-4 py-2 bg-[var(--color-surface)] border border-[var(--color-muted)] text-[var(--color-secondary)] hover:bg-[var(--color-muted)] transition-colors">
                 <svg
                   className="w-5 h-5 mr-2"
                   fill="none"
@@ -165,8 +165,8 @@ export default function PostDetail({ post }: PostDetailProps) {
         {/* 목차 (우측 고정) */}
         <aside className="hidden lg:block w-64 flex-shrink-0">
           <div className="sticky top-24">
-            <div className="bg-gray-900 border border-gray-800 p-5">
-              <h3 className="text-lg font-bold text-green-500 mb-4 flex items-center">
+            <div className="bg-[var(--color-bg)] border border-[var(--color-surface)] p-5">
+              <h3 className="text-lg font-bold text-[var(--color-accent)] mb-4 flex items-center">
                 <svg
                   className="w-5 h-5 mr-2"
                   fill="none"
@@ -190,8 +190,8 @@ export default function PostDetail({ post }: PostDetailProps) {
                         href={`#${item.id}`}
                         className={`block text-sm py-1 px-2 transition-colors ${
                           activeSection === item.id
-                            ? "text-green-500 font-semibold border-l-2 border-green-500 bg-gray-800"
-                            : "text-gray-400 hover:text-green-400 hover:bg-gray-800 border-l-2 border-transparent"
+                            ? "text-[var(--color-accent)] font-semibold border-l-2 border-[var(--color-accent)] bg-[var(--color-surface)]"
+                            : "text-[var(--color-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-surface)] border-l-2 border-transparent"
                         }`}
                         style={{ paddingLeft: `${item.level * 0.75}rem` }}
                       >
@@ -203,14 +203,14 @@ export default function PostDetail({ post }: PostDetailProps) {
               </nav>
 
               {/* 스크롤 진행률 */}
-              <div className="mt-6 pt-4 border-t border-gray-700">
-                <div className="flex justify-between text-xs text-gray-400 mb-2">
+              <div className="mt-6 pt-4 border-t border-[var(--color-muted)]">
+                <div className="flex justify-between text-xs text-[var(--color-secondary)] mb-2">
                   <span>읽기 진행률</span>
                   <span>45%</span>
                 </div>
-                <div className="w-full bg-gray-800 border border-gray-700 h-2">
+                <div className="w-full bg-[var(--color-surface)] border border-[var(--color-muted)] h-2">
                   <div
-                    className="bg-green-500 h-2"
+                    className="bg-[var(--color-accent)] h-2"
                     style={{ width: "45%" }}
                   ></div>
                 </div>
@@ -221,14 +221,14 @@ export default function PostDetail({ post }: PostDetailProps) {
       </div>
 
       {/* 이전/다음 포스트 네비게이션 */}
-      <div className="mt-16 pt-8 border-t border-gray-700">
+      <div className="mt-16 pt-8 border-t border-[var(--color-muted)]">
         <div className="grid md:grid-cols-2 gap-4">
           <Link
             href="/posts/prev"
-            className="flex items-center p-4 bg-gray-800 border border-gray-700 hover:border-green-500 transition-colors group"
+            className="flex items-center p-4 bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] transition-colors group"
           >
             <svg
-              className="w-6 h-6 mr-3 text-gray-500 group-hover:text-green-500"
+              className="w-6 h-6 mr-3 text-[var(--color-secondary)] group-hover:text-[var(--color-accent)]"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -241,24 +241,24 @@ export default function PostDetail({ post }: PostDetailProps) {
               />
             </svg>
             <div>
-              <div className="text-xs text-gray-400 mb-1">이전 글</div>
-              <div className="font-semibold text-green-500">
+              <div className="text-xs text-[var(--color-secondary)] mb-1">이전 글</div>
+              <div className="font-semibold text-[var(--color-accent)]">
                 이전 포스트 제목
               </div>
             </div>
           </Link>
           <Link
             href="/posts/next"
-            className="flex items-center justify-end p-4 bg-gray-800 border border-gray-700 hover:border-green-500 transition-colors group"
+            className="flex items-center justify-end p-4 bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] transition-colors group"
           >
             <div className="text-right">
-              <div className="text-xs text-gray-400 mb-1">다음 글</div>
-              <div className="font-semibold text-green-500">
+              <div className="text-xs text-[var(--color-secondary)] mb-1">다음 글</div>
+              <div className="font-semibold text-[var(--color-accent)]">
                 다음 포스트 제목
               </div>
             </div>
             <svg
-              className="w-6 h-6 ml-3 text-gray-500 group-hover:text-green-500"
+              className="w-6 h-6 ml-3 text-[var(--color-secondary)] group-hover:text-[var(--color-accent)]"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

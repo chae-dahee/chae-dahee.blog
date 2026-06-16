@@ -9,7 +9,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="flex min-h-screen bg-gray-900">
+    <div className="flex min-h-screen bg-[var(--color-bg)]">
       {/* Desktop Sidebar */}
       <Sidebar className="hidden md:block" />
 

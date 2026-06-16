@@ -20,15 +20,15 @@ export default function PostPage({ slug }: PostPageProps) {
     return (
       <BlogLayout>
         <div className="text-center py-20">
-          <h1 className="text-4xl font-bold text-green-500 mb-4">
+          <h1 className="text-4xl font-bold text-[var(--color-accent)] mb-4">
             포스트를 찾을 수 없습니다
           </h1>
-          <p className="text-gray-400 mb-8">
+          <p className="text-[var(--color-secondary)] mb-8">
             요청하신 포스트가 존재하지 않습니다.
           </p>
           <Link
             href="/"
-            className="inline-block px-6 py-3 bg-gray-800 border border-green-500 text-green-500 hover:bg-gray-700 transition-colors"
+            className="inline-block px-6 py-3 bg-[var(--color-surface)] border border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-muted)] transition-colors"
           >
             홈으로 돌아가기
           </Link>
