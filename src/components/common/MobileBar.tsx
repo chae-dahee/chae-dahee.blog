@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "@/components/common/Sidebar";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +7,16 @@ import { useRouter } from "next/router";
 export default function MobileBar() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
+  
   const pageName = (() => {
     if (router.pathname === "/") return "Home";
     const slug = router.query.slug;
@@ -39,7 +49,7 @@ export default function MobileBar() {
 
       {/* Backdrop — covers content area below topbar only */}
       <div
-        className={`md:hidden fixed top-12 inset-x-0 bottom-0 z-40 bg-black transition-opacity duration-300 ${open ? 'opacity-50 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`md:hidden fixed top-12 inset-x-0 bottom-0 z-40 bg-black transition-opacity duration-300 ${open ? 'opacity-50 pointer-events-auto touch-none' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setOpen(false)}
       />
 
