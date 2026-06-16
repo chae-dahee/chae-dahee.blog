@@ -10,7 +10,7 @@ export default function Blog() {
         <ul className="space-y-6">
           {posts.map((post) => (
             <li key={post.id} className="bg-[var(--color-surface)] p-4 hover:bg-[var(--color-muted)] transition">
-              <Link href={`/blog/${post.slug}`} className="text-xl font-medium text-[var(--color-accent)] hover:underline">
+              <Link href={`/posts/${post.slug}`} className="text-xl font-medium text-[var(--color-accent)] hover:underline">
                 {post.title}
               </Link>
               <p className="text-[var(--color-secondary)] mt-2">{post.excerpt}</p>

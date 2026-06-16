@@ -1,10 +1,13 @@
 import Layout from '@/components/common/layout';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { categories, posts } from '@/data/dummyData';
+import type { GetStaticPaths, GetStaticProps } from 'next';
 
-export default function CategoryPage() {
-  const { slug } = useRouter().query as { slug: string };
+interface CategoryPageProps {
+  slug: string;
+}
+
+export default function CategoryPage({ slug }: CategoryPageProps) {
   const category = categories.find((c) => c.slug === slug);
   const filteredPosts = posts.filter((p) => p.categorySlug === slug);
 
@@ -25,7 +28,7 @@ export default function CategoryPage() {
         <ul className="space-y-6">
           {filteredPosts.map((post) => (
             <li key={post.id} className="bg-[var(--color-surface)] rounded-lg p-4 hover:bg-[var(--color-muted)] transition">
-              <Link href={`/blog/${post.slug}`} className="text-xl font-medium text-[var(--color-accent)] hover:underline">
+              <Link href={`/posts/${post.slug}`} className="text-xl font-medium text-[var(--color-accent)] hover:underline">
                 {post.title}
               </Link>
               <p className="text-[var(--color-secondary)] mt-2">{post.excerpt}</p>
@@ -36,3 +39,12 @@ export default function CategoryPage() {
     </Layout>
   );
 }
+
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: categories.map((c) => ({ params: { slug: c.slug } })),
+  fallback: false,
+});
+
+export const getStaticProps: GetStaticProps<CategoryPageProps> = async ({ params }) => ({
+  props: { slug: params?.slug as string },
+});
