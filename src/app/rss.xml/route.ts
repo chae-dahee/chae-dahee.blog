@@ -1,4 +1,3 @@
-import type { GetServerSideProps } from "next";
 import { posts } from "@/data/dummyData";
 import { siteConfig } from "@/config/seo.config";
 
@@ -15,12 +14,11 @@ function generateRssFeed(): string {
     <language>ko</language>
     <lastBuildDate>${buildDate}</lastBuildDate>
     <atom:link href="${baseUrl}/rss.xml" rel="self" type="application/rss+xml"/>
-    
+
     ${posts
       .map((post) => {
         const postUrl = `${baseUrl}/posts/${post.slug}`;
         const pubDate = new Date(post.date).toUTCString();
-
         return `<item>
       <title><![CDATA[${post.title}]]></title>
       <link>${postUrl}</link>
@@ -36,25 +34,12 @@ function generateRssFeed(): string {
 </rss>`;
 }
 
-function RssFeed() {
-  // getServerSideProps가 처리하므로 컴포넌트는 null 반환
-  return null;
-}
-
-export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+export async function GET() {
   const feed = generateRssFeed();
-
-  res.setHeader("Content-Type", "application/rss+xml; charset=utf-8");
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=3600, stale-while-revalidate=86400"
-  );
-  res.write(feed);
-  res.end();
-
-  return {
-    props: {},
-  };
-};
-
-export default RssFeed;
+  return new Response(feed, {
+    headers: {
+      "Content-Type": "application/rss+xml; charset=utf-8",
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+    },
+  });
+}
