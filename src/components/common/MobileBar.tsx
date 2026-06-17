@@ -1,12 +1,14 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import Sidebar from "@/components/common/Sidebar";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 export default function MobileBar() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!open) return;
@@ -16,14 +18,14 @@ export default function MobileBar() {
       document.body.style.overflow = previousOverflow;
     };
   }, [open]);
-  
+
   const pageName = (() => {
-    if (router.pathname === "/") return "Home";
-    const slug = router.query.slug;
-    const resolved = slug
-      ? router.pathname.replace("[slug]", Array.isArray(slug) ? slug[0] : slug)
-      : router.pathname;
-    return resolved.replace(/^\//, "").replace(/\//g, " / ").replace(/[-_]/g, " ").toUpperCase();
+    if (pathname === "/") return "Home";
+    return pathname
+      .replace(/^\//, "")
+      .replace(/\//g, " / ")
+      .replace(/[-_]/g, " ")
+      .toUpperCase();
   })();
 
   return (
