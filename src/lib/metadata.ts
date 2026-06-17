@@ -9,7 +9,6 @@ interface MetadataOptions {
   type?: "website" | "article";
   publishedTime?: string;
   tags?: string[];
-  author?: string;
 }
 
 export function buildMetadata(opts: MetadataOptions = {}): Metadata {
@@ -23,7 +22,7 @@ export function buildMetadata(opts: MetadataOptions = {}): Metadata {
     title: pageTitle,
     description,
     keywords,
-    authors: [{ name: opts.author ?? siteConfig.author.name }],
+    authors: [{ name: siteConfig.author.name }],
     openGraph: {
       type: opts.type ?? "website",
       url,
