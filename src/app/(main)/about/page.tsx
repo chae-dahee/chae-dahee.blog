@@ -9,7 +9,7 @@ export const metadata: Metadata = buildMetadata({
 
 export default function About() {
   return (
-    <section className="max-w-4xl mx-auto py-12 px-4 text-center">
+    <section className="max-w-4xl mx-auto text-center">
       <h1 className="text-4xl font-bold mb-6 text-[var(--color-accent)]">About Me</h1>
       <Image
         src="/chae-dahee.png"
