@@ -17,7 +17,7 @@ function generateRssFeed(): string {
 
     ${posts
       .map((post) => {
-        const postUrl = `${baseUrl}/posts/${post.slug}`;
+        const postUrl = `${baseUrl}/blog/${post.slug}`;
         const pubDate = new Date(post.date).toUTCString();
         return `<item>
       <title><![CDATA[${post.title}]]></title>
