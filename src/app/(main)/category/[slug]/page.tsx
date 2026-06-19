@@ -34,7 +34,7 @@ export default async function CategoryPage({
   const filteredPosts = posts.filter((p) => p.categorySlug === slug);
 
   return (
-    <section className="max-w-4xl mx-auto py-12 px-4">
+    <section className="max-w-4xl mx-auto">
       <h1 className="text-4xl font-bold mb-6 text-[var(--color-accent)]">
         {category.name}
       </h1>

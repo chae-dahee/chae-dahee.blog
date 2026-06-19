@@ -10,7 +10,7 @@ export const metadata: Metadata = buildMetadata({
 
 export default function TagIndex() {
   return (
-    <section className="max-w-4xl mx-auto py-12 px-4">
+    <section className="max-w-4xl mx-auto">
       <h1 className="text-4xl font-bold mb-8 text-[var(--color-accent)]">Tags</h1>
       <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {tags.map((tag) => (
