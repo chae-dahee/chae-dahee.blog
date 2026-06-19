@@ -45,7 +45,7 @@ export default async function CategoryPage({
             className="bg-[var(--color-surface)] rounded-lg p-4 hover:bg-[var(--color-muted)] transition"
           >
             <Link
-              href={`/posts/${post.slug}`}
+              href={`/blog/${post.slug}`}
               className="text-xl font-medium text-[var(--color-accent)] hover:underline"
             >
               {post.title}

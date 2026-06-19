@@ -21,7 +21,7 @@ export default function PostList({ posts }: PostListProps) {
             key={post.id}
             className="bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] transition-all duration-300 overflow-hidden group cursor-pointer"
           >
-            <Link href={`/posts/${post.slug}`} className="block">
+            <Link href={`/blog/${post.slug}`} className="block">
               {/* 이미지 영역 */}
               <div className="relative h-48 bg-[var(--color-bg)] border-b border-[var(--color-muted)] overflow-hidden">
                 <div className="absolute inset-0 flex items-center justify-center text-[var(--color-accent)]/20 text-6xl font-bold">

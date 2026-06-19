@@ -226,7 +226,7 @@ export default function PostDetail({ post }: PostDetailProps) {
       <div className="mt-16 pt-8 border-t border-[var(--color-muted)]">
         <div className="grid md:grid-cols-2 gap-4">
           <Link
-            href="/posts/prev"
+            href="/blog/prev"
             className="flex items-center p-4 bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] transition-colors group"
           >
             <svg
@@ -250,7 +250,7 @@ export default function PostDetail({ post }: PostDetailProps) {
             </div>
           </Link>
           <Link
-            href="/posts/next"
+            href="/blog/next"
             className="flex items-center justify-end p-4 bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] transition-colors group"
           >
             <div className="text-right">
