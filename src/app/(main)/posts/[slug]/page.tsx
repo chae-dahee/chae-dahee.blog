@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import BlogLayout from "@/components/blog/BlogLayout";
 import PostDetail from "@/components/blog/PostDetail";
 import { posts } from "@/data/dummyData";
 import { buildMetadata } from "@/lib/metadata";
@@ -37,11 +36,5 @@ export default async function PostPage({
   const post = posts.find((p) => p.slug === slug);
   if (!post) notFound();
 
-  return (
-    <div className="flex min-h-screen bg-[var(--color-bg)]">
-      <BlogLayout>
-        <PostDetail post={post} />
-      </BlogLayout>
-    </div>
-  );
+  return <PostDetail post={post} />;
 }
