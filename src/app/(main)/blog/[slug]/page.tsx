@@ -19,7 +19,7 @@ export async function generateMetadata({
   return buildMetadata({
     title: post.title,
     description: post.excerpt,
-    url: `/posts/${post.slug}`,
+    url: `/blog/${post.slug}`,
     image: post.image,
     type: "article",
     publishedTime: `${post.date}T00:00:00+09:00`,
