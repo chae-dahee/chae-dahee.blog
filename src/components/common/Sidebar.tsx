@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { categories, tags, sitemap, blogInfo } from "@/data/dummyData";
+import ThemeToggle from "@/components/common/ThemeToggle";
 
 export default function Sidebar({ className, hideLogo }: { className?: string; hideLogo?: boolean }) {
   const [typedName, setTypedName] = useState("");
@@ -24,9 +25,9 @@ export default function Sidebar({ className, hideLogo }: { className?: string; h
 
       {/* Logo + Site name */}
       {!hideLogo && (
-        <div className="flex items-center mb-8">
-          <Image src="/chae-dahee.png" alt="logo" width={40} height={40} />
+        <div className="flex items-center justify-between mb-8">
           <h1 className="ml-2 text-xl font-bold text-[var(--color-accent)]">닿망징창의 터미널</h1>
+          <ThemeToggle />
         </div>
       )}
 

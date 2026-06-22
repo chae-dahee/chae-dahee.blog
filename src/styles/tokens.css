@@ -1,12 +1,12 @@
 :root {
 
-    /* Colors */
-    --color-bg: theme('colors.bg');
-    --color-surface: theme('colors.dark');
-    --color-primary: theme('colors.textDark');
-    --color-secondary: theme('colors.textLight');
-    --color-accent: theme('colors.terminal');
-    --color-muted: theme('colors.light');
+    /* Colors — Light theme (default) */
+    --color-bg: #f9fafb;
+    --color-surface: #e5e7eb;
+    --color-primary: #15803d;
+    --color-secondary: #374151;
+    --color-accent: #15803d;
+    --color-muted: #d1d5db;
 
     /* Spacing (scale) */
     --spacing-1: theme('spacing.1');
@@ -24,4 +24,14 @@
     /* Font families */
     --font-sans: theme('fontFamily.sans').join(', ');
     --font-mono: theme('fontFamily.mono').join(', ');
+}
+
+/* Colors — Dark theme (applied via `.dark` class on <html>) */
+.dark {
+    --color-bg: theme('colors.bg');
+    --color-surface: theme('colors.dark');
+    --color-primary: theme('colors.textDark');
+    --color-secondary: theme('colors.textLight');
+    --color-accent: theme('colors.terminal');
+    --color-muted: theme('colors.light');
 }
