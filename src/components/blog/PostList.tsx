@@ -9,7 +9,7 @@ export default function PostList({ posts }: PostListProps) {
   return (
     <div className="max-w-full mx-auto">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-[var(--color-accent)] mb-2">최근 포스트</h1>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--color-accent)] mb-2">최근 포스트</h1>
         <p className="text-[var(--color-secondary)]">
           프론트엔드 개발과 관련된 다양한 주제를 다룹니다
         </p>
@@ -69,7 +69,7 @@ export default function PostList({ posts }: PostListProps) {
                   </span>
                 </div>
 
-                <h2 className="text-xl font-bold text-[var(--color-accent)] mb-3 group-hover:text-[var(--color-accent)] transition-colors line-clamp-2">
+                <h2 className="text-lg sm:text-xl font-bold text-[var(--color-accent)] mb-3 group-hover:text-[var(--color-accent)] transition-colors line-clamp-2">
                   {post.title}
                 </h2>
 
