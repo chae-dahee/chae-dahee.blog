@@ -12,7 +12,7 @@ export default function MainLayout({
       <Sidebar className="hidden md:flex" />
       <MobileBar />
       <div className="flex-1 flex flex-col">
-        <main className="flex-1 p-8 pt-20 md:p-10 md:pt-10">
+        <main className="flex-1 p-4 pt-20 md:p-10 md:pt-10">
           {children}
         </main>
         <Footer />
