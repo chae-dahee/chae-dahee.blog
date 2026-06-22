@@ -26,7 +26,7 @@ export default function Sidebar({ className, hideLogo }: { className?: string; h
       {/* Logo + Site name */}
       {!hideLogo && (
         <div className="flex items-center justify-between mb-8">
-          <h1 className="ml-2 text-xl font-bold text-[var(--color-accent)]">닿망징창의 터미널</h1>
+          <h1 className="text-xl font-bold text-[var(--color-accent)]">닿망징창의 터미널</h1>
           <ThemeToggle />
         </div>
       )}
