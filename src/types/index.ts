@@ -98,3 +98,30 @@ export interface TocItem {
   title: string;
   level: number;
 }
+
+// ─── Career ──────────────────────────────────────────────────────────────────
+
+export interface CareerItem {
+  id: number;
+  organization: string;
+  role: string;
+  period: string;
+  description: string;
+  type: 'work' | 'activity' | 'education';
+  logo?: string;
+  skills: string[];
+}
+
+// ─── Project ─────────────────────────────────────────────────────────────────
+
+export interface ProjectItem {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  period: string;
+  github?: string;
+  url?: string;
+  skills: string[];
+  role: string;
+}
