@@ -23,7 +23,7 @@ export default function PostDetail({ post }: PostDetailProps) {
   return (
     <div className="max-w-5xl mx-auto">
       {/* 헤더 */}
-      <header className="mb-8 pb-8 border-b border-[var(--color-muted)]">
+      <header className="mb-6 pb-6 md:mb-8 md:pb-8 border-b border-[var(--color-muted)]">
         <div className="mb-4">
           <Link
             href={`/category/${post.categorySlug}`}
@@ -33,14 +33,14 @@ export default function PostDetail({ post }: PostDetailProps) {
           </Link>
         </div>
 
-        <h1 className="text-4xl md:text-5xl font-bold text-[var(--color-accent)] mb-4 leading-tight">
+        <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-[var(--color-accent)] mb-3 md:mb-4 leading-tight">
           {post.title}
         </h1>
 
-        <div className="flex items-center text-[var(--color-secondary)] space-x-6">
+        <div className="flex flex-wrap items-center text-xs sm:text-sm md:text-base text-[var(--color-secondary)] gap-x-3 gap-y-1 sm:gap-x-4 md:gap-x-6">
           <span className="flex items-center">
             <svg
-              className="w-5 h-5 mr-2"
+              className="w-4 h-4 mr-1.5 md:w-5 md:h-5 md:mr-2"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -56,7 +56,7 @@ export default function PostDetail({ post }: PostDetailProps) {
           </span>
           <span className="flex items-center">
             <svg
-              className="w-5 h-5 mr-2"
+              className="w-4 h-4 mr-1.5 md:w-5 md:h-5 md:mr-2"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -72,7 +72,7 @@ export default function PostDetail({ post }: PostDetailProps) {
           </span>
           <span className="flex items-center">
             <svg
-              className="w-5 h-5 mr-2"
+              className="w-4 h-4 mr-1.5 md:w-5 md:h-5 md:mr-2"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -130,7 +130,7 @@ export default function PostDetail({ post }: PostDetailProps) {
             <div className="flex gap-4">
               <button className="flex items-center px-4 py-2 bg-[var(--color-surface)] border border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-muted)] transition-colors">
                 <svg
-                  className="w-5 h-5 mr-2"
+                  className="w-4 h-4 mr-1.5 md:w-5 md:h-5 md:mr-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -146,7 +146,7 @@ export default function PostDetail({ post }: PostDetailProps) {
               </button>
               <button className="flex items-center px-4 py-2 bg-[var(--color-surface)] border border-[var(--color-muted)] text-[var(--color-secondary)] hover:bg-[var(--color-muted)] transition-colors">
                 <svg
-                  className="w-5 h-5 mr-2"
+                  className="w-4 h-4 mr-1.5 md:w-5 md:h-5 md:mr-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -170,7 +170,7 @@ export default function PostDetail({ post }: PostDetailProps) {
             <div className="bg-[var(--color-bg)] border border-[var(--color-surface)] p-5">
               <h3 className="text-lg font-bold text-[var(--color-accent)] mb-4 flex items-center">
                 <svg
-                  className="w-5 h-5 mr-2"
+                  className="w-4 h-4 mr-1.5 md:w-5 md:h-5 md:mr-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -224,13 +224,13 @@ export default function PostDetail({ post }: PostDetailProps) {
 
       {/* 이전/다음 포스트 네비게이션 */}
       <div className="mt-16 pt-8 border-t border-[var(--color-muted)]">
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-2 sm:gap-4">
           <Link
             href="/blog/prev"
-            className="flex items-center p-4 bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] transition-colors group"
+            className="flex items-center p-3 sm:p-4 bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)] transition-colors group"
           >
             <svg
-              className="w-6 h-6 mr-3 text-[var(--color-secondary)] group-hover:text-[var(--color-accent)]"
+              className="w-5 h-5 mr-2 sm:w-6 sm:h-6 sm:mr-3 flex-shrink-0 text-[var(--color-secondary)] group-hover:text-[var(--color-accent)]"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -242,25 +242,25 @@ export default function PostDetail({ post }: PostDetailProps) {
                 d="M15 19l-7-7 7-7"
               />
             </svg>
-            <div>
+            <div className="min-w-0">
               <div className="text-xs text-[var(--color-secondary)] mb-1">이전 글</div>
-              <div className="font-semibold text-[var(--color-accent)]">
+              <div className="text-sm sm:text-base font-semibold text-[var(--color-accent)] truncate">
                 이전 포스트 제목
               </div>
             </div>
           </Link>
           <Link
             href="/blog/next"
-            className="flex items-center justify-end p-4 bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] transition-colors group"
+            className="flex items-center justify-end p-3 sm:p-4 bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)] transition-colors group"
           >
-            <div className="text-right">
+            <div className="min-w-0 text-right">
               <div className="text-xs text-[var(--color-secondary)] mb-1">다음 글</div>
-              <div className="font-semibold text-[var(--color-accent)]">
+              <div className="text-sm sm:text-base font-semibold text-[var(--color-accent)] truncate">
                 다음 포스트 제목
               </div>
             </div>
             <svg
-              className="w-6 h-6 ml-3 text-[var(--color-secondary)] group-hover:text-[var(--color-accent)]"
+              className="w-5 h-5 ml-2 sm:w-6 sm:h-6 sm:ml-3 flex-shrink-0 text-[var(--color-secondary)] group-hover:text-[var(--color-accent)]"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { posts } from "@/data/dummyData";
+import PostCard from "@/components/blog/PostCard";
 import { buildMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 
@@ -11,20 +11,13 @@ export const metadata: Metadata = buildMetadata({
 export default function Blog() {
   return (
     <section className="max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold mb-8 text-[var(--color-accent)]">Blog</h1>
-      <ul className="space-y-6">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-[var(--color-accent)]">
+        Blog
+      </h1>
+      <ul className="space-y-4">
         {posts.map((post) => (
-          <li
-            key={post.id}
-            className="bg-[var(--color-surface)] p-4 hover:bg-[var(--color-muted)] transition"
-          >
-            <Link
-              href={`/blog/${post.slug}`}
-              className="text-xl font-medium text-[var(--color-accent)] hover:underline"
-            >
-              {post.title}
-            </Link>
-            <p className="text-[var(--color-secondary)] mt-2">{post.excerpt}</p>
+          <li key={post.id}>
+            <PostCard post={post} />
           </li>
         ))}
       </ul>
