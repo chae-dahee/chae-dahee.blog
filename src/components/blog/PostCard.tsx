@@ -9,7 +9,7 @@ export default function PostCard({ post }: PostCardProps) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="flex bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] transition-colors overflow-hidden group"
+      className="flex bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)] transition-colors overflow-hidden group"
     >
       {/* 이미지 영역 (좌측 ~28%) */}
       <div className="relative w-[28%] sm:w-[25%] flex-shrink-0 bg-[var(--color-bg)] border-r border-[var(--color-muted)] flex items-center justify-center overflow-hidden">
