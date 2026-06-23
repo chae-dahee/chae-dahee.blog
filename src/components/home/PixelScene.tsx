@@ -3,17 +3,20 @@
 import { useEffect, useRef } from "react";
 
 const BG_LAYERS = [
-  { src: "/pixel/bg/Sky.png",             speed: 0.04 },
-  { src: "/pixel/bg/Buildings%204.png",   speed: 0.08 },
-  { src: "/pixel/bg/Buildings%203.png",   speed: 0.14 },
-  { src: "/pixel/bg/Buildings%202.png",   speed: 0.22 },
-  { src: "/pixel/bg/Buildings%201.png",   speed: 0.32 },
-  { src: "/pixel/bg/Lights.png",          speed: 0.38 },
-  { src: "/pixel/bg/Shade%202.png",       speed: 0.18 },
-  { src: "/pixel/bg/Shade%203.png",       speed: 0.28 },
+  { src: "/pixel/bg/Sky.png", speed: 0.04 },
+  { src: "/pixel/bg/Buildings%204.png", speed: 0.08 },
+  { src: "/pixel/bg/Buildings%203.png", speed: 0.14 },
+  { src: "/pixel/bg/Buildings%202.png", speed: 0.22 },
+  { src: "/pixel/bg/Buildings%201.png", speed: 0.32 },
+  { src: "/pixel/bg/Lights.png", speed: 0.38 },
+  { src: "/pixel/bg/Shade%202.png", speed: 0.18 },
+  { src: "/pixel/bg/Shade%203.png", speed: 0.28 },
 ];
 
-const GHOST_FRAMES = Array.from({ length: 9 }, (_, i) => `/pixel/ghost/sprite_${i}.png`);
+const GHOST_FRAMES = Array.from(
+  { length: 9 },
+  (_, i) => `/pixel/ghost/sprite_${i}.png`,
+);
 
 export default function PixelScene() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -22,7 +25,9 @@ export default function PixelScene() {
     const container = containerRef.current;
     if (!container) return;
 
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     let cancelled = false;
     let app: any = null; // PixiJS Application; dynamically imported, typed at runtime
@@ -39,24 +44,31 @@ export default function PixelScene() {
       await app.init({
         width: W,
         height: H,
-        background: 0x111827,
+        background: 0x111827, // = colors.bg (#111827)
         antialias: false,
         roundPixels: true,
       });
 
-      if (cancelled) { app.destroy(true); return; }
+      if (cancelled) {
+        app.destroy(true);
+        return;
+      }
 
       container.appendChild(app.canvas as HTMLCanvasElement);
-      (app.canvas as HTMLCanvasElement).style.cssText = "width:100%;height:100%;display:block;";
+      (app.canvas as HTMLCanvasElement).style.cssText =
+        "width:100%;height:100%;display:block;";
 
       const bgTextures: import("pixi.js").Texture[] = await Promise.all(
-        BG_LAYERS.map((l) => PIXI.Assets.load(l.src))
+        BG_LAYERS.map((l) => PIXI.Assets.load(l.src)),
       );
       const ghostTextures: import("pixi.js").Texture[] = await Promise.all(
-        GHOST_FRAMES.map((url) => PIXI.Assets.load(url))
+        GHOST_FRAMES.map((url) => PIXI.Assets.load(url)),
       );
 
-      if (cancelled) { app.destroy(true); return; }
+      if (cancelled) {
+        app.destroy(true);
+        return;
+      }
 
       // Background parallax layers
       const bgSprites = bgTextures.map((texture, i) => {
@@ -69,10 +81,12 @@ export default function PixelScene() {
       });
 
       // Ghost animated sprite
-      ghostTextures.forEach((t) => { t.source.scaleMode = "nearest"; });
+      ghostTextures.forEach((t) => {
+        t.source.scaleMode = "nearest";
+      });
       const ghost = new PIXI.AnimatedSprite(ghostTextures);
       ghost.animationSpeed = prefersReducedMotion ? 0 : 0.12;
-      ghost.scale.set(4);
+      ghost.scale.set(-4, 4); // 좌우 반전: x를 음수로 설정
       ghost.anchor.set(0.5);
       ghost.x = W * 0.3;
       ghost.y = H * 0.45;
@@ -119,5 +133,7 @@ export default function PixelScene() {
     };
   }, []);
 
-  return <div ref={containerRef} className="w-full h-full" aria-hidden="true" />;
+  return (
+    <div ref={containerRef} className="w-full h-full" aria-hidden="true" />
+  );
 }
