@@ -20,9 +20,9 @@ export default function HomeHero() {
   }, [fullName]);
 
   return (
-    <div className="flex-1 max-w-md w-full">
+    <div className="flex-1 w-full max-w-md">
       <div className="bg-black/55 backdrop-blur-sm border border-[var(--color-surface)] p-6 md:p-8">
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex gap-4 items-center mb-6">
           <Image
             src={blogInfo.author.avatar}
             alt={blogInfo.author.name}
@@ -35,7 +35,9 @@ export default function HomeHero() {
               {typedName}
               <span className="inline-block w-2 h-5 bg-[var(--color-accent)] animate-pulse ml-1" />
             </h1>
-            <p className="text-sm text-[var(--color-secondary)]">{blogInfo.author.role}</p>
+            <p className="text-sm text-[var(--color-secondary)]">
+              {blogInfo.author.role}
+            </p>
           </div>
         </div>
 
@@ -43,13 +45,13 @@ export default function HomeHero() {
           {blogInfo.author.bio}
         </p>
         <p className="text-base font-medium text-[var(--color-accent)] mb-6">
-          벽을 통과하듯, 경계 없이 새로움에 뛰어듭니다.
+          겁 없이 새로운 도전에 뛰어듭니다.
         </p>
 
-        <div className="flex gap-3 flex-wrap">
+        <div className="flex flex-wrap gap-3">
           <Link
             href="/about"
-            className="px-4 py-2 bg-[var(--color-accent)] text-black text-sm font-semibold hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+            className="px-4 py-2 bg-[var(--color-accent)] text-onAccent text-sm font-semibold hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
           >
             About Me
           </Link>

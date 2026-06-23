@@ -23,13 +23,13 @@ export default function HomePage() {
   return (
     <main className="relative w-full min-h-screen md:h-screen overflow-y-auto md:overflow-hidden bg-[var(--color-bg)]">
       {/* Canvas: 데스크톱 전용 */}
-      <div className="hidden md:block absolute inset-0 z-0">
+      <div className="hidden absolute inset-0 z-0 md:block">
         <PixelScene />
       </div>
 
       {/* 정적 배경: 모바일 전용 */}
       <div
-        className="md:hidden absolute inset-0 z-0"
+        className="absolute inset-0 z-0 md:hidden"
         style={{
           backgroundImage: "url('/pixel/bg/Sky.png')",
           backgroundSize: "cover",
@@ -39,7 +39,7 @@ export default function HomePage() {
       />
 
       {/* 오버레이 콘텐츠 */}
-      <div className="relative z-10 flex flex-col md:flex-row items-center justify-center min-h-screen gap-6 md:gap-10 px-6 py-20 md:py-0 max-w-5xl mx-auto w-full">
+      <div className="flex relative z-10 flex-col gap-5 justify-center items-center px-6 py-20 my-4 w-full min-h-screen md:items-end md:py-0 md:pr-16">
         <HomeHero />
         <LatestPosts posts={latestPosts} />
       </div>
