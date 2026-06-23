@@ -11,6 +11,18 @@ export default function Footer() {
             <p className="text-xs text-[var(--color-secondary)] mt-1">
               Built with Next.js &amp; TailwindCSS
             </p>
+            <p className="text-xs text-[var(--color-secondary)] mt-1 opacity-60">
+              Ghost sprite by{" "}
+              <a
+                href="https://opengameart.org/users/pixerat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[var(--color-accent)]"
+              >
+                PiXeRaT
+              </a>{" "}
+              CC BY-SA 4.0
+            </p>
           </div>
 
           {/* 소셜 링크 */}
