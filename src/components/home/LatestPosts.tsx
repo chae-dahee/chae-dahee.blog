@@ -8,12 +8,12 @@ interface Props {
 export default function LatestPosts({ posts }: Props) {
   return (
     <div className="min-h-24 flex flex-col max-w-md w-full md:max-w-none">
-      <div className="bg-white/55 backdrop-blur-sm border border-gray-200 p-4 md:p-8 h-full overflow-y-auto flex flex-col">
+      <div className="bg-white/55 backdrop-blur-sm border border-gray-200 p-4 md:p-8 h-full overflow-hidden flex flex-col">
         <h2 className="text-sm font-bold text-green-700 mb-3 md:mb-4 flex items-center gap-2 flex-shrink-0">
           <span className="text-gray-700 select-none">{"//"}</span>
           LATEST POSTS
         </h2>
-        <ul className="space-y-3 flex-1 overflow-y-auto min-h-0">
+        <ul className="space-y-3 flex-1 overflow-y-auto min-h-0 overscroll-contain">
           {posts.map((post) => (
             <li key={post.id}>
               <Link

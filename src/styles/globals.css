@@ -36,8 +36,8 @@ body {
 }
 
 @keyframes blink-caret {
-  from,
-  to {
+  0%,
+  100% {
     border-color: transparent;
   }
   50% {
@@ -135,7 +135,7 @@ body {
   margin-bottom: 0.5rem;
 }
 
-@keyframes bgScroll {
+@keyframes bg-scroll {
   from {
     background-position-x: 0px;
   }
@@ -144,7 +144,7 @@ body {
   }
 }
 .mobile-bg-scroll {
-  animation: bgScroll 8s linear infinite;
+  animation: bg-scroll 8s linear infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   .mobile-bg-scroll {
