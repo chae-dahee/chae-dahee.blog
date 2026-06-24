@@ -85,7 +85,7 @@ export default function MobileBar() {
 
       {/* Backdrop — covers content area below topbar only */}
       <div
-        className={`md:hidden fixed top-12 inset-x-0 bottom-0 z-40 bg-[#0a0a0a] transition-opacity duration-300 ${open ? "opacity-50 pointer-events-auto touch-none" : "opacity-0 pointer-events-none"}`}
+        className={`md:hidden fixed top-12 inset-x-0 bottom-0 z-40 bg-neutral-950 transition-opacity duration-300 ${open ? "opacity-50 pointer-events-auto touch-none" : "opacity-0 pointer-events-none"}`}
         onClick={() => setOpen(false)}
       />
 

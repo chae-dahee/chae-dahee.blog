@@ -21,17 +21,28 @@ body {
   white-space: nowrap;
   border-right: 0.15em solid var(--color-accent);
   width: 10ch;
-  animation: typing 1.5s steps(10, end), blink-caret 0.75s step-end infinite;
+  animation:
+    typing 1.5s steps(10, end),
+    blink-caret 0.75s step-end infinite;
 }
 
 @keyframes typing {
-  from { width: 0; }
-  to { width: 10ch; }
+  from {
+    width: 0;
+  }
+  to {
+    width: 10ch;
+  }
 }
 
 @keyframes blink-caret {
-  from, to { border-color: transparent; }
-  50% { border-color: var(--color-accent); }
+  0%,
+  100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: var(--color-accent);
+  }
 }
 
 /* Terminal hover micro interaction */
@@ -85,10 +96,19 @@ body {
   margin-bottom: 1rem;
   color: var(--color-accent);
 }
-.post-content h1 { font-size: 2rem; }
-.post-content h2 { font-size: 1.5rem; }
-.post-content h3 { font-size: 1.25rem; }
-.post-content p { margin-bottom: 1rem; color: var(--color-secondary); }
+.post-content h1 {
+  font-size: 2rem;
+}
+.post-content h2 {
+  font-size: 1.5rem;
+}
+.post-content h3 {
+  font-size: 1.25rem;
+}
+.post-content p {
+  margin-bottom: 1rem;
+  color: var(--color-secondary);
+}
 .post-content code {
   background-color: var(--color-surface);
   color: var(--color-accent);
@@ -107,9 +127,43 @@ body {
   font-family: var(--font-mono);
 }
 .post-content ul,
-.post-content ol { margin-left: 1.5rem; margin-bottom: 1rem; }
-.post-content li { margin-bottom: 0.5rem; }
+.post-content ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+.post-content li {
+  margin-bottom: 0.5rem;
+}
+
+@keyframes bg-scroll {
+  from {
+    background-position-x: 0px;
+  }
+  to {
+    background-position-x: -250px;
+  }
+}
+.mobile-bg-scroll {
+  animation: bg-scroll 8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-bg-scroll {
+    animation: none;
+  }
+}
 
 /* Text truncation utilities */
-.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
