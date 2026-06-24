@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
+const GREEN_TINT = 0x86efac;
+
 const BG_LAYERS = [
   { src: "/pixel/bg/Sky.png", speed: 0.04 },
   { src: "/pixel/bg/Buildings%204.png", speed: 0.08 },
@@ -76,6 +78,7 @@ export default function PixelScene() {
         const scale = H / texture.height;
         const sprite = new PIXI.TilingSprite({ texture, width: W, height: H });
         sprite.tileScale.set(scale);
+        if (!BG_LAYERS[i].src.includes("Lights")) sprite.tint = GREEN_TINT;
         app.stage.addChild(sprite);
         return { sprite, texture };
       });
@@ -86,7 +89,7 @@ export default function PixelScene() {
       });
       const ghost = new PIXI.AnimatedSprite(ghostTextures);
       ghost.animationSpeed = prefersReducedMotion ? 0 : 0.12;
-      ghost.scale.set(-4, 4); // 좌우 반전: x를 음수로 설정
+      ghost.scale.set(-4, 4); 
       ghost.anchor.set(0.5);
       ghost.x = W * 0.3;
       ghost.y = H * 0.45;
