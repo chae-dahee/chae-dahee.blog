@@ -9,7 +9,14 @@ export const metadata: Metadata = buildMetadata({
 });
 
 const SKILLS: Record<string, string[]> = {
-  Frontend: ["React", "Next.js", "TypeScript", "JavaScript", "TailwindCSS", "CSS/SCSS"],
+  Frontend: [
+    "React",
+    "Next.js",
+    "TypeScript",
+    "JavaScript",
+    "TailwindCSS",
+    "CSS/SCSS",
+  ],
   Backend: ["Node.js", "Spring Boot", "REST API"],
   Tools: ["Git", "Figma", "Vercel", "Unity", "WebSocket"],
 };
@@ -30,7 +37,9 @@ export default function About() {
           <h1 className="text-3xl font-bold text-[var(--color-accent)] mb-1">
             {blogInfo.author.name}
           </h1>
-          <p className="text-[var(--color-secondary)] mb-3">{blogInfo.author.role}</p>
+          <p className="text-[var(--color-secondary)] mb-3">
+            {blogInfo.author.role}
+          </p>
           <p className="text-sm text-[var(--color-secondary)] leading-relaxed max-w-2xl">
             {blogInfo.author.bio}
           </p>
@@ -56,11 +65,15 @@ export default function About() {
 
       {/* 기술 스택 */}
       <section>
-        <h2 className="text-xl font-bold text-[var(--color-accent)] mb-6">Tech Stack</h2>
+        <h2 className="text-xl font-bold text-[var(--color-accent)] mb-6">
+          Tech Stack
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {Object.entries(SKILLS).map(([category, skills]) => (
             <div key={category} className="bg-[var(--color-surface)] p-4">
-              <h3 className="text-sm font-bold text-[var(--color-accent)] mb-3">{category}</h3>
+              <h3 className="text-sm font-bold text-[var(--color-accent)] mb-3">
+                {category}
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {skills.map((skill) => (
                   <span
@@ -78,7 +91,9 @@ export default function About() {
 
       {/* 경험 및 활동 */}
       <section>
-        <h2 className="text-xl font-bold text-[var(--color-accent)] mb-6">Experience</h2>
+        <h2 className="text-xl font-bold text-[var(--color-accent)] mb-6">
+          Experience
+        </h2>
         <div className="space-y-6">
           {career.map((item) => (
             <div
@@ -99,9 +114,13 @@ export default function About() {
                   <h3 className="font-bold text-[var(--color-secondary)]">
                     {item.organization}
                   </h3>
-                  <span className="text-xs text-[var(--color-muted)]">{item.period}</span>
+                  <span className="text-xs text-[var(--color-muted)]">
+                    {item.period}
+                  </span>
                 </div>
-                <p className="text-sm text-[var(--color-accent)] mb-1">{item.role}</p>
+                <p className="text-sm text-[var(--color-accent)] mb-1">
+                  {item.role}
+                </p>
                 <p className="text-sm text-[var(--color-secondary)] leading-relaxed">
                   {item.description}
                 </p>
@@ -123,10 +142,15 @@ export default function About() {
 
       {/* 프로젝트 */}
       <section>
-        <h2 className="text-xl font-bold text-[var(--color-accent)] mb-6">Projects</h2>
+        <h2 className="text-xl font-bold text-[var(--color-accent)] mb-6">
+          Projects
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {projects.map((project) => (
-            <div key={project.id} className="bg-[var(--color-surface)] overflow-hidden">
+            <div
+              key={project.id}
+              className="bg-[var(--color-surface)] overflow-hidden"
+            >
               <div className="relative h-44 bg-[var(--color-bg)]">
                 <Image
                   src={project.image}
@@ -138,12 +162,16 @@ export default function About() {
               </div>
               <div className="p-4">
                 <div className="flex items-baseline justify-between gap-2 mb-1">
-                  <h3 className="font-bold text-[var(--color-secondary)]">{project.name}</h3>
+                  <h3 className="font-bold text-[var(--color-secondary)]">
+                    {project.name}
+                  </h3>
                   <span className="text-xs text-[var(--color-muted)] whitespace-nowrap">
                     {project.period}
                   </span>
                 </div>
-                <p className="text-xs text-[var(--color-accent)] mb-2">{project.role}</p>
+                <p className="text-xs text-[var(--color-accent)] mb-2">
+                  {project.role}
+                </p>
                 <p className="text-sm text-[var(--color-secondary)] leading-relaxed mb-3">
                   {project.description}
                 </p>
@@ -175,9 +203,11 @@ export default function About() {
 
       {/* 라이선스 크레딧 (CC-BY-SA 4.0) */}
       <section className="pt-6 border-t border-[var(--color-surface)]">
-        <h2 className="text-sm font-bold text-[var(--color-secondary)] mb-2">Credits</h2>
+        <h2 className="text-sm font-bold text-[var(--color-secondary)] mb-2">
+          Credits
+        </h2>
         <p className="text-xs text-[var(--color-muted)]">
-          Ghost sprite by{" "}
+          Ghost sprite by
           <a
             href="https://opengameart.org/users/pixerat"
             target="_blank"
@@ -185,8 +215,8 @@ export default function About() {
             className="text-[var(--color-accent)] hover:underline"
           >
             PiXeRaT
-          </a>{" "}
-          (OpenGameArt), licensed under{" "}
+          </a>
+          (OpenGameArt), licensed under
           <a
             href="https://creativecommons.org/licenses/by-sa/4.0/"
             target="_blank"
