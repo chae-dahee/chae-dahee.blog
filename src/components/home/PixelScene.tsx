@@ -184,6 +184,16 @@ export default function PixelScene() {
       ghost.cursor = "pointer";
       ghost.on("pointertap", (e: import("pixi.js").FederatedPointerEvent) => {
         e.stopPropagation();
+        if (prefersReducedMotion) {
+          targetX = e.global.x;
+          targetY = e.global.y;
+          moved = true;
+          baseX = targetX;
+          baseY = targetY;
+          ghost.x = baseX;
+          ghost.y = baseY;
+          return;
+        }
         playOnce(deadTextures, DEAD_ANIM_SPEED, true);
       });
 
