@@ -45,7 +45,7 @@ export default function HomePage() {
       </div>
 
       {/* 오버레이 콘텐츠 */}
-      <div className="flex relative z-10 flex-col justify-between gap-4 items-center px-6 py-12 w-full h-full md:w-1/2 md:ml-auto md:py-[72px] md:px-10">
+      <div className="flex relative z-10 flex-col justify-between gap-4 items-center px-6 py-12 w-full h-full pointer-events-none md:w-1/2 md:ml-auto md:py-[72px] md:px-10">
         <HomeHero />
         <LatestPosts posts={latestPosts} />
       </div>
