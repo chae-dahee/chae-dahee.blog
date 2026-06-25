@@ -89,12 +89,37 @@ export default function PixelScene() {
       });
       const ghost = new PIXI.AnimatedSprite(ghostTextures);
       ghost.animationSpeed = prefersReducedMotion ? 0 : 0.12;
-      ghost.scale.set(-4, 4); 
+      ghost.scale.set(-4, 4);
       ghost.anchor.set(0.5);
       ghost.x = W * 0.3;
       ghost.y = H * 0.45;
       ghost.play();
       app.stage.addChild(ghost);
+
+      // Click-to-move: ghost glides toward the clicked point
+      let baseX = W * 0.3;
+      let baseY = H * 0.45;
+      let targetX = baseX;
+      let targetY = baseY;
+      let moved = false;
+
+      app.stage.eventMode = "static";
+      app.stage.hitArea = app.screen;
+      app.stage.cursor = "pointer";
+      app.stage.on(
+        "pointertap",
+        (e: import("pixi.js").FederatedPointerEvent) => {
+          targetX = e.global.x;
+          targetY = e.global.y;
+          moved = true;
+          if (prefersReducedMotion) {
+            baseX = targetX;
+            baseY = targetY;
+            ghost.x = baseX;
+            ghost.y = baseY;
+          }
+        },
+      );
 
       // Ticker: parallax scroll + ghost bob/fade
       if (!prefersReducedMotion) {
@@ -104,7 +129,10 @@ export default function PixelScene() {
           BG_LAYERS.forEach(({ speed }, i) => {
             bgSprites[i].sprite.tilePosition.x -= speed;
           });
-          ghost.y = H * 0.45 + Math.sin(elapsed / 900) * 18;
+          baseX += (targetX - baseX) * 0.08;
+          baseY += (targetY - baseY) * 0.08;
+          ghost.x = baseX;
+          ghost.y = baseY + Math.sin(elapsed / 900) * 18;
           ghost.alpha = 0.75 + Math.sin(elapsed / 1200) * 0.25;
         });
       }
@@ -121,8 +149,12 @@ export default function PixelScene() {
           sprite.height = nH;
           sprite.tileScale.set(scale);
         });
-        ghost.x = nW * 0.3;
-        ghost.y = nH * 0.45;
+        if (!moved) {
+          baseX = targetX = nW * 0.3;
+          baseY = targetY = nH * 0.45;
+          ghost.x = baseX;
+          ghost.y = baseY;
+        }
       };
       window.addEventListener("resize", onResize);
     };

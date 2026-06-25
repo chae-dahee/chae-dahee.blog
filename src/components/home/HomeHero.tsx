@@ -20,7 +20,7 @@ export default function HomeHero() {
   }, [fullName]);
 
   return (
-    <div className="w-full max-w-md md:max-w-none flex-shrink-0">
+    <div className="w-full max-w-md md:max-w-none flex-shrink-0 pointer-events-auto">
       <div className="bg-white/55 backdrop-blur-sm border border-gray-200 p-4 md:p-8">
         <div className="flex gap-4 items-center mb-3 md:mb-6">
           <Image
