@@ -1,23 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { blogInfo } from "@/data/dummyData";
+import { useTypewriter } from "@/hooks/useTypewriter";
 
 export default function HomeHero() {
-  const [typedName, setTypedName] = useState("");
-  const fullName = blogInfo.author.name;
-
-  useEffect(() => {
-    let i = 0;
-    const id = setInterval(() => {
-      setTypedName(fullName.slice(0, i + 1));
-      i++;
-      if (i >= fullName.length) clearInterval(id);
-    }, 150);
-    return () => clearInterval(id);
-  }, [fullName]);
+  const typedName = useTypewriter(blogInfo.author.name);
 
   return (
     <div className="w-full max-w-md md:max-w-none flex-shrink-0 pointer-events-auto">
