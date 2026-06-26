@@ -3,27 +3,13 @@
     /* Colors — Light theme (default) */
     --color-bg: #f9fafb;
     --color-surface: #e5e7eb;
-    --color-primary: #15803d;
     --color-secondary: #374151;
     --color-accent: #15803d;
     --color-muted: #d1d5db;
 
-    /* Spacing (scale) */
-    --spacing-1: theme('spacing.1');
-    --spacing-2: theme('spacing.2');
-    --spacing-3: theme('spacing.3');
-    --spacing-4: theme('spacing.4');
-    --spacing-5: theme('spacing.5');
-    --spacing-6: theme('spacing.6');
-
-    /* Border radius */
-    --radius-sm: theme('borderRadius.sm');
-    --radius-md: theme('borderRadius.md');
-    --radius-lg: theme('borderRadius.lg');
-
     /* Font families */
-    --font-sans: theme('fontFamily.sans').join(', ');
-    --font-mono: theme('fontFamily.mono').join(', ');
+    --font-sans: theme('fontFamily.sans');
+    --font-mono: theme('fontFamily.mono');
 }
 
 /* Colors — Dark theme (applied via `.dark` class on <html>) */

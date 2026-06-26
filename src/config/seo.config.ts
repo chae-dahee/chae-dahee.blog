@@ -31,5 +31,4 @@ export const siteConfig: SiteConfig = {
   ],
   defaultImage: "/chae-dahee.png",
   locale: "ko_KR",
-  type: "website",
 };
