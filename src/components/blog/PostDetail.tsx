@@ -92,9 +92,9 @@ export default function PostDetail({ post }: PostDetailProps) {
 
         {/* 태그 */}
         <div className="flex flex-wrap gap-2 mt-4">
-          {post.tags.map((tag, index) => (
+          {post.tags.map((tag) => (
             <Link
-              key={index}
+              key={tag}
               href={`/tag/${tag.toLowerCase()}`}
               className="inline-block px-3 py-1 text-sm font-medium text-[var(--color-accent)] bg-[var(--color-bg)] border border-[var(--color-accent)]/30 hover:bg-[var(--color-surface)] transition-colors"
             >

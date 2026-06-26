@@ -32,9 +32,9 @@ export default function PostCard({ post }: PostCardProps) {
           {post.excerpt}
         </p>
         <div className="hidden sm:flex flex-wrap gap-2 mt-3">
-          {post.tags.slice(0, 3).map((tag, index) => (
+          {post.tags.slice(0, 3).map((tag) => (
             <span
-              key={index}
+              key={tag}
               className="inline-block px-2 py-0.5 text-xs font-medium text-[var(--color-accent)] bg-[var(--color-bg)] border border-[var(--color-accent)]/30"
             >
               #{tag}
