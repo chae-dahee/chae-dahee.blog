@@ -1,11 +1,11 @@
 import Link from "next/link";
 import type { Post } from "@/types";
 
-interface Props {
+interface LatestPostsProps {
   posts: Post[];
 }
 
-export default function LatestPosts({ posts }: Props) {
+export default function LatestPosts({ posts }: LatestPostsProps) {
   return (
     <div className="min-h-24 flex flex-col max-w-md w-full md:max-w-none pointer-events-auto">
       <p className="hidden md:block mb-1.5 text-[10px] text-gray-400 text-left select-none">

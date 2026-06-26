@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { categories, posts } from "@/data/dummyData";
 import { buildMetadata } from "@/lib/metadata";
+import TaxonomyPostList from "@/components/blog/TaxonomyPostList";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -33,27 +33,5 @@ export default async function CategoryPage({
 
   const filteredPosts = posts.filter((p) => p.categorySlug === slug);
 
-  return (
-    <section className="max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold mb-6 text-[var(--color-accent)]">
-        {category.name}
-      </h1>
-      <ul className="space-y-6">
-        {filteredPosts.map((post) => (
-          <li
-            key={post.id}
-            className="bg-[var(--color-surface)] rounded-lg p-4 hover:bg-[var(--color-muted)] transition"
-          >
-            <Link
-              href={`/blog/${post.slug}`}
-              className="text-xl font-medium text-[var(--color-accent)] hover:underline"
-            >
-              {post.title}
-            </Link>
-            <p className="text-[var(--color-secondary)] mt-2">{post.excerpt}</p>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
+  return <TaxonomyPostList title={category.name} posts={filteredPosts} />;
 }
