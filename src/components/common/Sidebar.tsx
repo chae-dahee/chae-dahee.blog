@@ -1,24 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import { categories, tags, sitemap, blogInfo } from "@/data/dummyData";
 import ThemeToggle from "@/components/common/ThemeToggle";
+import { useTypewriter } from "@/hooks/useTypewriter";
 
 export default function Sidebar({ className, hideLogo }: { className?: string; hideLogo?: boolean }) {
-  const [typedName, setTypedName] = useState("");
-  const fullName = blogInfo.author.name;
-
-  useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      setTypedName(fullName.slice(0, i + 1));
-      i++;
-      if (i >= fullName.length) clearInterval(interval);
-    }, 150);
-    return () => clearInterval(interval);
-  }, [fullName]);
+  const typedName = useTypewriter(blogInfo.author.name);
 
   return (
     <aside className={`flex flex-col w-72 bg-[var(--color-bg)] border-r border-[var(--color-surface)] sticky top-0 h-screen overflow-y-auto p-6 ${className ?? ''}`}>
