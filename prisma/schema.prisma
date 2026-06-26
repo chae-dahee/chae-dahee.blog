@@ -1,0 +1,80 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") // 풀링된 연결 (런타임용)
+  directUrl = env("DIRECT_URL")   // 직접 연결 (마이그레이션용)
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// 글: 본문은 마크다운 파일, DB엔 동적 데이터의 앵커(slug)만 둔다
+model Post {
+  slug      String   @id
+  viewCount Int      @default(0)
+  comments  Comment[]
+  createdAt DateTime @default(now())
+}
+
+model Comment {
+  id        String    @id @default(cuid())
+  postSlug  String
+  post      Post      @relation(fields: [postSlug], references: [slug], onDelete: Cascade)
+  content   String
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id])
+  parentId  String? // 대댓글(선택)
+  parent    Comment?  @relation("Replies", fields: [parentId], references: [id])
+  replies   Comment[] @relation("Replies")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([postSlug])
+  @@index([parentId])
+  @@index([authorId])
+}
+
+// ── 아래 4개는 Auth.js(@auth/prisma-adapter) 표준 모델 ──
+model User {
+  id       String    @id @default(cuid())
+  name     String?
+  email    String?   @unique
+  image    String?
+  accounts Account[]
+  sessions Session[]
+  comments Comment[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
