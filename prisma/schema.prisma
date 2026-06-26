@@ -28,6 +28,10 @@ model Comment {
   replies   Comment[] @relation("Replies")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
+  @@index([postSlug])
+  @@index([parentId])
+  @@index([authorId])
 }
 
 // ── 아래 4개는 Auth.js(@auth/prisma-adapter) 표준 모델 ──
