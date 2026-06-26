@@ -88,7 +88,6 @@ export interface SiteConfig {
   keywords: string[];
   defaultImage: string;
   locale: string;
-  type: string;
 }
 
 // ─── TableOfContents ─────────────────────────────────────────────────────────
@@ -107,7 +106,6 @@ export interface CareerItem {
   role: string;
   period: string;
   description: string;
-  type: 'work' | 'activity' | 'education';
   logo?: string;
   skills: string[];
 }
