@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
 import type { Post, TocItem } from "@/types";
 
@@ -9,7 +6,6 @@ interface PostDetailProps {
 }
 
 export default function PostDetail({ post }: PostDetailProps) {
-  const [activeSection, setActiveSection] = useState<string>("");
 
   // 목차 생성 (간단한 버전)
   const tableOfContents: TocItem[] = [
@@ -190,11 +186,7 @@ export default function PostDetail({ post }: PostDetailProps) {
                     <li key={item.id}>
                       <a
                         href={`#${item.id}`}
-                        className={`block text-sm py-1 px-2 transition-colors ${
-                          activeSection === item.id
-                            ? "text-[var(--color-accent)] font-semibold border-l-2 border-[var(--color-accent)] bg-[var(--color-surface)]"
-                            : "text-[var(--color-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-surface)] border-l-2 border-transparent"
-                        }`}
+                        className="block text-sm py-1 px-2 transition-colors text-[var(--color-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-surface)] border-l-2 border-transparent"
                         style={{ paddingLeft: `${item.level * 0.75}rem` }}
                       >
                         {item.title}
