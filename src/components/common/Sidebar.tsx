@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import type { ComponentType } from "react";
 import { categories, tags, sitemap, blogInfo } from "@/data/dummyData";
 import ThemeToggle from "@/components/common/ThemeToggle";
 import { useTypewriter } from "@/hooks/useTypewriter";
 import { GitHubIcon, TwitterIcon, LinkedInIcon, EmailIcon } from "@/components/common/icons";
 import type { SocialIcon } from "@/types";
 
-const SOCIAL_ICON_MAP: Record<SocialIcon, React.ComponentType<{ className?: string }>> = {
+const SOCIAL_ICON_MAP: Record<SocialIcon, ComponentType<{ className?: string }>> = {
   github: GitHubIcon,
   twitter: TwitterIcon,
   linkedin: LinkedInIcon,
