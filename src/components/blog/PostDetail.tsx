@@ -1,5 +1,4 @@
 import Link from "next/link";
-import ViewTracker from "@/components/blog/ViewTracker";
 import type { Post, TocItem } from "@/types";
 
 interface PostDetailProps {
@@ -20,9 +19,6 @@ export default function PostDetail({ post, viewCount }: PostDetailProps) {
 
   return (
     <div className="max-w-5xl mx-auto">
-      {/* 진입 시 조회수 +1 (화면엔 안 보임) */}
-      <ViewTracker slug={post.slug} />
-
       {/* 헤더 */}
       <header className="mb-6 pb-6 md:mb-8 md:pb-8 border-b border-[var(--color-muted)]">
         <div className="mb-4">

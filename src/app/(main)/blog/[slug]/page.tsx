@@ -1,9 +1,12 @@
 import { notFound } from "next/navigation";
 import PostDetail from "@/components/blog/PostDetail";
 import { posts } from "@/data/dummyData";
-import { getViewCount } from "@/lib/data/posts";
+import { incrementViewCount } from "@/lib/data/posts";
 import { buildMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
@@ -37,8 +40,7 @@ export default async function PostPage({
   const post = posts.find((p) => p.slug === slug);
   if (!post) notFound();
 
-  // 읽기는 Server Component에서 DB를 직접 조회 (API·fetch 불필요)
-  const viewCount = await getViewCount(slug);
+  const viewCount = await incrementViewCount(slug);
 
   return <PostDetail post={post} viewCount={viewCount} />;
 }
