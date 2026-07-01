@@ -18,18 +18,23 @@ export async function createComment(formData: FormData) {
   });
   assertValidPostSlug(slug); // 임의 slug로 가짜 댓글이 쌓이는 것을 막는다
 
-  // 대댓글이면 부모가 같은 글의 '최상위' 댓글인지 검증한다.
-  // 위조된 parentId, 다른 글의 댓글, 대댓글에 다시 다는 2단계 이상 중첩을 막는다.
-  if (parentId) {
-    const parent = await prisma.comment.findUnique({ where: { id: parentId } });
-    if (!parent || parent.postSlug !== slug || parent.parentId !== null) {
-      throw new Error("invalid parent");
+  // 부모 검증과 대댓글 생성을 한 트랜잭션으로 묶는다. 대댓글이면 부모 행을
+  // FOR UPDATE로 잠가, 검증 직후 부모가 삭제되어 FK 위반으로 실패하는 경합을 없앤다.
+  await prisma.$transaction(async (tx) => {
+    if (parentId) {
+      // 부모가 같은 글의 '최상위' 댓글인지 검증(위조·타 글·2단계 이상 중첩 차단).
+      const [parent] = await tx.$queryRaw<
+        { postSlug: string; parentId: string | null }[]
+      >`SELECT "postSlug", "parentId" FROM "Comment" WHERE "id" = ${parentId} FOR UPDATE`;
+      if (!parent || parent.postSlug !== slug || parent.parentId !== null) {
+        throw new Error("invalid parent");
+      }
     }
-  }
 
-  await prisma.post.upsert({ where: { slug }, create: { slug }, update: {} }); // 앵커 보장
-  await prisma.comment.create({
-    data: { postSlug: slug, content, parentId, authorId: session.user.id },
+    await tx.post.upsert({ where: { slug }, create: { slug }, update: {} }); // 앵커 보장
+    await tx.comment.create({
+      data: { postSlug: slug, content, parentId, authorId: session.user.id },
+    });
   });
   revalidatePath(`/blog/${slug}`); // 목록 즉시 갱신
 }
