@@ -25,6 +25,7 @@ function SubmitButton() {
 export default function CommentForm({ slug }: { slug: string }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [count, setCount] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   // 한도의 90% 이상이면 강조색으로 남은 글자가 적음을 알린다.
   const nearLimit = count >= MAX_COMMENT_LENGTH * 0.9;
@@ -33,9 +34,23 @@ export default function CommentForm({ slug }: { slug: string }) {
     <form
       ref={formRef}
       action={async (formData) => {
-        await createComment(formData);
-        formRef.current?.reset();
-        setCount(0);
+        // 공백만 입력된 빈 댓글은 서버 호출 없이 즉시 차단한다(서버 스키마도 trim으로 재검증).
+        const content = String(formData.get("content") ?? "").trim();
+        if (!content) {
+          setError("내용을 입력해 주세요.");
+          return;
+        }
+
+        // createComment는 인증·slug·스키마 검증 실패 시 예외를 던진다.
+        // 성공했을 때만 입력창을 비우고, 실패하면 입력을 유지한 채 오류를 알린다.
+        try {
+          await createComment(formData);
+          formRef.current?.reset();
+          setCount(0);
+          setError(null);
+        } catch {
+          setError("댓글 등록에 실패했습니다. 잠시 후 다시 시도해 주세요.");
+        }
       }}
       className="flex flex-col gap-3"
     >
@@ -46,9 +61,17 @@ export default function CommentForm({ slug }: { slug: string }) {
         maxLength={MAX_COMMENT_LENGTH}
         rows={3}
         placeholder={`댓글을 입력하세요 (최대 ${MAX_COMMENT_LENGTH}자)`}
-        onChange={(e) => setCount(e.target.value.length)}
+        onChange={(e) => {
+          setCount(e.target.value.length);
+          if (error) setError(null); // 다시 입력하면 이전 오류를 지운다
+        }}
         className="w-full resize-y bg-[var(--color-bg)] border border-[var(--color-muted)] p-3 text-sm text-[var(--color-secondary)] focus:outline-none focus:border-[var(--color-accent)] transition-colors"
       />
+      {error && (
+        <p role="alert" className="text-xs text-red-600 dark:text-red-400">
+          {error}
+        </p>
+      )}
       <div className="flex items-center justify-between">
         <span
           className={`text-xs ${nearLimit ? "text-[var(--color-accent)] font-medium" : "text-[var(--color-secondary)]"}`}
