@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CommentSection from "@/components/blog/comments/CommentSection";
 import ViewCounter from "@/components/blog/ViewCounter";
 import type { Post, TocItem } from "@/types";
 
@@ -214,6 +215,9 @@ export default function PostDetail({ post }: PostDetailProps) {
           </div>
         </aside>
       </div>
+
+      {/* 댓글 영역 */}
+      <CommentSection slug={post.slug} />
 
       {/* 이전/다음 포스트 네비게이션 */}
       <div className="mt-16 pt-8 border-t border-[var(--color-muted)]">
