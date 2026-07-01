@@ -4,12 +4,11 @@ import type { CommentWithAuthor } from "@/lib/data/comments";
 
 interface CommentItemProps {
   comment: CommentWithAuthor;
-  slug: string;
   currentUserId?: string;
 }
 
 // 댓글 1건. 본인 댓글에만 삭제 버튼을 노출한다(삭제는 서버에서 소유자 재검증).
-export default function CommentItem({ comment, slug, currentUserId }: CommentItemProps) {
+export default function CommentItem({ comment, currentUserId }: CommentItemProps) {
   const isOwner = !!currentUserId && comment.authorId === currentUserId;
   const createdAt = comment.createdAt.toLocaleDateString("ko-KR", {
     year: "numeric",
@@ -35,7 +34,7 @@ export default function CommentItem({ comment, slug, currentUserId }: CommentIte
           </span>
           <span className="text-xs text-[var(--color-secondary)]">{createdAt}</span>
         </div>
-        {isOwner && <DeleteButton id={comment.id} slug={slug} />}
+        {isOwner && <DeleteButton id={comment.id} />}
       </div>
       <p className="text-sm text-[var(--color-secondary)] whitespace-pre-wrap break-words">
         {comment.content}

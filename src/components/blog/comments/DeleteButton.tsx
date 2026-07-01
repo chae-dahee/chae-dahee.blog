@@ -17,12 +17,11 @@ function SubmitButton() {
 }
 
 // 댓글 삭제 버튼(클라이언트). 작성 폼과 동일하게 클라이언트 컴포넌트를 경유해
-// Server Action을 호출한다. id·slug는 hidden input으로 전달한다.
-export default function DeleteButton({ id, slug }: { id: string; slug: string }) {
+// Server Action을 호출한다. id만 전달하고, 재검증 slug는 서버가 레코드에서 조회한다.
+export default function DeleteButton({ id }: { id: string }) {
   return (
     <form action={deleteComment}>
       <input type="hidden" name="id" value={id} />
-      <input type="hidden" name="slug" value={slug} />
       <SubmitButton />
     </form>
   );

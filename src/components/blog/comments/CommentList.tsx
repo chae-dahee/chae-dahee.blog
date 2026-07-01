@@ -24,7 +24,6 @@ export default async function CommentList({ slug, currentUserId }: CommentListPr
         <CommentItem
           key={comment.id}
           comment={comment}
-          slug={slug}
           currentUserId={currentUserId}
         />
       ))}
