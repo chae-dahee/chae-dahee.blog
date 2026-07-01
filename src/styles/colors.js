@@ -12,4 +12,5 @@ module.exports = {
   textDark: "#22c55e", // terminal green
   terminal: "#22c55e",
   onAccent: "#111827", // accent(초록) 배경 위의 전경색
+  error: "#f87171", // 다크 배경 위 오류
 };
