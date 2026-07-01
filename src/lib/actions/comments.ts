@@ -11,15 +11,25 @@ export async function createComment(formData: FormData) {
   const session = await auth();
   if (!session?.user?.id) throw new Error("unauthorized"); // 서버단 1차 방어
 
-  const { slug, content } = CommentSchema.parse({
+  const { slug, content, parentId } = CommentSchema.parse({
     slug: formData.get("slug"),
     content: formData.get("content"),
+    parentId: formData.get("parentId") || undefined,
   });
   assertValidPostSlug(slug); // 임의 slug로 가짜 댓글이 쌓이는 것을 막는다
 
+  // 대댓글이면 부모가 같은 글의 '최상위' 댓글인지 검증한다.
+  // 위조된 parentId, 다른 글의 댓글, 대댓글에 다시 다는 2단계 이상 중첩을 막는다.
+  if (parentId) {
+    const parent = await prisma.comment.findUnique({ where: { id: parentId } });
+    if (!parent || parent.postSlug !== slug || parent.parentId !== null) {
+      throw new Error("invalid parent");
+    }
+  }
+
   await prisma.post.upsert({ where: { slug }, create: { slug }, update: {} }); // 앵커 보장
   await prisma.comment.create({
-    data: { postSlug: slug, content, authorId: session.user.id },
+    data: { postSlug: slug, content, parentId, authorId: session.user.id },
   });
   revalidatePath(`/blog/${slug}`); // 목록 즉시 갱신
 }
