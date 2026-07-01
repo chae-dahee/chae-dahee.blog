@@ -15,14 +15,18 @@ function renderContent(text: string): ReactNode[] {
   while ((m = re.exec(text)) !== null) {
     const start = m.index;
     const prevChar = start === 0 ? "" : text[start - 1];
-    if (start !== 0 && !/\s/.test(prevChar)) continue; // 단어 중간의 @는 멘션 아님
+    if (start !== 0 && !/\s/.test(prevChar)) continue;
+
+    const mention = m[0].replace(/[^\p{L}\p{N}]+$/u, "");
+    if (mention.length <= 1) continue;
+
     if (start > last) nodes.push(text.slice(last, start));
     nodes.push(
       <span key={key++} className="text-[var(--color-accent)] font-medium">
-        {m[0]}
+        {mention}
       </span>,
     );
-    last = start + m[0].length;
+    last = start + mention.length;
   }
   if (last < text.length) nodes.push(text.slice(last));
   return nodes;
@@ -45,7 +49,8 @@ export default function CommentItem({
   const isOwner = !!currentUserId && comment.authorId === currentUserId;
   const isLoggedIn = !!currentUserId;
   // 대댓글 목록은 최상위 댓글에만 존재한다(타입 좁히기).
-  const replies = !isReply && "replies" in comment ? comment.replies : [];
+  const replies: ReplyWithAuthor[] =
+    !isReply && "replies" in comment ? comment.replies : [];
   const avatarSize = isReply ? 20 : 24;
   const createdAt = comment.createdAt.toLocaleDateString("ko-KR", {
     year: "numeric",
@@ -68,7 +73,9 @@ export default function CommentItem({
       <span className="text-sm font-medium text-[var(--color-accent)] truncate">
         {comment.author.name ?? "익명"}
       </span>
-      <span className="text-xs text-[var(--color-secondary)] shrink-0">{createdAt}</span>
+      <span className="text-xs text-[var(--color-secondary)] shrink-0">
+        {createdAt}
+      </span>
     </>
   );
 
