@@ -1,13 +1,13 @@
 import Link from "next/link";
 import CommentSection from "@/components/blog/comments/CommentSection";
+import ViewCounter from "@/components/blog/ViewCounter";
 import type { Post, TocItem } from "@/types";
 
 interface PostDetailProps {
   post: Post;
-  viewCount: number;
 }
 
-export default function PostDetail({ post, viewCount }: PostDetailProps) {
+export default function PostDetail({ post }: PostDetailProps) {
 
   // 목차 생성 (간단한 버전)
   const tableOfContents: TocItem[] = [
@@ -88,7 +88,7 @@ export default function PostDetail({ post, viewCount }: PostDetailProps) {
                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
               />
             </svg>
-            {viewCount.toLocaleString()} views
+            <ViewCounter key={post.slug} slug={post.slug} />
           </span>
         </div>
 
