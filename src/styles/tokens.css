@@ -6,6 +6,7 @@
     --color-secondary: #374151;
     --color-accent: #15803d;
     --color-muted: #d1d5db;
+    --color-error: #dc2626;
 
     /* Font families */
     --font-sans: theme('fontFamily.sans');
@@ -20,4 +21,5 @@
     --color-secondary: theme('colors.textLight');
     --color-accent: theme('colors.terminal');
     --color-muted: theme('colors.light');
+    --color-error: theme('colors.error');
 }

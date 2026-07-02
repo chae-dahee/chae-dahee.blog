@@ -11,4 +11,6 @@ export const CommentSchema = z.object({
     .trim()
     .min(1, "내용을 입력해 주세요.")
     .max(MAX_COMMENT_LENGTH, `${MAX_COMMENT_LENGTH}자 이내로 입력해 주세요.`),
+  // 대댓글이면 부모 댓글 id. 최상위 댓글이면 없음.
+  parentId: z.string().min(1).optional(),
 });

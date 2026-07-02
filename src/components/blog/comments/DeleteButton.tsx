@@ -20,7 +20,7 @@ function SubmitButton() {
 // Server Action을 호출한다. id만 전달하고, 재검증 slug는 서버가 레코드에서 조회한다.
 export default function DeleteButton({ id }: { id: string }) {
   return (
-    <form action={deleteComment}>
+    <form action={deleteComment} className="contents">
       <input type="hidden" name="id" value={id} />
       <SubmitButton />
     </form>
