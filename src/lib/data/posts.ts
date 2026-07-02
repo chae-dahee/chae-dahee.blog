@@ -9,14 +9,43 @@ export function assertValidPostSlug(slug: string) {
   }
 }
 
-// 조회수를 1 올린다. 레코드가 없으면 생성하면서 1로 시작.
-export async function incrementViewCount(slug: string) {
+const VIEW_DEDUP_WINDOW_MS = 60 * 60 * 1000;
+
+// 동일 방문자(IP HMAC 해시)·글 조합은 마지막 집계 후 1시간이 지나야 다시 집계한다.
+// ViewLog 조건부 upsert와 조회수 증가는 한 트랜잭션에서 처리해 동시 요청의 중복 증가를 막는다.
+export async function incrementViewCount(slug: string, visitorHash: string) {
   assertValidPostSlug(slug);
 
-  const post = await prisma.post.upsert({
-    where: { slug },
-    create: { slug, viewCount: 1 }, // 글 앵커가 없으면 생성
-    update: { viewCount: { increment: 1 } }, // increment = 원자적 +1
+  return prisma.$transaction(async (tx) => {
+    await tx.post.upsert({
+      where: { slug },
+      create: { slug },
+      update: {},
+    });
+
+    const cutoff = new Date(Date.now() - VIEW_DEDUP_WINDOW_MS);
+    const accepted = await tx.$queryRaw<{ accepted: number }[]>`
+      INSERT INTO "ViewLog" ("postSlug", "visitorHash", "lastViewedAt")
+      VALUES (${slug}, ${visitorHash}, NOW())
+      ON CONFLICT ("postSlug", "visitorHash")
+      DO UPDATE SET "lastViewedAt" = EXCLUDED."lastViewedAt"
+      WHERE "ViewLog"."lastViewedAt" <= ${cutoff}
+      RETURNING 1 AS "accepted"
+    `;
+
+    if (accepted.length > 0) {
+      const post = await tx.post.update({
+        where: { slug },
+        data: { viewCount: { increment: 1 } },
+        select: { viewCount: true },
+      });
+      return post.viewCount;
+    }
+
+    const post = await tx.post.findUniqueOrThrow({
+      where: { slug },
+      select: { viewCount: true },
+    });
+    return post.viewCount;
   });
-  return post.viewCount;
 }

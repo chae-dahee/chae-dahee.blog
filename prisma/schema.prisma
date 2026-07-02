@@ -1,7 +1,7 @@
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL") // 풀링된 연결 (런타임용)
-  directUrl = env("DIRECT_URL")   // 직접 연결 (마이그레이션용)
+  directUrl = env("DIRECT_URL") // 직접 연결 (마이그레이션용)
 }
 
 generator client {
@@ -10,10 +10,21 @@ generator client {
 
 // 글: 본문은 마크다운 파일, DB엔 동적 데이터의 앵커(slug)만 둔다
 model Post {
-  slug      String   @id
-  viewCount Int      @default(0)
+  slug      String    @id
+  viewCount Int       @default(0)
   comments  Comment[]
-  createdAt DateTime @default(now())
+  viewLogs  ViewLog[]
+  createdAt DateTime  @default(now())
+}
+
+// 동일 IP(원문이 아닌 HMAC 해시)·글 조합의 마지막 조회수 집계 시각.
+model ViewLog {
+  postSlug     String
+  visitorHash  String
+  lastViewedAt DateTime @default(now())
+  post         Post     @relation(fields: [postSlug], references: [slug], onDelete: Cascade)
+
+  @@id([postSlug, visitorHash])
 }
 
 model Comment {
