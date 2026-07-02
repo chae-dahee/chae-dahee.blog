@@ -33,7 +33,8 @@ export async function createComment(formData: FormData): Promise<CreateCommentRe
   // 잠금이 없으면 병렬 요청이 판정을 동시에 통과해 15초/5분 제한이 뚫린다.
   const result = await prisma.$transaction(async (tx): Promise<CreateCommentResult> => {
     // 작성자 키 잠금(트랜잭션 종료 시 자동 해제). 같은 작성자의 다른 요청은 여기서 대기한다.
-    await tx.$queryRaw`SELECT pg_advisory_xact_lock(hashtext(${authorId}))`;
+    // 반환 타입이 void라 $queryRaw는 역직렬화에 실패하므로 $executeRaw를 쓴다.
+    await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${authorId}))`;
 
     const rateLimit = await getCommentRateLimitStatus(authorId, tx);
     if (!rateLimit.ok) {
