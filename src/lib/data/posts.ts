@@ -9,8 +9,6 @@ export function assertValidPostSlug(slug: string) {
   }
 }
 
-const VIEW_DEDUP_WINDOW_MS = 60 * 60 * 1000;
-
 // 동일 방문자(IP HMAC 해시)·글 조합은 마지막 집계 후 1시간이 지나야 다시 집계한다.
 // ViewLog 조건부 upsert와 조회수 증가는 한 트랜잭션에서 처리해 동시 요청의 중복 증가를 막는다.
 export async function incrementViewCount(slug: string, visitorHash: string) {
@@ -23,13 +21,12 @@ export async function incrementViewCount(slug: string, visitorHash: string) {
       update: {},
     });
 
-    const cutoff = new Date(Date.now() - VIEW_DEDUP_WINDOW_MS);
     const accepted = await tx.$queryRaw<{ accepted: number }[]>`
       INSERT INTO "ViewLog" ("postSlug", "visitorHash", "lastViewedAt")
       VALUES (${slug}, ${visitorHash}, NOW())
       ON CONFLICT ("postSlug", "visitorHash")
       DO UPDATE SET "lastViewedAt" = EXCLUDED."lastViewedAt"
-      WHERE "ViewLog"."lastViewedAt" <= ${cutoff}
+      WHERE "ViewLog"."lastViewedAt" <= NOW() - INTERVAL '1 hour'
       RETURNING 1 AS "accepted"
     `;
 
