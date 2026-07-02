@@ -24,10 +24,13 @@ model Comment {
   authorId  String
   author    User      @relation(fields: [authorId], references: [id])
   parentId  String? // 대댓글(선택)
-  parent    Comment?  @relation("Replies", fields: [parentId], references: [id])
+  // onDelete: Restrict — 대댓글이 달린 부모의 hard delete를 DB가 막는다.
+  // (기본값 SetNull은 부모 삭제 시 자식 parentId를 null로 바꿔 최상위로 승격시킨다)
+  parent    Comment?  @relation("Replies", fields: [parentId], references: [id], onDelete: Restrict)
   replies   Comment[] @relation("Replies")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  deletedAt DateTime? // soft delete 마킹. 대댓글이 달린 댓글 삭제 시 tombstone으로 유지
 
   @@index([postSlug])
   @@index([parentId])
