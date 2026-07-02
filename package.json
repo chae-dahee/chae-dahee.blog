@@ -5,6 +5,7 @@
   "homepage": "https://chae-dahee.vercel.app/",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "prisma generate",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

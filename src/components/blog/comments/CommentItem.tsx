@@ -46,7 +46,9 @@ export default function CommentItem({
   currentUserId,
   isReply = false,
 }: CommentItemProps) {
-  const isOwner = !!currentUserId && comment.authorId === currentUserId;
+  // soft delete된 tombstone이면 본문·작성자를 숨기고 안내 문구만 남긴다.
+  const isDeleted = !!comment.deletedAt;
+  const isOwner = !isDeleted && !!currentUserId && comment.authorId === currentUserId;
   const isLoggedIn = !!currentUserId;
   // 대댓글 목록은 최상위 댓글에만 존재한다(타입 좁히기).
   const replies: ReplyWithAuthor[] =
@@ -79,7 +81,13 @@ export default function CommentItem({
     </>
   );
 
-  const content = (
+  const content = isDeleted ? (
+    <div className="rounded-md border border-dashed border-[var(--color-muted)] bg-[var(--color-surface)] px-3 py-2">
+      <p className="text-xs italic text-[var(--color-secondary)]">
+        삭제된 댓글입니다.
+      </p>
+    </div>
+  ) : (
     <p className="text-sm text-[var(--color-secondary)] whitespace-pre-wrap break-words">
       {renderContent(comment.content)}
     </p>
@@ -87,6 +95,9 @@ export default function CommentItem({
 
   // 대댓글: 들여쓰기·좌측 가이드선은 상위 ReplyThread가 담당한다(글리프 미사용, 답글 버튼 없음).
   if (isReply) {
+    if (isDeleted) {
+      return <li className="min-w-0">{content}</li>;
+    }
     return (
       <li className="min-w-0">
         <div className="flex items-center justify-between mb-1.5">
@@ -104,8 +115,8 @@ export default function CommentItem({
       <ReplyThread
         slug={comment.postSlug}
         parentId={comment.id}
-        canReply={isLoggedIn}
-        header={headMeta}
+        canReply={isLoggedIn && !isDeleted}
+        header={isDeleted ? null : headMeta}
         actions={isOwner ? <DeleteButton id={comment.id} /> : null}
         content={content}
       >
