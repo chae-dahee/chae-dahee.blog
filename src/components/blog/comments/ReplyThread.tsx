@@ -31,24 +31,28 @@ export default function ReplyThread({
 }) {
   const [open, setOpen] = useState(false);
   const hasThread = Boolean(children) || open;
+  // tombstone(삭제된 댓글)처럼 헤더·답글·삭제가 모두 없으면 헤더 줄을 그리지 않는다.
+  const showHeader = Boolean(header) || Boolean(actions) || canReply;
 
   return (
     <>
-      <div className="flex items-center justify-between mb-1.5">
-        <div className="flex items-center gap-2 min-w-0">{header}</div>
-        <div className="flex items-center gap-3 shrink-0">
-          {canReply && (
-            <button
-              type="button"
-              onClick={() => setOpen((v) => !v)}
-              className="text-xs text-[var(--color-secondary)] hover:text-[var(--color-accent)] underline-offset-2 hover:underline transition-colors"
-            >
-              답글
-            </button>
-          )}
-          {actions}
+      {showHeader && (
+        <div className="flex items-center justify-between mb-1.5">
+          <div className="flex items-center gap-2 min-w-0">{header}</div>
+          <div className="flex items-center gap-3 shrink-0">
+            {canReply && (
+              <button
+                type="button"
+                onClick={() => setOpen((v) => !v)}
+                className="text-xs text-[var(--color-secondary)] hover:text-[var(--color-accent)] underline-offset-2 hover:underline transition-colors"
+              >
+                답글
+              </button>
+            )}
+            {actions}
+          </div>
         </div>
-      </div>
+      )}
 
       {content}
 
