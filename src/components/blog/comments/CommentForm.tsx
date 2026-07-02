@@ -56,10 +56,13 @@ export default function CommentForm({
           return;
         }
 
-        // createComment는 인증·slug·스키마 검증 실패 시 예외를 던진다.
-        // 성공했을 때만 입력창을 비우고, 실패하면 입력을 유지한 채 오류를 알린다.
+        // createComment는 도배 방지는 반환값으로, 그 외 실패는 예외로 알린다.
         try {
-          await createComment(formData);
+          const result = await createComment(formData);
+          if (result?.ok === false) {
+            setError(`${result.retryAfterSec}초 후 다시 작성할 수 있어요.`);
+            return;
+          }
           formRef.current?.reset();
           setCount(0);
           setError(null);
