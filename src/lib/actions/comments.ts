@@ -5,9 +5,19 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { CommentSchema } from "@/lib/schemas";
 import { assertValidPostSlug } from "@/lib/data/posts";
+import { getCommentRateLimitStatus } from "@/lib/data/comments";
 
-// 댓글 작성. 로그인 사용자만 가능하며, 실제 글 slug만 허용한다.
-export async function createComment(formData: FormData) {
+export type CreateCommentResult =
+  | { ok: true }
+  | { ok: false; error: "rate_limited"; retryAfterSec: number };
+
+/**
+ * 댓글 작성. 로그인 사용자만 가능하며, 실제 글 slug만 허용한다.
+ *
+ * 도배 방지(rate_limited)는 예상된 거부라 반환값으로 알리고,
+ * 그 외 실패(인증·검증)는 예외로 던진다.
+ */
+export async function createComment(formData: FormData): Promise<CreateCommentResult> {
   const session = await auth();
   if (!session?.user?.id) throw new Error("unauthorized"); // 서버단 1차 방어
 
@@ -17,6 +27,12 @@ export async function createComment(formData: FormData) {
     parentId: formData.get("parentId") || undefined,
   });
   assertValidPostSlug(slug); // 임의 slug로 가짜 댓글이 쌓이는 것을 막는다
+
+  // 유효한 입력에만 판정해, 검증 오류가 대기 안내로 가려지지 않게 한다
+  const rateLimit = await getCommentRateLimitStatus(session.user.id);
+  if (!rateLimit.ok) {
+    return { ok: false, error: "rate_limited", retryAfterSec: rateLimit.retryAfterSec };
+  }
 
   // 부모 검증과 대댓글 생성을 한 트랜잭션으로 묶는다. 대댓글이면 부모 행을
   // FOR UPDATE로 잠가, 검증 직후 부모가 삭제되어 FK 위반으로 실패하는 경합을 없앤다.
@@ -37,6 +53,7 @@ export async function createComment(formData: FormData) {
     });
   });
   revalidatePath(`/blog/${slug}`); // 목록 즉시 갱신
+  return { ok: true };
 }
 
 // 댓글 삭제. 본인 댓글만 삭제할 수 있다. 폼의 hidden input으로 id만 받는다.
