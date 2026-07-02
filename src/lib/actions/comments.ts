@@ -20,6 +20,7 @@ export type CreateCommentResult =
 export async function createComment(formData: FormData): Promise<CreateCommentResult> {
   const session = await auth();
   if (!session?.user?.id) throw new Error("unauthorized"); // 서버단 1차 방어
+  const authorId = session.user.id;
 
   const { slug, content, parentId } = CommentSchema.parse({
     slug: formData.get("slug"),
@@ -28,17 +29,20 @@ export async function createComment(formData: FormData): Promise<CreateCommentRe
   });
   assertValidPostSlug(slug); // 임의 slug로 가짜 댓글이 쌓이는 것을 막는다
 
-  // 유효한 입력에만 판정해, 검증 오류가 대기 안내로 가려지지 않게 한다
-  const rateLimit = await getCommentRateLimitStatus(session.user.id);
-  if (!rateLimit.ok) {
-    return { ok: false, error: "rate_limited", retryAfterSec: rateLimit.retryAfterSec };
-  }
+  // 도배 판정과 생성을 같은 트랜잭션에서 작성자 단위로 직렬화한다.
+  // 잠금이 없으면 병렬 요청이 판정을 동시에 통과해 15초/5분 제한이 뚫린다.
+  const result = await prisma.$transaction(async (tx): Promise<CreateCommentResult> => {
+    // 작성자 키 잠금(트랜잭션 종료 시 자동 해제). 같은 작성자의 다른 요청은 여기서 대기한다.
+    await tx.$queryRaw`SELECT pg_advisory_xact_lock(hashtext(${authorId}))`;
 
-  // 부모 검증과 대댓글 생성을 한 트랜잭션으로 묶는다. 대댓글이면 부모 행을
-  // FOR UPDATE로 잠가, 검증 직후 부모가 삭제되어 FK 위반으로 실패하는 경합을 없앤다.
-  await prisma.$transaction(async (tx) => {
+    const rateLimit = await getCommentRateLimitStatus(authorId, tx);
+    if (!rateLimit.ok) {
+      return { ok: false, error: "rate_limited", retryAfterSec: rateLimit.retryAfterSec };
+    }
+
     if (parentId) {
       // 부모가 같은 글의 '최상위' 댓글인지 검증(위조·타 글·2단계 이상 중첩 차단).
+      // FOR UPDATE로 잠가, 검증 직후 부모가 삭제되어 FK 위반으로 실패하는 경합을 없앤다.
       const [parent] = await tx.$queryRaw<
         { postSlug: string; parentId: string | null }[]
       >`SELECT "postSlug", "parentId" FROM "Comment" WHERE "id" = ${parentId} FOR UPDATE`;
@@ -49,11 +53,13 @@ export async function createComment(formData: FormData): Promise<CreateCommentRe
 
     await tx.post.upsert({ where: { slug }, create: { slug }, update: {} }); // 앵커 보장
     await tx.comment.create({
-      data: { postSlug: slug, content, parentId, authorId: session.user.id },
+      data: { postSlug: slug, content, parentId, authorId },
     });
+    return { ok: true };
   });
-  revalidatePath(`/blog/${slug}`); // 목록 즉시 갱신
-  return { ok: true };
+
+  if (result.ok) revalidatePath(`/blog/${slug}`); // 목록 즉시 갱신
+  return result;
 }
 
 // 댓글 삭제. 본인 댓글만 삭제할 수 있다. 폼의 hidden input으로 id만 받는다.

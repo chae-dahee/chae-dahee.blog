@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 /** 댓글 도배 방지 정책(authorId 단위). 간격 미달·버스트 초과 중 하나만 걸려도 차단한다. */
@@ -30,12 +31,17 @@ export type RateLimitStatus = { ok: true } | { ok: false; retryAfterSec: number 
 /**
  * 댓글 도배 방지 판정. 최신 댓글 조회 한 번으로
  * 최소 간격과 버스트 상한을 함께 검사한다.
+ *
+ * 판정과 생성을 원자적으로 묶으려면 호출자의 트랜잭션(tx)을 db로 넘긴다.
  */
-export async function getCommentRateLimitStatus(authorId: string): Promise<RateLimitStatus> {
+export async function getCommentRateLimitStatus(
+  authorId: string,
+  db: Prisma.TransactionClient = prisma,
+): Promise<RateLimitStatus> {
   const now = Date.now();
   // 두 정책 중 긴 창 기준으로 조회해, 상수를 조정해도 간격 검사가 누락되지 않게 한다
   const windowSec = Math.max(COMMENT_MIN_INTERVAL_SEC, COMMENT_BURST_WINDOW_SEC);
-  const recent = await prisma.comment.findMany({
+  const recent = await db.comment.findMany({
     where: { authorId, createdAt: { gte: new Date(now - windowSec * 1000) } },
     orderBy: { createdAt: "desc" },
     select: { createdAt: true },
