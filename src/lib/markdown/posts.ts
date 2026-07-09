@@ -29,72 +29,55 @@ const postsDirectory = path.join(process.cwd(), "content/posts");
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 let postSourceCache: PostSource[] | null = null;
 
-function assertStringField(
-  value: unknown,
-  fieldName: keyof PostFrontmatter,
-  fileName: string
-): string {
-  if (typeof value !== "string" || value.trim().length === 0) {
-    throw new Error(`Invalid post frontmatter: ${fileName} missing ${fieldName}`);
-  }
-
-  return value;
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0;
 }
 
-function assertNumberField(
-  value: unknown,
-  fieldName: keyof PostFrontmatter,
-  fileName: string
-): number {
-  if (typeof value !== "number" || !Number.isFinite(value)) {
-    throw new Error(`Invalid post frontmatter: ${fileName} missing ${fieldName}`);
-  }
-
-  return value;
+function isFiniteNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value);
 }
 
-function assertBooleanField(
-  value: unknown,
-  fieldName: keyof PostFrontmatter,
-  fileName: string
-): boolean {
-  if (typeof value !== "boolean") {
-    throw new Error(`Invalid post frontmatter: ${fileName} missing ${fieldName}`);
-  }
-
-  return value;
+function isBoolean(value: unknown): value is boolean {
+  return typeof value === "boolean";
 }
 
-function assertTags(value: unknown, fileName: string): string[] {
-  if (
-    !Array.isArray(value) ||
-    value.length === 0 ||
-    value.some((tag) => typeof tag !== "string" || tag.trim().length === 0)
-  ) {
-    throw new Error(`Invalid post frontmatter: ${fileName} missing tags`);
+function isTags(value: unknown): value is string[] {
+  return Array.isArray(value) && value.length > 0 && value.every(isNonEmptyString);
+}
+
+function assertField<T>(
+  value: unknown,
+  fieldName: keyof PostFrontmatter,
+  fileName: string,
+  isValid: (candidate: unknown) => candidate is T
+): T {
+  if (!isValid(value)) {
+    throw new Error(
+      `Invalid post frontmatter: ${fileName} missing or invalid ${fieldName}`
+    );
   }
 
   return value;
 }
 
 function parseFrontmatter(data: Record<string, unknown>, fileName: string): PostFrontmatter {
-  const date = assertStringField(data.date, "date", fileName);
+  const date = assertField(data.date, "date", fileName, isNonEmptyString);
 
   if (!datePattern.test(date) || Number.isNaN(Date.parse(`${date}T00:00:00+09:00`))) {
     throw new Error(`Invalid post frontmatter: ${fileName} has invalid date`);
   }
 
   return {
-    title: assertStringField(data.title, "title", fileName),
-    slug: assertStringField(data.slug, "slug", fileName),
-    excerpt: assertStringField(data.excerpt, "excerpt", fileName),
-    category: assertStringField(data.category, "category", fileName),
-    categorySlug: assertStringField(data.categorySlug, "categorySlug", fileName),
-    tags: assertTags(data.tags, fileName),
+    title: assertField(data.title, "title", fileName, isNonEmptyString),
+    slug: assertField(data.slug, "slug", fileName, isNonEmptyString),
+    excerpt: assertField(data.excerpt, "excerpt", fileName, isNonEmptyString),
+    category: assertField(data.category, "category", fileName, isNonEmptyString),
+    categorySlug: assertField(data.categorySlug, "categorySlug", fileName, isNonEmptyString),
+    tags: assertField(data.tags, "tags", fileName, isTags),
     date,
-    readTime: assertNumberField(data.readTime, "readTime", fileName),
-    image: assertStringField(data.image, "image", fileName),
-    published: assertBooleanField(data.published, "published", fileName),
+    readTime: assertField(data.readTime, "readTime", fileName, isFiniteNumber),
+    image: assertField(data.image, "image", fileName, isNonEmptyString),
+    published: assertField(data.published, "published", fileName, isBoolean),
   };
 }
 
