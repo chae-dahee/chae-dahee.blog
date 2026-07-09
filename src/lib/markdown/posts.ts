@@ -113,6 +113,7 @@ function getPostSources(): PostSource[] {
     .map(readPostSource);
 
   ensureUniqueSlugs(sources.map(({ frontmatter }) => frontmatter.slug));
+  ensureConsistentCategoryNames(sources);
   postSourceCache = sources;
 
   return postSourceCache;
@@ -151,6 +152,22 @@ function ensureUniqueSlugs(slugs: string[]) {
     }
 
     seen.add(slug);
+  }
+}
+
+function ensureConsistentCategoryNames(sources: PostSource[]) {
+  const namesBySlug = new Map<string, string>();
+
+  for (const { fileName, frontmatter } of sources) {
+    const existingName = namesBySlug.get(frontmatter.categorySlug);
+
+    if (existingName !== undefined && existingName !== frontmatter.category) {
+      throw new Error(
+        `Inconsistent category name for slug "${frontmatter.categorySlug}": "${existingName}" vs "${frontmatter.category}" (${fileName})`
+      );
+    }
+
+    namesBySlug.set(frontmatter.categorySlug, frontmatter.category);
   }
 }
 
