@@ -6,8 +6,15 @@ import ThemeToggle from "@/components/common/ThemeToggle";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { Category, Tag } from "@/types";
 
-export default function MobileBar() {
+export default function MobileBar({
+  categories,
+  tags,
+}: {
+  categories: Category[];
+  tags: Tag[];
+}) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -95,6 +102,8 @@ export default function MobileBar() {
         className={`md:hidden fixed top-12 right-0 z-40 w-64 h-[calc(100vh-3rem)] bg-[var(--color-bg)] border-l border-[var(--color-surface)] shadow-lg overflow-y-auto overflow-x-hidden transition-transform duration-300 ease-in-out ${open ? "translate-x-0" : "translate-x-full"}`}
       >
         <Sidebar
+          categories={categories}
+          tags={tags}
           className="flex border-r-0 !h-auto !w-full !p-4 text-sm"
           hideLogo
         />

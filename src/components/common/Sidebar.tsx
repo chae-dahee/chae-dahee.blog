@@ -3,11 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ComponentType } from "react";
-import { categories, tags, sitemap, blogInfo } from "@/data/dummyData";
+import { sitemap, blogInfo } from "@/data/dummyData";
 import ThemeToggle from "@/components/common/ThemeToggle";
 import { useTypewriter } from "@/hooks/useTypewriter";
 import { GitHubIcon, TwitterIcon, LinkedInIcon, EmailIcon } from "@/components/common/icons";
-import type { SocialIcon } from "@/types";
+import type { Category, SocialIcon, Tag } from "@/types";
 
 const SOCIAL_ICON_MAP: Record<SocialIcon, ComponentType<{ className?: string }>> = {
   github: GitHubIcon,
@@ -16,7 +16,17 @@ const SOCIAL_ICON_MAP: Record<SocialIcon, ComponentType<{ className?: string }>>
   email: EmailIcon,
 };
 
-export default function Sidebar({ className, hideLogo }: { className?: string; hideLogo?: boolean }) {
+export default function Sidebar({
+  categories,
+  tags,
+  className,
+  hideLogo,
+}: {
+  categories: Category[];
+  tags: Tag[];
+  className?: string;
+  hideLogo?: boolean;
+}) {
   const typedName = useTypewriter(blogInfo.author.name);
 
   return (
