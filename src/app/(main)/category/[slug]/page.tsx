@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
-import { categories, posts } from "@/data/dummyData";
+import { getAllCategories, getAllPosts } from "@/lib/markdown/posts";
 import { buildMetadata } from "@/lib/metadata";
 import TaxonomyPostList from "@/components/blog/TaxonomyPostList";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
-  return categories.map((c) => ({ slug: c.slug }));
+  return getAllCategories().map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({
@@ -14,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const category = categories.find((c) => c.slug === slug);
+  const category = getAllCategories().find((c) => c.slug === slug);
   if (!category) return buildMetadata();
   return buildMetadata({
     title: category.name,
@@ -28,10 +28,10 @@ export default async function CategoryPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const category = categories.find((c) => c.slug === slug);
+  const category = getAllCategories().find((c) => c.slug === slug);
   if (!category) notFound();
 
-  const filteredPosts = posts.filter((p) => p.categorySlug === slug);
+  const filteredPosts = getAllPosts().filter((p) => p.categorySlug === slug);
 
   return <TaxonomyPostList title={category.name} posts={filteredPosts} />;
 }

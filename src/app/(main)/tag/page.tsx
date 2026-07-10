@@ -1,4 +1,4 @@
-import { tags } from "@/data/dummyData";
+import { getAllTags } from "@/lib/markdown/posts";
 import { buildMetadata } from "@/lib/metadata";
 import TaxonomyIndexGrid from "@/components/blog/TaxonomyIndexGrid";
 import type { Metadata } from "next";
@@ -9,6 +9,8 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default function TagIndex() {
+  const tags = getAllTags();
+
   return (
     <TaxonomyIndexGrid
       title="Tags"
