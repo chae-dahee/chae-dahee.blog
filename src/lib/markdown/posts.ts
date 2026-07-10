@@ -28,6 +28,7 @@ type PostSource = {
 const postsDirectory = path.join(process.cwd(), "content/posts");
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 let postSourceCache: PostSource[] | null = null;
+const htmlCache = new Map<string, string>();
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
@@ -85,6 +86,19 @@ function markdownToHtml(markdown: string): string {
   return String(remark().use(remarkGfm).use(remarkHtml).processSync(markdown));
 }
 
+function getPostHtml(source: PostSource): string {
+  const cached = htmlCache.get(source.fileName);
+
+  if (cached !== undefined) {
+    return cached;
+  }
+
+  const html = markdownToHtml(source.content);
+  htmlCache.set(source.fileName, html);
+
+  return html;
+}
+
 function readPostSource(fileName: string): PostSource {
   const fullPath = path.join(postsDirectory, fileName);
   const fileContents = fs.readFileSync(fullPath, "utf8");
@@ -126,14 +140,14 @@ function getPublishedPostSources(): PostSource[] {
 }
 
 function buildPostFromSource(source: PostSource, id: number): Post {
-  const { content, frontmatter } = source;
+  const { frontmatter } = source;
 
   return {
     id,
     title: frontmatter.title,
     slug: frontmatter.slug,
     excerpt: frontmatter.excerpt,
-    content: markdownToHtml(content),
+    content: getPostHtml(source),
     category: frontmatter.category,
     categorySlug: frontmatter.categorySlug,
     tags: frontmatter.tags,

@@ -116,7 +116,7 @@ export default function PostDetail({ post }: PostDetailProps) {
           <div
             className="post-content text-[var(--color-secondary)] leading-relaxed"
             dangerouslySetInnerHTML={{
-              __html: post.content.replace(/\n/g, "<br />"),
+              __html: post.content,
             }}
           />
 
