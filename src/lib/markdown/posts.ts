@@ -191,6 +191,11 @@ export function getAllPosts(): Post[] {
   );
 }
 
+// slug 존재 여부 검증용. Post 변환(Markdown→HTML)을 거치지 않아 런타임 API에서도 가볍다.
+export function getAllPostSlugs(): string[] {
+  return getPublishedPostSources().map(({ frontmatter }) => frontmatter.slug);
+}
+
 export function getPostBySlug(slug: string): Post | undefined {
   const sources = getPublishedPostSources();
   const postIndex = sources.findIndex(({ frontmatter }) => frontmatter.slug === slug);
