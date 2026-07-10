@@ -1,10 +1,10 @@
-import { getAllPostSlugs } from "@/lib/markdown/posts";
+import { getPostSlugSet } from "@/lib/markdown/posts";
 import { prisma } from "@/lib/prisma";
 
 // 실제 존재하는 글의 slug인지 검증한다. 임의 문자열로 가짜 레코드(조회수·댓글)가
 // 쌓이는 것을 막기 위한 공용 가드.
 export function assertValidPostSlug(slug: string) {
-  if (!getAllPostSlugs().includes(slug)) {
+  if (!getPostSlugSet().has(slug)) {
     throw new Error(`Invalid post slug: ${slug}`);
   }
 }
