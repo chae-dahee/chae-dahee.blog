@@ -1,6 +1,20 @@
 import { getAllPosts } from "@/lib/markdown/posts";
 import { siteConfig } from "@/config/seo.config";
 
+function escapeXml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+// 값에 "]]>"가 포함되면 CDATA 섹션을 분할해 조기 종료를 막는다.
+function cdata(value: string): string {
+  return `<![CDATA[${value.replace(/\]\]>/g, "]]]]><![CDATA[>")}]]>`;
+}
+
 function generateRssFeed(): string {
   const posts = getAllPosts();
   const baseUrl = siteConfig.siteUrl;
@@ -9,9 +23,9 @@ function generateRssFeed(): string {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${siteConfig.title}</title>
+    <title>${escapeXml(siteConfig.title)}</title>
     <link>${baseUrl}</link>
-    <description>${siteConfig.description}</description>
+    <description>${escapeXml(siteConfig.description)}</description>
     <language>ko</language>
     <lastBuildDate>${buildDate}</lastBuildDate>
     <atom:link href="${baseUrl}/rss.xml" rel="self" type="application/rss+xml"/>
@@ -21,13 +35,13 @@ function generateRssFeed(): string {
         const postUrl = `${baseUrl}/blog/${post.slug}`;
         const pubDate = new Date(post.date).toUTCString();
         return `<item>
-      <title><![CDATA[${post.title}]]></title>
-      <link>${postUrl}</link>
-      <guid isPermaLink="true">${postUrl}</guid>
-      <description><![CDATA[${post.excerpt}]]></description>
+      <title>${cdata(post.title)}</title>
+      <link>${escapeXml(postUrl)}</link>
+      <guid isPermaLink="true">${escapeXml(postUrl)}</guid>
+      <description>${cdata(post.excerpt)}</description>
       <pubDate>${pubDate}</pubDate>
-      <author>${siteConfig.author.email} (${siteConfig.author.name})</author>
-      ${post.tags.map((tag) => `<category>${tag}</category>`).join("\n      ")}
+      <author>${escapeXml(`${siteConfig.author.email} (${siteConfig.author.name})`)}</author>
+      ${post.tags.map((tag) => `<category>${escapeXml(tag)}</category>`).join("\n      ")}
     </item>`;
       })
       .join("\n    ")}
