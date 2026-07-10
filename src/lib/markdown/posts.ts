@@ -28,6 +28,7 @@ type PostSource = {
 const postsDirectory = path.join(process.cwd(), "content/posts");
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 let postSourceCache: PostSource[] | null = null;
+let postSlugCache: ReadonlySet<string> | null = null;
 const htmlCache = new Map<string, string>();
 
 function isNonEmptyString(value: unknown): value is string {
@@ -189,6 +190,18 @@ export function getAllPosts(): Post[] {
   return getPublishedPostSources().map((source, index) =>
     buildPostFromSource(source, index + 1)
   );
+}
+
+// slug 존재 여부 검증용. Post 변환(Markdown→HTML)을 거치지 않아 런타임 API에서도 가볍고,
+// 배포 단위로 콘텐츠가 불변이므로 인스턴스당 1회만 생성한다.
+export function getPostSlugSet(): ReadonlySet<string> {
+  if (!postSlugCache) {
+    postSlugCache = new Set(
+      getPublishedPostSources().map(({ frontmatter }) => frontmatter.slug)
+    );
+  }
+
+  return postSlugCache;
 }
 
 export function getPostBySlug(slug: string): Post | undefined {

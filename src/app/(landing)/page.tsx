@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import HomeHero from "@/components/home/HomeHero";
 import LatestPosts from "@/components/home/LatestPosts";
-import { posts } from "@/data/dummyData";
+import { getAllPosts } from "@/lib/markdown/posts";
 import { buildMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 
@@ -16,9 +16,7 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default function HomePage() {
-  const latestPosts = [...posts]
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, 5);
+  const latestPosts = getAllPosts().slice(0, 5);
 
   return (
     <main className="relative w-full h-[100dvh] overflow-hidden bg-[var(--color-bg)]">
