@@ -1,4 +1,4 @@
-import { posts } from "@/data/dummyData";
+import { getAllPosts } from "@/lib/markdown/posts";
 import PostCard from "@/components/blog/PostCard";
 import { buildMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
@@ -9,6 +9,8 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default function Blog() {
+  const posts = getAllPosts();
+
   return (
     <section className="max-w-4xl mx-auto">
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-[var(--color-accent)]">

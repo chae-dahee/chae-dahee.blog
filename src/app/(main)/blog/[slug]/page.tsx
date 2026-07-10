@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import PostDetail from "@/components/blog/PostDetail";
-import { posts } from "@/data/dummyData";
+import { getAllPosts, getPostBySlug } from "@/lib/markdown/posts";
 import { buildMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
-  return posts.map((post) => ({ slug: post.slug }));
+  return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({
@@ -14,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = posts.find((p) => p.slug === slug);
+  const post = getPostBySlug(slug);
   if (!post) return buildMetadata();
   return buildMetadata({
     title: post.title,
@@ -33,7 +33,7 @@ export default async function PostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = posts.find((p) => p.slug === slug);
+  const post = getPostBySlug(slug);
   if (!post) notFound();
 
   return <PostDetail post={post} />;
