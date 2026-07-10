@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { posts, categories, tags } from "@/data/dummyData";
+import { getAllPosts, getAllCategories, getAllTags } from "@/lib/markdown/posts";
 import { siteConfig } from "@/config/seo.config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -13,16 +13,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/tag` },
   ];
 
-  const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
+  const postEntries: MetadataRoute.Sitemap = getAllPosts().map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
     lastModified: new Date(`${post.date}T00:00:00+09:00`),
   }));
 
-  const categoryEntries: MetadataRoute.Sitemap = categories.map((cat) => ({
+  const categoryEntries: MetadataRoute.Sitemap = getAllCategories().map((cat) => ({
     url: `${baseUrl}/category/${cat.slug}`,
   }));
 
-  const tagEntries: MetadataRoute.Sitemap = tags.map((tag) => ({
+  const tagEntries: MetadataRoute.Sitemap = getAllTags().map((tag) => ({
     url: `${baseUrl}/tag/${tag.name.toLowerCase()}`,
   }));
 

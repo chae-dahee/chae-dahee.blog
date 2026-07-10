@@ -1,7 +1,8 @@
-import { posts } from "@/data/dummyData";
+import { getAllPosts } from "@/lib/markdown/posts";
 import { siteConfig } from "@/config/seo.config";
 
 function generateRssFeed(): string {
+  const posts = getAllPosts();
   const baseUrl = siteConfig.siteUrl;
   const buildDate = new Date().toUTCString();
 
