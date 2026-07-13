@@ -49,14 +49,14 @@ export default function PostTocVisibility({
   }, [bodyTocId, postSlug]);
 
   return (
-    <aside
-      className={`hidden lg:block w-64 flex-shrink-0 transition-opacity duration-300 motion-reduce:transition-none ${
+    <div
+      className={`transition-opacity duration-300 motion-reduce:transition-none ${
         isBodyTocVisible ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
       aria-hidden={isBodyTocVisible}
       inert={isBodyTocVisible || undefined}
     >
       {children}
-    </aside>
+    </div>
   );
 }
