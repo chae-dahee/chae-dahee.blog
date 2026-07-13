@@ -1,10 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { defaultSchema } from "hast-util-sanitize";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
-import type { Category, Post, PostSummary, Tag } from "@/types";
+import { visit } from "unist-util-visit";
+import type { Heading, PhrasingContent, Root } from "mdast";
+import type { Category, Post, PostSummary, Tag, TocItem } from "@/types";
 
 type PostFrontmatter = {
   title: string;
@@ -25,11 +28,21 @@ type PostSource = {
   content: string;
 };
 
+type RenderedPost = {
+  html: string;
+  toc: TocItem[];
+  inlineTocId?: string;
+};
+
 const postsDirectory = path.join(process.cwd(), "content/posts");
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+const markdownSanitizeSchema = {
+  ...defaultSchema,
+  clobberPrefix: "",
+};
 let postSourceCache: PostSource[] | null = null;
 let postSlugCache: ReadonlySet<string> | null = null;
-const htmlCache = new Map<string, string>();
+const renderedPostCache = new Map<string, RenderedPost>();
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
@@ -83,21 +96,93 @@ function parseFrontmatter(data: Record<string, unknown>, fileName: string): Post
   };
 }
 
-function markdownToHtml(markdown: string): string {
-  return String(remark().use(remarkGfm).use(remarkHtml).processSync(markdown));
+function slugifyHeading(value: string): string {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/<[^>]+>/g, "")
+    .replace(/[^\p{Letter}\p{Number}\s-]/gu, "")
+    .replace(/\s+/g, "-");
 }
 
-function getPostHtml(source: PostSource): string {
-  const cached = htmlCache.get(source.fileName);
+function getUniqueHeadingId(baseId: string, usedIds: Set<string>): string {
+  const fallbackId = baseId || "section";
+  let id = fallbackId;
+  let suffix = 1;
+
+  while (usedIds.has(id)) {
+    suffix += 1;
+    id = `${fallbackId}-${suffix}`;
+  }
+
+  usedIds.add(id);
+
+  return id;
+}
+
+function getMarkdownText(node: PhrasingContent): string {
+  if ("value" in node && typeof node.value === "string") {
+    return node.value;
+  }
+
+  if ("alt" in node && typeof node.alt === "string") {
+    return node.alt;
+  }
+
+  if ("children" in node) {
+    return node.children.map(getMarkdownText).join("");
+  }
+
+  return "";
+}
+
+function getRenderedPost(source: PostSource): RenderedPost {
+  const cached = renderedPostCache.get(source.fileName);
 
   if (cached !== undefined) {
     return cached;
   }
 
-  const html = markdownToHtml(source.content);
-  htmlCache.set(source.fileName, html);
+  const toc: TocItem[] = [];
+  const usedIds = new Set<string>();
+  let inlineTocId: string | undefined;
 
-  return html;
+  const collectHeadings = () => (tree: Root) => {
+    visit(tree, "heading", (node: Heading) => {
+      if (node.depth < 2 || node.depth > 4) {
+        return;
+      }
+
+      const title = node.children.map(getMarkdownText).join("").trim();
+      const id = getUniqueHeadingId(slugifyHeading(title), usedIds);
+
+      node.data = {
+        ...node.data,
+        hProperties: {
+          ...node.data?.hProperties,
+          id,
+        },
+      };
+
+      if (title === "목차") {
+        inlineTocId = id;
+      } else {
+        toc.push({ id, title, level: node.depth });
+      }
+    });
+  };
+
+  const html = String(
+    remark()
+      .use(remarkGfm)
+      .use(collectHeadings)
+      .use(remarkHtml, { sanitize: markdownSanitizeSchema })
+      .processSync(source.content)
+  );
+  const renderedPost = { html, toc, inlineTocId };
+  renderedPostCache.set(source.fileName, renderedPost);
+
+  return renderedPost;
 }
 
 function readPostSource(fileName: string): PostSource {
@@ -142,13 +227,16 @@ function getPublishedPostSources(): PostSource[] {
 
 function buildPostFromSource(source: PostSource, id: number): Post {
   const { frontmatter } = source;
+  const renderedPost = getRenderedPost(source);
 
   return {
     id,
     title: frontmatter.title,
     slug: frontmatter.slug,
     excerpt: frontmatter.excerpt,
-    content: getPostHtml(source),
+    content: renderedPost.html,
+    toc: renderedPost.toc,
+    inlineTocId: renderedPost.inlineTocId,
     category: frontmatter.category,
     categorySlug: frontmatter.categorySlug,
     tags: frontmatter.tags,

@@ -6,6 +6,8 @@ export interface Post {
   slug: string;
   excerpt: string;
   content: string;
+  toc: TocItem[];
+  inlineTocId?: string;
   category: string;
   categorySlug: string;
   tags: string[];

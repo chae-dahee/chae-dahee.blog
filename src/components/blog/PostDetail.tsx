@@ -1,8 +1,9 @@
 import Link from "next/link";
 import CommentSection from "@/components/blog/comments/CommentSection";
+import PostTocVisibility from "@/components/blog/PostTocVisibility";
 import ReadingProgress from "@/components/blog/ReadingProgress";
 import ViewCounter from "@/components/blog/ViewCounter";
-import type { Post, PostSummary, TocItem } from "@/types";
+import type { Post, PostSummary } from "@/types";
 
 interface PostDetailProps {
   post: Post;
@@ -16,15 +17,6 @@ export default function PostDetail({
   nextPost,
 }: PostDetailProps) {
   const contentId = `post-content-${post.slug}`;
-
-  // 목차 생성 (간단한 버전)
-  const tableOfContents: TocItem[] = [
-    { id: "intro", title: "소개", level: 1 },
-    { id: "section1", title: "주요 개념", level: 1 },
-    { id: "section2", title: "실전 예제", level: 1 },
-    { id: "section3", title: "베스트 프랙티스", level: 1 },
-    { id: "conclusion", title: "마무리", level: 1 },
-  ];
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -170,47 +162,59 @@ export default function PostDetail({
             </div>
           </div>
         </article>
-
-        {/* 목차 (우측 고정) */}
         <aside className="hidden lg:block w-64 flex-shrink-0">
           <div className="sticky top-24">
-            <div className="bg-[var(--color-bg)] border border-[var(--color-surface)] p-5">
-              <h3 className="text-lg font-bold text-[var(--color-accent)] mb-4 flex items-center">
-                <svg
-                  className="w-4 h-4 mr-1.5 md:w-5 md:h-5 md:mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h7"
-                  />
-                </svg>
-                목차
-              </h3>
-              <nav>
-                <ul className="space-y-2">
-                  {tableOfContents.map((item) => (
-                    <li key={item.id}>
-                      <a
-                        href={`#${item.id}`}
-                        className="block text-sm py-1 px-2 transition-colors text-[var(--color-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-surface)] border-l-2 border-transparent"
-                        style={{ paddingLeft: `${item.level * 0.75}rem` }}
-                      >
-                        {item.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+            {post.toc.length > 0 && (
+              <PostTocVisibility
+                bodyTocId={post.inlineTocId}
+                postSlug={post.slug}
+              >
+                <div className="bg-[var(--color-bg)] border border-[var(--color-surface)] p-5">
+                  <h3 className="text-lg font-bold text-[var(--color-accent)] mb-4 flex items-center">
+                    <svg
+                      className="w-4 h-4 mr-1.5 md:w-5 md:h-5 md:mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 6h16M4 12h16M4 18h7"
+                      />
+                    </svg>
+                    목차
+                  </h3>
 
-              {/* 스크롤 진행률 */}
-              <div className="mt-6 pt-4 border-t border-[var(--color-muted)]">
-                <ReadingProgress targetId={contentId} />
-              </div>
+                  <nav>
+                    <ul className="space-y-2">
+                      {post.toc.map((item) => (
+                        <li key={item.id}>
+                          <a
+                            href={`#${item.id}`}
+                            className="block text-sm py-1 px-2 transition-colors text-[var(--color-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-surface)] border-l-2 border-transparent"
+                            style={{
+                              paddingLeft: `${(item.level - 1) * 0.75}rem`,
+                            }}
+                          >
+                            {item.title}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                </div>
+              </PostTocVisibility>
+            )}
+
+            {/* 스크롤 진행률 */}
+            <div
+              className={`bg-[var(--color-bg)] border border-[var(--color-surface)] p-5 ${
+                post.toc.length > 0 ? "mt-4" : ""
+              }`}
+            >
+              <ReadingProgress targetId={contentId} />
             </div>
           </div>
         </aside>
