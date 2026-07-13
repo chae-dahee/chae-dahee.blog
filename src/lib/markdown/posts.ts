@@ -7,7 +7,7 @@ import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
 import { visit } from "unist-util-visit";
 import type { Heading, PhrasingContent, Root } from "mdast";
-import type { Category, Post, Tag, TocItem } from "@/types";
+import type { Category, Post, PostSummary, Tag, TocItem } from "@/types";
 
 type PostFrontmatter = {
   title: string;
@@ -246,6 +246,13 @@ function buildPostFromSource(source: PostSource, id: number): Post {
   };
 }
 
+function buildPostSummary(source: PostSource): PostSummary {
+  return {
+    title: source.frontmatter.title,
+    slug: source.frontmatter.slug,
+  };
+}
+
 function ensureUniqueSlugs(slugs: string[]) {
   const seen = new Set<string>();
 
@@ -301,6 +308,27 @@ export function getPostBySlug(slug: string): Post | undefined {
   }
 
   return buildPostFromSource(sources[postIndex], postIndex + 1);
+}
+
+export function getAdjacentPosts(slug: string): {
+  previousPost?: PostSummary;
+  nextPost?: PostSummary;
+} {
+  const sources = getPublishedPostSources();
+  const postIndex = sources.findIndex(({ frontmatter }) => frontmatter.slug === slug);
+
+  if (postIndex === -1) {
+    return {};
+  }
+
+  return {
+    previousPost: sources[postIndex + 1]
+      ? buildPostSummary(sources[postIndex + 1])
+      : undefined,
+    nextPost: sources[postIndex - 1]
+      ? buildPostSummary(sources[postIndex - 1])
+      : undefined,
+  };
 }
 
 export function getAllCategories(): Category[] {

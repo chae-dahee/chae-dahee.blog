@@ -1,14 +1,23 @@
 import Link from "next/link";
 import CommentSection from "@/components/blog/comments/CommentSection";
 import PostTocVisibility from "@/components/blog/PostTocVisibility";
+import ReadingProgress from "@/components/blog/ReadingProgress";
 import ViewCounter from "@/components/blog/ViewCounter";
-import type { Post } from "@/types";
+import type { Post, PostSummary } from "@/types";
 
 interface PostDetailProps {
   post: Post;
+  previousPost?: PostSummary;
+  nextPost?: PostSummary;
 }
 
-export default function PostDetail({ post }: PostDetailProps) {
+export default function PostDetail({
+  post,
+  previousPost,
+  nextPost,
+}: PostDetailProps) {
+  const contentId = `post-content-${post.slug}`;
+
   return (
     <div className="max-w-5xl mx-auto">
       {/* 헤더 */}
@@ -105,6 +114,7 @@ export default function PostDetail({ post }: PostDetailProps) {
           </div>
 
           <div
+            id={contentId}
             className="post-content text-[var(--color-secondary)] leading-relaxed"
             dangerouslySetInnerHTML={{
               __html: post.content,
@@ -152,7 +162,6 @@ export default function PostDetail({ post }: PostDetailProps) {
             </div>
           </div>
         </article>
-
         <aside className="hidden lg:block w-64 flex-shrink-0">
           <div className="sticky top-24">
             {post.toc.length > 0 && (
@@ -177,6 +186,7 @@ export default function PostDetail({ post }: PostDetailProps) {
                     </svg>
                     목차
                   </h3>
+
                   <nav>
                     <ul className="space-y-2">
                       {post.toc.map((item) => (
@@ -184,7 +194,9 @@ export default function PostDetail({ post }: PostDetailProps) {
                           <a
                             href={`#${item.id}`}
                             className="block text-sm py-1 px-2 transition-colors text-[var(--color-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-surface)] border-l-2 border-transparent"
-                            style={{ paddingLeft: `${(item.level - 1) * 0.75}rem` }}
+                            style={{
+                              paddingLeft: `${(item.level - 1) * 0.75}rem`,
+                            }}
                           >
                             {item.title}
                           </a>
@@ -202,16 +214,7 @@ export default function PostDetail({ post }: PostDetailProps) {
                 post.toc.length > 0 ? "mt-4" : ""
               }`}
             >
-              <div className="flex justify-between text-xs text-[var(--color-secondary)] mb-2">
-                <span>읽기 진행률</span>
-                <span>45%</span>
-              </div>
-              <div className="w-full bg-[var(--color-surface)] border border-[var(--color-muted)] h-2">
-                <div
-                  className="bg-[var(--color-accent)] h-2"
-                  style={{ width: "45%" }}
-                ></div>
-              </div>
+              <ReadingProgress targetId={contentId} />
             </div>
           </div>
         </aside>
@@ -223,54 +226,62 @@ export default function PostDetail({ post }: PostDetailProps) {
       {/* 이전/다음 포스트 네비게이션 */}
       <div className="mt-16 pt-8 border-t border-[var(--color-muted)]">
         <div className="grid grid-cols-2 gap-2 sm:gap-4">
-          <Link
-            href="/blog/prev"
-            className="flex items-center p-3 sm:p-4 bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)] transition-colors group"
-          >
-            <svg
-              className="w-5 h-5 mr-2 sm:w-6 sm:h-6 sm:mr-3 flex-shrink-0 text-[var(--color-secondary)] group-hover:text-[var(--color-accent)]"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          {previousPost ? (
+            <Link
+              href={`/blog/${previousPost.slug}`}
+              className="flex items-center p-3 sm:p-4 bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)] transition-colors group"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            <div className="min-w-0">
-              <div className="text-xs text-[var(--color-secondary)] mb-1">이전 글</div>
-              <div className="text-sm sm:text-base font-semibold text-[var(--color-accent)] truncate">
-                이전 포스트 제목
+              <svg
+                className="w-5 h-5 mr-2 sm:w-6 sm:h-6 sm:mr-3 flex-shrink-0 text-[var(--color-secondary)] group-hover:text-[var(--color-accent)]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              <div className="min-w-0">
+                <div className="text-xs text-[var(--color-secondary)] mb-1">이전 글</div>
+                <div className="text-sm sm:text-base font-semibold text-[var(--color-accent)] truncate">
+                  {previousPost.title}
+                </div>
               </div>
-            </div>
-          </Link>
-          <Link
-            href="/blog/next"
-            className="flex items-center justify-end p-3 sm:p-4 bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)] transition-colors group"
-          >
-            <div className="min-w-0 text-right">
-              <div className="text-xs text-[var(--color-secondary)] mb-1">다음 글</div>
-              <div className="text-sm sm:text-base font-semibold text-[var(--color-accent)] truncate">
-                다음 포스트 제목
-              </div>
-            </div>
-            <svg
-              className="w-5 h-5 ml-2 sm:w-6 sm:h-6 sm:ml-3 flex-shrink-0 text-[var(--color-secondary)] group-hover:text-[var(--color-accent)]"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+            </Link>
+          ) : (
+            <div />
+          )}
+          {nextPost ? (
+            <Link
+              href={`/blog/${nextPost.slug}`}
+              className="flex items-center justify-end p-3 sm:p-4 bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)] transition-colors group"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </Link>
+              <div className="min-w-0 text-right">
+                <div className="text-xs text-[var(--color-secondary)] mb-1">다음 글</div>
+                <div className="text-sm sm:text-base font-semibold text-[var(--color-accent)] truncate">
+                  {nextPost.title}
+                </div>
+              </div>
+              <svg
+                className="w-5 h-5 ml-2 sm:w-6 sm:h-6 sm:ml-3 flex-shrink-0 text-[var(--color-secondary)] group-hover:text-[var(--color-accent)]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </Link>
+          ) : (
+            <div />
+          )}
         </div>
       </div>
     </div>
