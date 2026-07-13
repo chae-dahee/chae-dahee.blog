@@ -5,6 +5,8 @@ import { defaultSchema } from "hast-util-sanitize";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
+import { visit } from "unist-util-visit";
+import type { Heading, PhrasingContent, Root } from "mdast";
 import type { Category, Post, Tag, TocItem } from "@/types";
 
 type PostFrontmatter = {
@@ -24,16 +26,6 @@ type PostSource = {
   fileName: string;
   frontmatter: PostFrontmatter;
   content: string;
-};
-
-type MarkdownNode = {
-  type: string;
-  depth?: number;
-  value?: string;
-  children?: MarkdownNode[];
-  data?: {
-    hProperties?: Record<string, unknown>;
-  };
 };
 
 type RenderedPost = {
@@ -128,12 +120,20 @@ function getUniqueHeadingId(baseId: string, usedIds: Set<string>): string {
   return id;
 }
 
-function getMarkdownText(node: MarkdownNode): string {
-  if (typeof node.value === "string") {
+function getMarkdownText(node: PhrasingContent): string {
+  if ("value" in node && typeof node.value === "string") {
     return node.value;
   }
 
-  return node.children?.map(getMarkdownText).join("") ?? "";
+  if ("alt" in node && typeof node.alt === "string") {
+    return node.alt;
+  }
+
+  if ("children" in node) {
+    return node.children.map(getMarkdownText).join("");
+  }
+
+  return "";
 }
 
 function getRenderedPost(source: PostSource): RenderedPost {
@@ -147,14 +147,13 @@ function getRenderedPost(source: PostSource): RenderedPost {
   const usedIds = new Set<string>();
   let inlineTocId: string | undefined;
 
-  function visit(node: MarkdownNode) {
-    if (
-      node.type === "heading" &&
-      node.depth !== undefined &&
-      node.depth >= 2 &&
-      node.depth <= 4
-    ) {
-      const title = getMarkdownText(node).trim();
+  const collectHeadings = () => (tree: Root) => {
+    visit(tree, "heading", (node: Heading) => {
+      if (node.depth < 2 || node.depth > 4) {
+        return;
+      }
+
+      const title = node.children.map(getMarkdownText).join("").trim();
       const id = getUniqueHeadingId(slugifyHeading(title), usedIds);
 
       node.data = {
@@ -170,15 +169,13 @@ function getRenderedPost(source: PostSource): RenderedPost {
       } else {
         toc.push({ id, title, level: node.depth });
       }
-    }
-
-    node.children?.forEach(visit);
-  }
+    });
+  };
 
   const html = String(
     remark()
       .use(remarkGfm)
-      .use(() => (tree) => visit(tree as MarkdownNode))
+      .use(collectHeadings)
       .use(remarkHtml, { sanitize: markdownSanitizeSchema })
       .processSync(source.content)
   );
