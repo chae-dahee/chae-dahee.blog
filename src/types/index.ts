@@ -14,6 +14,11 @@ export interface Post {
   image: string;
 }
 
+export interface PostSummary {
+  title: string;
+  slug: string;
+}
+
 // ─── Category ────────────────────────────────────────────────────────────────
 
 export interface Category {
