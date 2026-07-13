@@ -113,16 +113,19 @@ function slugifyHeading(value: string): string {
     .replace(/\s+/g, "-");
 }
 
-function getUniqueHeadingId(baseId: string, usedIds: Map<string, number>): string {
+function getUniqueHeadingId(baseId: string, usedIds: Set<string>): string {
   const fallbackId = baseId || "section";
-  const count = usedIds.get(fallbackId) ?? 0;
-  usedIds.set(fallbackId, count + 1);
+  let id = fallbackId;
+  let suffix = 1;
 
-  if (count === 0) {
-    return fallbackId;
+  while (usedIds.has(id)) {
+    suffix += 1;
+    id = `${fallbackId}-${suffix}`;
   }
 
-  return `${fallbackId}-${count + 1}`;
+  usedIds.add(id);
+
+  return id;
 }
 
 function getMarkdownText(node: MarkdownNode): string {
@@ -141,7 +144,7 @@ function getRenderedPost(source: PostSource): RenderedPost {
   }
 
   const toc: TocItem[] = [];
-  const usedIds = new Map<string, number>();
+  const usedIds = new Set<string>();
   let inlineTocId: string | undefined;
 
   function visit(node: MarkdownNode) {
