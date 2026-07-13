@@ -13,17 +13,15 @@ export default function PostTocVisibility({
   postSlug,
   children,
 }: PostTocVisibilityProps) {
-  const [isBodyTocVisible, setIsBodyTocVisible] = useState(
-    bodyTocId !== undefined
-  );
+  const [isBodyTocVisible, setIsBodyTocVisible] = useState(false);
 
   useEffect(() => {
+    setIsBodyTocVisible(false);
+
     if (!bodyTocId) {
-      setIsBodyTocVisible(false);
       return;
     }
 
-    setIsBodyTocVisible(true);
     const bodyTocHeading = document.getElementById(bodyTocId);
 
     if (!bodyTocHeading) {
