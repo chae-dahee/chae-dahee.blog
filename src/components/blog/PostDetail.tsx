@@ -1,23 +1,14 @@
 import Link from "next/link";
 import CommentSection from "@/components/blog/comments/CommentSection";
+import PostTocVisibility from "@/components/blog/PostTocVisibility";
 import ViewCounter from "@/components/blog/ViewCounter";
-import type { Post, TocItem } from "@/types";
+import type { Post } from "@/types";
 
 interface PostDetailProps {
   post: Post;
 }
 
 export default function PostDetail({ post }: PostDetailProps) {
-
-  // 목차 생성 (간단한 버전)
-  const tableOfContents: TocItem[] = [
-    { id: "intro", title: "소개", level: 1 },
-    { id: "section1", title: "주요 개념", level: 1 },
-    { id: "section2", title: "실전 예제", level: 1 },
-    { id: "section3", title: "베스트 프랙티스", level: 1 },
-    { id: "conclusion", title: "마무리", level: 1 },
-  ];
-
   return (
     <div className="max-w-5xl mx-auto">
       {/* 헤더 */}
@@ -162,58 +153,59 @@ export default function PostDetail({ post }: PostDetailProps) {
           </div>
         </article>
 
-        {/* 목차 (우측 고정) */}
-        <aside className="hidden lg:block w-64 flex-shrink-0">
-          <div className="sticky top-24">
-            <div className="bg-[var(--color-bg)] border border-[var(--color-surface)] p-5">
-              <h3 className="text-lg font-bold text-[var(--color-accent)] mb-4 flex items-center">
-                <svg
-                  className="w-4 h-4 mr-1.5 md:w-5 md:h-5 md:mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h7"
-                  />
-                </svg>
-                목차
-              </h3>
-              <nav>
-                <ul className="space-y-2">
-                  {tableOfContents.map((item) => (
-                    <li key={item.id}>
-                      <a
-                        href={`#${item.id}`}
-                        className="block text-sm py-1 px-2 transition-colors text-[var(--color-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-surface)] border-l-2 border-transparent"
-                        style={{ paddingLeft: `${item.level * 0.75}rem` }}
-                      >
-                        {item.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+        {post.toc.length > 0 && (
+          <PostTocVisibility bodyTocId="목차" postSlug={post.slug}>
+            <div className="sticky top-24">
+              <div className="bg-[var(--color-bg)] border border-[var(--color-surface)] p-5">
+                <h3 className="text-lg font-bold text-[var(--color-accent)] mb-4 flex items-center">
+                  <svg
+                    className="w-4 h-4 mr-1.5 md:w-5 md:h-5 md:mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h7"
+                    />
+                  </svg>
+                  목차
+                </h3>
+                <nav>
+                  <ul className="space-y-2">
+                    {post.toc.map((item) => (
+                      <li key={item.id}>
+                        <a
+                          href={`#${item.id}`}
+                          className="block text-sm py-1 px-2 transition-colors text-[var(--color-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-surface)] border-l-2 border-transparent"
+                          style={{ paddingLeft: `${(item.level - 1) * 0.75}rem` }}
+                        >
+                          {item.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
 
-              {/* 스크롤 진행률 */}
-              <div className="mt-6 pt-4 border-t border-[var(--color-muted)]">
-                <div className="flex justify-between text-xs text-[var(--color-secondary)] mb-2">
-                  <span>읽기 진행률</span>
-                  <span>45%</span>
-                </div>
-                <div className="w-full bg-[var(--color-surface)] border border-[var(--color-muted)] h-2">
-                  <div
-                    className="bg-[var(--color-accent)] h-2"
-                    style={{ width: "45%" }}
-                  ></div>
+                {/* 스크롤 진행률 */}
+                <div className="mt-6 pt-4 border-t border-[var(--color-muted)]">
+                  <div className="flex justify-between text-xs text-[var(--color-secondary)] mb-2">
+                    <span>읽기 진행률</span>
+                    <span>45%</span>
+                  </div>
+                  <div className="w-full bg-[var(--color-surface)] border border-[var(--color-muted)] h-2">
+                    <div
+                      className="bg-[var(--color-accent)] h-2"
+                      style={{ width: "45%" }}
+                    ></div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </aside>
+          </PostTocVisibility>
+        )}
       </div>
 
       {/* 댓글 영역 */}

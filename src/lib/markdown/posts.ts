@@ -1,10 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { defaultSchema } from "hast-util-sanitize";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
-import type { Category, Post, Tag } from "@/types";
+import type { Category, Post, Tag, TocItem } from "@/types";
 
 type PostFrontmatter = {
   title: string;
@@ -25,11 +26,30 @@ type PostSource = {
   content: string;
 };
 
+type MarkdownNode = {
+  type: string;
+  depth?: number;
+  value?: string;
+  children?: MarkdownNode[];
+  data?: {
+    hProperties?: Record<string, unknown>;
+  };
+};
+
+type RenderedPost = {
+  html: string;
+  toc: TocItem[];
+};
+
 const postsDirectory = path.join(process.cwd(), "content/posts");
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+const markdownSanitizeSchema = {
+  ...defaultSchema,
+  clobberPrefix: "",
+};
 let postSourceCache: PostSource[] | null = null;
 let postSlugCache: ReadonlySet<string> | null = null;
-const htmlCache = new Map<string, string>();
+const renderedPostCache = new Map<string, RenderedPost>();
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
@@ -83,21 +103,82 @@ function parseFrontmatter(data: Record<string, unknown>, fileName: string): Post
   };
 }
 
-function markdownToHtml(markdown: string): string {
-  return String(remark().use(remarkGfm).use(remarkHtml).processSync(markdown));
+function slugifyHeading(value: string): string {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/<[^>]+>/g, "")
+    .replace(/[^\p{Letter}\p{Number}\s-]/gu, "")
+    .replace(/\s+/g, "-");
 }
 
-function getPostHtml(source: PostSource): string {
-  const cached = htmlCache.get(source.fileName);
+function getUniqueHeadingId(baseId: string, usedIds: Map<string, number>): string {
+  const fallbackId = baseId || "section";
+  const count = usedIds.get(fallbackId) ?? 0;
+  usedIds.set(fallbackId, count + 1);
+
+  if (count === 0) {
+    return fallbackId;
+  }
+
+  return `${fallbackId}-${count + 1}`;
+}
+
+function getMarkdownText(node: MarkdownNode): string {
+  if (typeof node.value === "string") {
+    return node.value;
+  }
+
+  return node.children?.map(getMarkdownText).join("") ?? "";
+}
+
+function getRenderedPost(source: PostSource): RenderedPost {
+  const cached = renderedPostCache.get(source.fileName);
 
   if (cached !== undefined) {
     return cached;
   }
 
-  const html = markdownToHtml(source.content);
-  htmlCache.set(source.fileName, html);
+  const toc: TocItem[] = [];
+  const usedIds = new Map<string, number>();
 
-  return html;
+  function visit(node: MarkdownNode) {
+    if (
+      node.type === "heading" &&
+      node.depth !== undefined &&
+      node.depth >= 2 &&
+      node.depth <= 4
+    ) {
+      const title = getMarkdownText(node).trim();
+      const id = getUniqueHeadingId(slugifyHeading(title), usedIds);
+
+      node.data = {
+        ...node.data,
+        hProperties: {
+          ...node.data?.hProperties,
+          id,
+        },
+      };
+
+      if (title !== "목차") {
+        toc.push({ id, title, level: node.depth });
+      }
+    }
+
+    node.children?.forEach(visit);
+  }
+
+  const html = String(
+    remark()
+      .use(remarkGfm)
+      .use(() => (tree) => visit(tree as MarkdownNode))
+      .use(remarkHtml, { sanitize: markdownSanitizeSchema })
+      .processSync(source.content)
+  );
+  const renderedPost = { html, toc };
+  renderedPostCache.set(source.fileName, renderedPost);
+
+  return renderedPost;
 }
 
 function readPostSource(fileName: string): PostSource {
@@ -142,13 +223,15 @@ function getPublishedPostSources(): PostSource[] {
 
 function buildPostFromSource(source: PostSource, id: number): Post {
   const { frontmatter } = source;
+  const renderedPost = getRenderedPost(source);
 
   return {
     id,
     title: frontmatter.title,
     slug: frontmatter.slug,
     excerpt: frontmatter.excerpt,
-    content: getPostHtml(source),
+    content: renderedPost.html,
+    toc: renderedPost.toc,
     category: frontmatter.category,
     categorySlug: frontmatter.categorySlug,
     tags: frontmatter.tags,
