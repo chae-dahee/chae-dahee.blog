@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CommentSection from "@/components/blog/comments/CommentSection";
+import ReadingProgress from "@/components/blog/ReadingProgress";
 import ViewCounter from "@/components/blog/ViewCounter";
 import type { Post, TocItem } from "@/types";
 
@@ -8,6 +9,7 @@ interface PostDetailProps {
 }
 
 export default function PostDetail({ post }: PostDetailProps) {
+  const contentId = `post-content-${post.slug}`;
 
   // 목차 생성 (간단한 버전)
   const tableOfContents: TocItem[] = [
@@ -114,6 +116,7 @@ export default function PostDetail({ post }: PostDetailProps) {
           </div>
 
           <div
+            id={contentId}
             className="post-content text-[var(--color-secondary)] leading-relaxed"
             dangerouslySetInnerHTML={{
               __html: post.content,
@@ -200,16 +203,7 @@ export default function PostDetail({ post }: PostDetailProps) {
 
               {/* 스크롤 진행률 */}
               <div className="mt-6 pt-4 border-t border-[var(--color-muted)]">
-                <div className="flex justify-between text-xs text-[var(--color-secondary)] mb-2">
-                  <span>읽기 진행률</span>
-                  <span>45%</span>
-                </div>
-                <div className="w-full bg-[var(--color-surface)] border border-[var(--color-muted)] h-2">
-                  <div
-                    className="bg-[var(--color-accent)] h-2"
-                    style={{ width: "45%" }}
-                  ></div>
-                </div>
+                <ReadingProgress targetId={contentId} />
               </div>
             </div>
           </div>
