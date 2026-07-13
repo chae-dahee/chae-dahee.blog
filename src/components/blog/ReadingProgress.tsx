@@ -42,6 +42,9 @@ export default function ReadingProgress({ targetId }: ReadingProgressProps) {
       });
     };
 
+    const resizeObserver = new ResizeObserver(scheduleUpdate);
+    resizeObserver.observe(target);
+
     scheduleUpdate();
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
     window.addEventListener("resize", scheduleUpdate);
@@ -49,6 +52,7 @@ export default function ReadingProgress({ targetId }: ReadingProgressProps) {
     return () => {
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
+      resizeObserver.disconnect();
 
       if (animationFrame !== null) {
         window.cancelAnimationFrame(animationFrame);
