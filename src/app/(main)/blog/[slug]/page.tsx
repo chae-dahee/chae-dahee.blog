@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import PostDetail from "@/components/blog/PostDetail";
-import { getAllPosts, getPostBySlug } from "@/lib/markdown/posts";
+import { getAdjacentPosts, getAllPosts, getPostBySlug } from "@/lib/markdown/posts";
 import { buildMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 
@@ -35,6 +35,13 @@ export default async function PostPage({
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) notFound();
+  const { previousPost, nextPost } = getAdjacentPosts(slug);
 
-  return <PostDetail post={post} />;
+  return (
+    <PostDetail
+      post={post}
+      previousPost={previousPost}
+      nextPost={nextPost}
+    />
+  );
 }
