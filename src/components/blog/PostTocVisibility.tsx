@@ -3,7 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 
 interface PostTocVisibilityProps {
-  bodyTocId: string;
+  bodyTocId?: string;
   postSlug: string;
   children: ReactNode;
 }
@@ -13,9 +13,17 @@ export default function PostTocVisibility({
   postSlug,
   children,
 }: PostTocVisibilityProps) {
-  const [isBodyTocVisible, setIsBodyTocVisible] = useState(true);
+  const [isBodyTocVisible, setIsBodyTocVisible] = useState(
+    bodyTocId !== undefined
+  );
 
   useEffect(() => {
+    if (!bodyTocId) {
+      setIsBodyTocVisible(false);
+      return;
+    }
+
+    setIsBodyTocVisible(true);
     const bodyTocHeading = document.getElementById(bodyTocId);
 
     if (!bodyTocHeading) {

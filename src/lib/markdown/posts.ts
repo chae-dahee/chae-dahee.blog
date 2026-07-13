@@ -39,6 +39,7 @@ type MarkdownNode = {
 type RenderedPost = {
   html: string;
   toc: TocItem[];
+  inlineTocId?: string;
 };
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
@@ -141,6 +142,7 @@ function getRenderedPost(source: PostSource): RenderedPost {
 
   const toc: TocItem[] = [];
   const usedIds = new Map<string, number>();
+  let inlineTocId: string | undefined;
 
   function visit(node: MarkdownNode) {
     if (
@@ -160,7 +162,9 @@ function getRenderedPost(source: PostSource): RenderedPost {
         },
       };
 
-      if (title !== "목차") {
+      if (title === "목차") {
+        inlineTocId = id;
+      } else {
         toc.push({ id, title, level: node.depth });
       }
     }
@@ -175,7 +179,7 @@ function getRenderedPost(source: PostSource): RenderedPost {
       .use(remarkHtml, { sanitize: markdownSanitizeSchema })
       .processSync(source.content)
   );
-  const renderedPost = { html, toc };
+  const renderedPost = { html, toc, inlineTocId };
   renderedPostCache.set(source.fileName, renderedPost);
 
   return renderedPost;
@@ -232,6 +236,7 @@ function buildPostFromSource(source: PostSource, id: number): Post {
     excerpt: frontmatter.excerpt,
     content: renderedPost.html,
     toc: renderedPost.toc,
+    inlineTocId: renderedPost.inlineTocId,
     category: frontmatter.category,
     categorySlug: frontmatter.categorySlug,
     tags: frontmatter.tags,

@@ -156,7 +156,10 @@ export default function PostDetail({ post }: PostDetailProps) {
         <aside className="hidden lg:block w-64 flex-shrink-0">
           <div className="sticky top-24">
             {post.toc.length > 0 && (
-              <PostTocVisibility bodyTocId="목차" postSlug={post.slug}>
+              <PostTocVisibility
+                bodyTocId={post.inlineTocId}
+                postSlug={post.slug}
+              >
                 <div className="bg-[var(--color-bg)] border border-[var(--color-surface)] p-5">
                   <h3 className="text-lg font-bold text-[var(--color-accent)] mb-4 flex items-center">
                     <svg
