@@ -8,7 +8,7 @@ export const siteConfig: SiteConfig = {
   siteUrl: "https://chae-dahee.vercel.app",
   author: {
     name: "채다희",
-    email: "cdh010126r@gmail.com",
+    email: "chae@dahee.dev",
     twitter: "@Djocken86",
   },
   social: {

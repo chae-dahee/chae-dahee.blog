@@ -9,7 +9,7 @@ export const blogInfo: BlogInfo = {
     role: "Frontend Developer",
     bio: "사용자 경험을 중시하는 프론트엔드 개발자입니다. React, Next.js, TypeScript를 주로 다루며, 아름다운 UI와 성능 최적화에 관심이 많습니다.",
     avatar: "/chae-dahee.png",
-    email: "chae-dahee@example.com",
+    email: "chae@dahee.dev",
   },
   social: [
     { name: "GitHub", url: "https://github.com/chae-dahee", icon: "github" },
@@ -19,7 +19,7 @@ export const blogInfo: BlogInfo = {
       icon: "linkedin",
     },
     { name: "Twitter", url: "https://twitter.com/chae-dahee", icon: "twitter" },
-    { name: "Email", url: "mailto:chae-dahee@example.com", icon: "email" },
+    { name: "Email", url: "mailto:chae@dahee.dev", icon: "email" },
   ],
 };
 
