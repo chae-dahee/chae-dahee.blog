@@ -38,8 +38,6 @@ export function buildMetadata(opts: MetadataOptions = {}): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      site: siteConfig.author.twitter,
-      creator: siteConfig.author.twitter,
       title: pageTitle,
       description,
       images: [image],

@@ -23,8 +23,6 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: siteConfig.author.twitter,
-    creator: siteConfig.author.twitter,
   },
   robots: { index: true, follow: true },
   alternates: {

@@ -1,4 +1,4 @@
-import { GitHubIcon, TwitterIcon, LinkedInIcon } from "@/components/common/icons";
+import { GitHubIcon, LinkedInIcon } from "@/components/common/icons";
 
 export default function Footer() {
   return (
@@ -21,15 +21,6 @@ export default function Footer() {
               aria-label="GitHub"
             >
               <GitHubIcon className="w-6 h-6" />
-            </a>
-            <a
-              href="https://twitter.com/chae-dahee"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors"
-              aria-label="Twitter"
-            >
-              <TwitterIcon className="w-6 h-6" />
             </a>
             <a
               href="https://linkedin.com/in/chae-dahee"

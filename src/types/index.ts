@@ -77,13 +77,11 @@ export interface BlogInfo {
 export interface SiteConfigAuthor {
   name: string;
   email: string;
-  twitter: string;
 }
 
 export interface SiteConfigSocial {
   github: string;
   linkedin: string;
-  twitter: string;
 }
 
 export interface SiteConfig {

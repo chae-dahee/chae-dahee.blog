@@ -9,12 +9,10 @@ export const siteConfig: SiteConfig = {
   author: {
     name: "채다희",
     email: "chae@dahee.dev",
-    twitter: "@Djocken86",
   },
   social: {
     github: "https://github.com/chae-dahee",
     linkedin: "https://linkedin.com/in/chae-dahee",
-    twitter: "https://twitter.com/Djocken86",
   },
   keywords: [
     "프론트엔드",
