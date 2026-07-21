@@ -11,9 +11,11 @@ import type { Category, Tag } from "@/types";
 export default function MobileBar({
   categories,
   tags,
+  postCount,
 }: {
   categories: Category[];
   tags: Tag[];
+  postCount: number;
 }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -104,6 +106,7 @@ export default function MobileBar({
         <Sidebar
           categories={categories}
           tags={tags}
+          postCount={postCount}
           className="flex border-r-0 !h-auto !w-full !p-4 text-sm"
           hideLogo
         />

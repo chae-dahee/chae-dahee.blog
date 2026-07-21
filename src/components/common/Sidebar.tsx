@@ -19,11 +19,13 @@ const SOCIAL_ICON_MAP: Record<SocialIcon, ComponentType<{ className?: string }>>
 export default function Sidebar({
   categories,
   tags,
+  postCount,
   className,
   hideLogo,
 }: {
   categories: Category[];
   tags: Tag[];
+  postCount: number;
   className?: string;
   hideLogo?: boolean;
 }) {
@@ -122,11 +124,10 @@ export default function Sidebar({
       {/* Stats */}
       <section className="mt-8 bg-[var(--color-surface)] p-4">
         <h3 className="text-lg font-bold text-[var(--color-accent)] mb-4">Blog Stats</h3>
-        <div className="grid grid-cols-2 gap-4 text-center text-[var(--color-secondary)]">
-          <div><div className="text-2xl font-bold text-[var(--color-accent)]">8</div><div className="text-xs">Posts</div></div>
-          <div><div className="text-2xl font-bold text-[var(--color-accent)]">5</div><div className="text-xs">Categories</div></div>
-          <div><div className="text-2xl font-bold text-[var(--color-accent)]">10</div><div className="text-xs">Tags</div></div>
-          <div><div className="text-2xl font-bold text-[var(--color-accent)]">2.5K</div><div className="text-xs">Views</div></div>
+        <div className="grid grid-cols-3 gap-4 text-center text-[var(--color-secondary)]">
+          <div><div className="text-2xl font-bold text-[var(--color-accent)]">{postCount}</div><div className="text-xs">Posts</div></div>
+          <div><div className="text-2xl font-bold text-[var(--color-accent)]">{categories.length}</div><div className="text-xs">Categories</div></div>
+          <div><div className="text-2xl font-bold text-[var(--color-accent)]">{tags.length}</div><div className="text-xs">Tags</div></div>
         </div>
       </section>
     </aside>
