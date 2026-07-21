@@ -28,7 +28,7 @@ export default function About() {
       <section className="flex flex-col md:flex-row gap-8 items-start">
         <Image
           src={blogInfo.author.avatar}
-          alt={blogInfo.author.name}
+          alt="채다희"
           width={120}
           height={120}
           className="rounded-full border-2 border-[var(--color-accent)] flex-shrink-0"
