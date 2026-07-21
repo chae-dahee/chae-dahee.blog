@@ -1,4 +1,4 @@
-import { GitHubIcon, TwitterIcon, LinkedInIcon } from "@/components/common/icons";
+import { GitHubIcon, LinkedInIcon, EmailIcon } from "@/components/common/icons";
 
 export default function Footer() {
   return (
@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0 text-center md:text-left">
             <p className="text-sm">
-              © 2026 Chae Dahee&apos;s Tech Blog. All rights reserved.
+              © 2026 닿망징창의 터미널. All rights reserved.
             </p>
           </div>
 
@@ -23,15 +23,6 @@ export default function Footer() {
               <GitHubIcon className="w-6 h-6" />
             </a>
             <a
-              href="https://twitter.com/chae-dahee"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors"
-              aria-label="Twitter"
-            >
-              <TwitterIcon className="w-6 h-6" />
-            </a>
-            <a
               href="https://linkedin.com/in/chae-dahee"
               target="_blank"
               rel="noopener noreferrer"
@@ -39,6 +30,13 @@ export default function Footer() {
               aria-label="LinkedIn"
             >
               <LinkedInIcon className="w-6 h-6" />
+            </a>
+            <a
+              href="mailto:chae@dahee.dev"
+              className="text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors"
+              aria-label="Email"
+            >
+              <EmailIcon className="w-6 h-6" />
             </a>
           </div>
         </div>

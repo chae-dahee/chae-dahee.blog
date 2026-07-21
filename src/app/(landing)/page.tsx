@@ -3,17 +3,22 @@ import HomeHero from "@/components/home/HomeHero";
 import LatestPosts from "@/components/home/LatestPosts";
 import { getAllPosts } from "@/lib/markdown/posts";
 import { buildMetadata } from "@/lib/metadata";
+import { siteConfig } from "@/config/seo.config";
 import type { Metadata } from "next";
 
 const PixelScene = dynamic(() => import("@/components/home/PixelScene"), {
   ssr: false,
 });
 
-export const metadata: Metadata = buildMetadata({
-  description:
-    "프론트엔드 개발과 기술에 대한 블로그. React, Next.js, TypeScript, 웹 성능 최적화 등 다양한 주제를 다룹니다.",
-  url: "/",
-});
+export const metadata: Metadata = {
+  ...buildMetadata({
+    description:
+      "프론트엔드 개발과 기술에 대한 블로그. React, Next.js, TypeScript, 웹 성능 최적화 등 다양한 주제를 다룹니다.",
+    url: "/",
+  }),
+  // 루트 layout의 title template(`%s | 블로그명`) 이중 적용을 막아 홈 제목 중복을 방지
+  title: { absolute: siteConfig.title },
+};
 
 export default function HomePage() {
   const latestPosts = getAllPosts().slice(0, 5);

@@ -18,7 +18,6 @@ export const blogInfo: BlogInfo = {
       url: "https://linkedin.com/in/chae-dahee",
       icon: "linkedin",
     },
-    { name: "Twitter", url: "https://twitter.com/chae-dahee", icon: "twitter" },
     { name: "Email", url: "mailto:chae@dahee.dev", icon: "email" },
   ],
 };
