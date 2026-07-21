@@ -1,4 +1,4 @@
-import { GitHubIcon, LinkedInIcon } from "@/components/common/icons";
+import { GitHubIcon, LinkedInIcon, EmailIcon } from "@/components/common/icons";
 
 export default function Footer() {
   return (
@@ -30,6 +30,13 @@ export default function Footer() {
               aria-label="LinkedIn"
             >
               <LinkedInIcon className="w-6 h-6" />
+            </a>
+            <a
+              href="mailto:chae@dahee.dev"
+              className="text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors"
+              aria-label="Email"
+            >
+              <EmailIcon className="w-6 h-6" />
             </a>
           </div>
         </div>
