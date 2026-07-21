@@ -23,7 +23,7 @@
 | 프레임워크 | Next.js 14 (App Router), React 18 | Server Components 기반 |
 | 언어 | TypeScript | |
 | 스타일 | Tailwind CSS | CSS 토큰 기반 라이트/다크 테마 |
-| 데이터베이스 | PostgreSQL (Neon), Prisma | 런타임=풀링 연결, 마이그레이션=직접 연결 |
+| 데이터베이스 | PostgreSQL (Neon), Prisma | |
 | 인증 | Auth.js (next-auth) | GitHub OAuth |
 | 콘텐츠 | Markdown, gray-matter, remark(+gfm/html) | hast-util-sanitize로 정화 |
 | 그래픽·모션 | pixi.js, framer-motion | 픽셀 아트 랜딩 씬 |
