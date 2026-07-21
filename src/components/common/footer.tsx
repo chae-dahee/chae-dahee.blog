@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0 text-center md:text-left">
             <p className="text-sm">
-              © 2026 Chae Dahee&apos;s Tech Blog. All rights reserved.
+              © 2026 닿망징창의 터미널. All rights reserved.
             </p>
           </div>
 

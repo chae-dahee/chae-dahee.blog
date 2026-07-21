@@ -35,7 +35,7 @@ export default function About() {
         />
         <div className="flex-1">
           <h1 className="text-3xl font-bold text-[var(--color-accent)] mb-1">
-            {blogInfo.author.name}
+            채다희
           </h1>
           <p className="text-[var(--color-secondary)] mb-3">
             {blogInfo.author.role}
