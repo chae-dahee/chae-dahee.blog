@@ -50,7 +50,7 @@
 
 ## 🗂️ 프로젝트 구조
 
-```
+```text
 src/
 ├─ app/                    # Next.js App Router
 │  ├─ (landing)/           # 픽셀 아트 랜딩 페이지
