@@ -102,7 +102,7 @@ export default function Sidebar({
       {/* Social */}
       <section className="mb-8">
         <h3 className="text-lg font-bold text-[var(--color-accent)] mb-4">Connect</h3>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-3 gap-2">
           {blogInfo.social.map((social) => {
             const Icon = SOCIAL_ICON_MAP[social.icon];
             return (
