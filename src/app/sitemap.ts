@@ -19,9 +19,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(toPostDateTime(post.date)),
   }));
 
-  const categoryEntries: MetadataRoute.Sitemap = getAllCategories().map((cat) => ({
-    url: `${baseUrl}/category/${cat.slug}`,
-  }));
+  const categoryEntries: MetadataRoute.Sitemap = getAllCategories().flatMap((cat) => [
+    { url: `${baseUrl}/category/${cat.slug}` },
+    ...(cat.children ?? []).map((child) => ({
+      url: `${baseUrl}/category/${cat.slug}/${child.slug}`,
+    })),
+  ]);
 
   const tagEntries: MetadataRoute.Sitemap = getAllTags().map((tag) => ({
     url: `${baseUrl}/tag/${tag.slug}`,

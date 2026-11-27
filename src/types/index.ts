@@ -10,6 +10,8 @@ export interface Post {
   inlineTocId?: string;
   category: string;
   categorySlug: string;
+  subcategory?: string;
+  subcategorySlug?: string;
   tags: string[];
   date: string;
   image?: string;
@@ -27,6 +29,7 @@ export interface Category {
   name: string;
   slug: string;
   count: number;
+  children?: Category[];
 }
 
 // ─── Tag ─────────────────────────────────────────────────────────────────────

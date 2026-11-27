@@ -2,7 +2,7 @@
 title: "[네트워크] 6. Application Layer"
 slug: "network-application-layer"
 excerpt: "클라이언트-서버와 P2P 구조부터 HTTP 요청·응답과 쿠키·웹 캐시, SMTP, DNS 계층 구조와 질의 방식까지 네트워크 6강 내용을 정리한다."
-category: "cs"
+category: "CS"
 tags: ["네트워크", "응용계층", "HTTP"]
 date: "2023-12-08T19:41"
 published: true

@@ -179,6 +179,15 @@ body {
   height: auto;
   margin-bottom: 1rem;
 }
+.post-content a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  text-underline-offset: 3px;
+}
+.post-content a:hover {
+  text-decoration-color: var(--color-accent);
+}
 
 @keyframes bg-scroll {
   from {

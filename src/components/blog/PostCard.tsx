@@ -14,8 +14,12 @@ export default function PostCard({ post }: PostCardProps) {
       className="flex bg-[var(--color-surface)] border border-[var(--color-muted)] hover:border-[var(--color-accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)] transition-colors overflow-hidden group"
     >
       {/* 이미지 영역 (좌측 ~28%) */}
-      <div className="relative w-[28%] sm:w-[25%] flex-shrink-0 bg-[var(--color-bg)] border-r border-[var(--color-muted)] flex items-center justify-center overflow-hidden">
-        {post.image ? (
+      <div
+        className={`relative w-[28%] sm:w-[25%] flex-shrink-0 border-r border-[var(--color-muted)] overflow-hidden ${
+          post.image ? "bg-[var(--color-bg)]" : "bg-[var(--color-muted)]"
+        }`}
+      >
+        {post.image && (
           <Image
             src={post.image}
             alt=""
@@ -23,10 +27,6 @@ export default function PostCard({ post }: PostCardProps) {
             sizes="(min-width: 896px) 224px, (min-width: 640px) 25vw, 28vw"
             className="object-cover"
           />
-        ) : (
-          <span className="text-3xl sm:text-5xl font-bold text-[var(--color-accent)]/20">
-            {post.id}
-          </span>
         )}
       </div>
 

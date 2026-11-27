@@ -2,7 +2,8 @@
 title: "[React] jsconfig.json으로 절대경로 만들기"
 slug: "react-jsconfig-absolute-path"
 excerpt: "CRA에서 baseUrl로 절대경로를 설정하는 방법과, @ alias를 지정하는 paths가 왜 동작하지 않는지 정리한다."
-category: "react"
+category: "FrontEnd"
+subcategory: "react"
 tags: ["React", "jsconfig", "CRA"]
 date: "2023-11-03T17:21"
 published: true

@@ -10,6 +10,9 @@ import { formatPostDateTime, toPostDateTimeAttr } from "@/lib/postDate";
 import { slugify } from "@/lib/slug";
 import type { Post, PostSummary } from "@/types";
 
+const CATEGORY_LINK_CLASS =
+  "inline-block px-3 py-1 text-sm font-semibold text-[var(--color-accent)] bg-[var(--color-surface)] border border-[var(--color-accent)]/30 hover:bg-[var(--color-muted)] transition-colors";
+
 function CommentSectionFallback() {
   return (
     <section className="mt-16 pt-8 border-t border-[var(--color-muted)]">
@@ -36,13 +39,21 @@ export default function PostDetail({
     <div className="max-w-5xl mx-auto">
       {/* 헤더 */}
       <header className="mb-6 pb-6 md:mb-8 md:pb-8 border-b border-[var(--color-muted)]">
-        <div className="mb-4">
-          <Link
-            href={`/category/${post.categorySlug}`}
-            className="inline-block px-3 py-1 text-sm font-semibold text-[var(--color-accent)] bg-[var(--color-surface)] border border-[var(--color-accent)]/30 hover:bg-[var(--color-muted)] transition-colors"
-          >
+        <div className="mb-4 flex items-center gap-2">
+          <Link href={`/category/${post.categorySlug}`} className={CATEGORY_LINK_CLASS}>
             {post.category}
           </Link>
+          {post.subcategory && (
+            <>
+              <span className="text-[var(--color-secondary)]">/</span>
+              <Link
+                href={`/category/${post.categorySlug}/${post.subcategorySlug}`}
+                className={CATEGORY_LINK_CLASS}
+              >
+                {post.subcategory}
+              </Link>
+            </>
+          )}
         </div>
 
         <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-[var(--color-accent)] mb-3 md:mb-4 leading-tight">
