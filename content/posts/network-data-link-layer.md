@@ -2,7 +2,7 @@
 title: "[네트워크] 3. Data Link Layer"
 slug: "network-data-link-layer"
 excerpt: "캡슐화와 프레이밍, 패리티·CRC 오류 검출부터 다중 접속 프로토콜(TDMA·ALOHA·CSMA), MAC 주소와 ARP, 이더넷 스위치와 VLAN까지 네트워크 3강 내용을 정리한다."
-category: "cs"
+category: "CS"
 tags: ["네트워크", "데이터링크계층", "이더넷"]
 date: "2023-12-06T19:06"
 published: true

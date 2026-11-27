@@ -2,7 +2,7 @@
 title: "[SW공학] 12강 - 구현, 테스트"
 slug: "sw-implementation-test"
 excerpt: "표준 코딩 규칙과 테스트 절차부터 화이트박스·블랙박스 기법, V모델의 단위·통합·시스템·인수 테스트까지 12강 내용을 정리한다."
-category: "cs"
+category: "CS"
 tags: ["소프트웨어공학", "테스트", "코딩규칙"]
 date: "2023-12-06T16:16"
 image: "/posts/sw-implementation-test/v-model.png"

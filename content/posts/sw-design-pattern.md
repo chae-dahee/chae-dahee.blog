@@ -2,7 +2,7 @@
 title: "[SW공학] 10강 디자인패턴"
 slug: "sw-design-pattern"
 excerpt: "GoF 디자인 패턴을 생성·구조·행위 세 갈래로 나누고, 23개 패턴이 각각 어떤 문제를 해결하는지 10강 내용을 정리한다."
-category: "cs"
+category: "CS"
 tags: ["소프트웨어공학", "디자인패턴", "객체지향"]
 date: "2023-12-06T00:45"
 published: true

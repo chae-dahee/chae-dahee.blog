@@ -2,7 +2,7 @@
 title: "[네트워크] 1. TCP/IP Protocol Suite"
 slug: "network-tcp-ip-protocol"
 excerpt: "컴퓨터 네트워크의 구성 요소와 LAN·WAN, 물리적 토폴로지부터 프로토콜 계층화, TCP/IP와 OSI 7계층 모델까지 네트워크 1강 내용을 정리한다."
-category: "cs"
+category: "CS"
 tags: ["네트워크", "TCP-IP", "OSI7계층"]
 date: "2023-12-06T18:48"
 image: "/posts/network-tcp-ip-protocol/tcp-ip-layer-architecture.png"

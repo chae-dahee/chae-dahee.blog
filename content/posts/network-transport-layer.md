@@ -2,7 +2,7 @@
 title: "[네트워크] 5. Transport Layer"
 slug: "network-transport-layer"
 excerpt: "TCP와 UDP의 차이, 소켓·포트와 다중화부터 세그먼트 구조, TCP 헤더 필드와 3-way handshake까지 네트워크 5강 내용을 정리한다."
-category: "cs"
+category: "CS"
 tags: ["네트워크", "전송계층", "TCP"]
 date: "2023-12-08T17:22"
 image: "/posts/network-transport-layer/tcp-demultiplexing.png"

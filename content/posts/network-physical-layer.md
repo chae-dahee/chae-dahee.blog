@@ -2,7 +2,7 @@
 title: "[네트워크] 2. Physical Layer"
 slug: "network-physical-layer"
 excerpt: "아날로그·디지털 신호와 bit rate, 유선·무선 전송 매체와 감쇠·증폭부터 simplex·duplex 통신 방식, 패킷 전송 지연과 NIC까지 네트워크 2강 내용을 정리한다."
-category: "cs"
+category: "CS"
 tags: ["네트워크", "물리계층", "전송매체"]
 date: "2023-12-06T18:55"
 image: "/posts/network-physical-layer/analog-digital-signal.png"

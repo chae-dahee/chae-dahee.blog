@@ -2,7 +2,7 @@
 title: "[네트워크] 4. Network Layer"
 slug: "network-network-layer"
 excerpt: "포워딩과 라우팅, 데이터·컨트롤 플레인과 라우터 구조부터 IPv4 데이터그램과 주소 체계(서브넷·CIDR·DHCP·NAT), IPv6와 라우팅 알고리즘까지 네트워크 4강 내용을 정리한다."
-category: "cs"
+category: "CS"
 tags: ["네트워크", "네트워크계층", "IP주소"]
 date: "2023-12-08T03:19"
 image: "/posts/network-network-layer/subnet.png"

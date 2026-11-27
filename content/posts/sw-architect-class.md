@@ -2,7 +2,7 @@
 title: "[SW공학] 8,9강 - 설계, 아키텍처와 클래스 설계"
 slug: "sw-architect-class"
 excerpt: "모듈화·추상화·캡슐화와 응집도·결합도부터 4+1 관점, 아키텍처 스타일, 클래스 간의 관계와 SOLID까지 8·9강 내용을 정리한다."
-category: "cs"
+category: "CS"
 tags: ["소프트웨어공학", "아키텍처", "SOLID"]
 date: "2023-12-03T17:12"
 image: "/posts/sw-architect-class/4+1.png"

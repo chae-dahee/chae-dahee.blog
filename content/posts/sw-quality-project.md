@@ -2,7 +2,7 @@
 title: "[SW공학] 13강 - 품질, 프로젝트"
 slug: "sw-quality-project"
 excerpt: "SW 품질의 정의와 학자별 품질요소, ISO/IEC 9126과 CMMI·SPICE 성숙도 모델부터 PMBOK과 형상관리까지 13강 내용을 정리한다."
-category: "cs"
+category: "CS"
 tags: ["소프트웨어공학", "품질", "프로젝트관리"]
 date: "2023-12-06T18:18"
 image: "/posts/sw-quality-project/CMMI.png"
