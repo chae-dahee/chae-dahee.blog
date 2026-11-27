@@ -74,7 +74,7 @@ receiver는 4가지 정보를 가지고 세그먼트를 적절한 소켓에 전�
 
 **기능**
 
-**혼잡 제어 congestion control** : 네트워크(라우터)에 패킷이 많이 몰리면 혼잡도가 크다고 판단, 전송 속도(congestion window)를 줄인다.
+**혼잡 제어 congestion control** : 네트워크(라우터)에 패킷이 많이 몰리면 혼잡도가 크다고 판단, ACK 없이 보낼 수 있는 전송량 한도(congestion window)를 줄인다.
 
 **flow control 흐름 제어** : 수신자의 버퍼가 넘치지 않도록, 송신 속도를 수신 측 여유 공간(receive window)에 맞춰 조절함
 

@@ -25,7 +25,7 @@ LAN과 LAN끼리
 
 ## underlying LAN and WAN technology
 
-데이터링크가 물리계층에게 bit 정보 전기적 신호를 보낸다. 물리계층은 전기적 신호를 제어한다
+데이터링크가 물리계층에게 bit 정보를 넘기고, 물리계층은 이를 전기적 신호로 바꾼다. 물리계층은 전기적 신호를 제어한다
 
 ## Transmission media 전송 매체
 

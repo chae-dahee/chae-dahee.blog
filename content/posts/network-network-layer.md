@@ -215,7 +215,7 @@ NAT router : WAN과 LAN을 연결하고 control. 1차적 방화벽을 생성한�
 
 1. sender 컴퓨터 사설 IP가 라우터에 도착하고, NAT에서 dest(Internet)로 나가는 과정에서 **사설 source IP 주소를 라우터 공인 IP 주소**로, source 포트 번호를 새 포트 번호로 변경. **(사설 IP, 포트 번호) ↔ (공인 IP, 새 포트 번호)** 를 NAT 테이블로 기록함
 2. 인터넷 상의 다른 컴퓨터는 이 패킷을 사설 네트워크의 컴퓨터가 아니라 NAT 라우터가 보낸 것으로 인식
-3. 회신하면, 이 패킷은 NAT 라우터의 공인 IP 주소가 dest 주소. NAT 라우터는 이 패킷을 받고 통과하는 순간 NAT 테이블을 참조하여 패킷의 목적지 주소를 원래의 사설 IP 주소로 변경한다.
+3. 회신하면, 이 패킷은 NAT 라우터의 공인 IP 주소가 dest 주소. NAT 라우터는 이 패킷을 받고 통과하는 순간 NAT 테이블을 참조하여 패킷의 목적지 주소와 포트 번호를 원래의 사설 IP 주소, 포트 번호로 변경한다.
 
 외부에서는 LAN 내부의 사설 주소와 구조가 보이지 않음. 내부 장치를 바꿔도 외부에 알릴 필요 없음
 
@@ -238,7 +238,7 @@ NAT router : WAN과 LAN을 연결하고 control. 1차적 방화벽을 생성한�
 1. ver : 0110 = IPv6
 2. traffic class(priority) : 데이터그램 우선순위
 3. flow label : 전달 세그먼트의 연속성을 판단 (ex. 동영상)
-4. payload len : 세그먼트 payload 길이
+4. payload len : 기본 헤더(40byte) 뒤 데이터 길이. 확장 헤더 포함
 5. next hdr : 상위 계층 프로토콜(또는 확장 헤더) 명시
 6. hop limit : 패킷 수명. 홉마다 1씩 감소 ⇒ IPv4의 TTL(Time To Live)
 
@@ -248,7 +248,7 @@ NAT router : WAN과 LAN을 연결하고 control. 1차적 방화벽을 생성한�
 | ---------------------------------------------- | ----------------------------------------------------- |
 | checksum 에러 검출                             | NO checksum                                           |
 | 라우터 fragmentation / **Receiver** reassemble | **Sender** fragmentation / **Receiver** reassemble    |
-| options                                        | No options                                            |
+| options                                        | No options (확장 헤더로 처리)                         |
 
 에러 검출을 Data-link, transport 레이어에서 하기 때문에 v6에서는 할 필요가 없다고 판단 → 불필요한 연산 생략
 
@@ -275,3 +275,5 @@ distance-vector 알고리즘 : 이웃 라우터와 거리 정보만 주고받으
 ![Dijkstra 알고리즘 단계](/posts/network-network-layer/dijkstra-steps.png)
 
 ![Dijkstra 결과 u의 forwarding table](/posts/network-network-layer/dijkstra-forwarding-table.png)
+
+표의 마지막 행 목적지 x는 z의 오기
