@@ -81,6 +81,18 @@ export default function Sidebar({
                 <span>{cat.name}</span>
                 <span className="text-xs bg-[var(--color-surface)] text-[var(--color-accent)] px-2 py-1">{cat.count}</span>
               </Link>
+              {cat.children && (
+                <ul className="mt-1 ml-4 space-y-1 border-l border-[var(--color-muted)]">
+                  {cat.children.map((child) => (
+                    <li key={child.id}>
+                      <Link href={`/category/${cat.slug}/${child.slug}`} className="terminal-hover flex items-center justify-between px-3 py-1.5 text-sm text-[var(--color-secondary)] hover:text-[var(--color-accent)] hover:bg-[var(--color-surface)] transition-colors">
+                        <span>{child.name}</span>
+                        <span className="text-xs bg-[var(--color-surface)] text-[var(--color-accent)] px-2 py-1">{child.count}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>

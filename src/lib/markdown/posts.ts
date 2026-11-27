@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
 import { visit } from "unist-util-visit";
 import type { Heading, PhrasingContent, Root } from "mdast";
+import { CATEGORY_TREE } from "@/lib/constants";
 import { isValidPostDate } from "@/lib/postDate";
 import { isSafeSlug, slugify } from "@/lib/slug";
 import type { Category, Post, PostSummary, Tag, TocItem } from "@/types";
@@ -16,6 +17,7 @@ type PostFrontmatter = {
   slug: string;
   excerpt: string;
   category: string;
+  subcategory?: string;
   tags: string[];
   date: string;
   image?: string;
@@ -83,11 +85,29 @@ function parseFrontmatter(data: Record<string, unknown>, fileName: string): Post
       ? undefined
       : assertField(data.image, "image", fileName, isNonEmptyString);
 
+  const category = assertField(data.category, "category", fileName, isNonEmptyString);
+  const subcategory =
+    data.subcategory === undefined || data.subcategory === null
+      ? undefined
+      : assertField(data.subcategory, "subcategory", fileName, isNonEmptyString);
+  const categoryNode = CATEGORY_TREE.find(({ name }) => name === category);
+
+  if (!categoryNode) {
+    throw new Error(`Invalid post frontmatter: ${fileName} has unknown category "${category}"`);
+  }
+
+  if (subcategory !== undefined && !categoryNode.children?.includes(subcategory)) {
+    throw new Error(
+      `Invalid post frontmatter: ${fileName} has unknown subcategory "${subcategory}" in "${category}"`
+    );
+  }
+
   return {
     title: assertField(data.title, "title", fileName, isNonEmptyString),
     slug: assertField(data.slug, "slug", fileName, isNonEmptyString),
     excerpt: assertField(data.excerpt, "excerpt", fileName, isNonEmptyString),
-    category: assertField(data.category, "category", fileName, isNonEmptyString),
+    category,
+    subcategory,
     tags: assertField(data.tags, "tags", fileName, isTags),
     date,
     image,
@@ -212,7 +232,7 @@ function getPostSources(): PostSource[] {
     .map(readPostSource);
 
   ensureUniqueSlugs(sources.map(({ frontmatter }) => frontmatter.slug));
-  ensureTaxonomySlugs(sources);
+  ensureTagSlugs(sources);
   postSourceCache = sources;
 
   return postSourceCache;
@@ -238,6 +258,8 @@ function buildPostFromSource(source: PostSource, id: number): Post {
     inlineTocId: renderedPost.inlineTocId,
     category: frontmatter.category,
     categorySlug: slugify(frontmatter.category),
+    subcategory: frontmatter.subcategory,
+    subcategorySlug: frontmatter.subcategory && slugify(frontmatter.subcategory),
     tags: frontmatter.tags,
     date: frontmatter.date,
     image: frontmatter.image,
@@ -263,39 +285,26 @@ function ensureUniqueSlugs(slugs: string[]) {
   }
 }
 
-function ensureTaxonomySlugs(sources: PostSource[]) {
-  // /category와 /tag는 별개 경로이므로 이름 충돌도 각각 따로 검사한다.
-  const categoryNames = new Map<string, string>();
+function ensureTagSlugs(sources: PostSource[]) {
   const tagNames = new Map<string, string>();
 
-  const check = (
-    names: Map<string, string>,
-    kind: string,
-    name: string,
-    fileName: string
-  ) => {
-    const slug = slugify(name);
-
-    if (!isSafeSlug(slug)) {
-      throw new Error(`Unsafe ${kind} slug "${slug}" from "${name}" (${fileName})`);
-    }
-
-    const existingName = names.get(slug);
-
-    if (existingName !== undefined && existingName !== name) {
-      throw new Error(
-        `Conflicting ${kind} slug "${slug}": "${existingName}" vs "${name}" (${fileName})`
-      );
-    }
-
-    names.set(slug, name);
-  };
-
   for (const { fileName, frontmatter } of sources) {
-    check(categoryNames, "category", frontmatter.category, fileName);
+    for (const name of frontmatter.tags) {
+      const slug = slugify(name);
 
-    for (const tagName of frontmatter.tags) {
-      check(tagNames, "tag", tagName, fileName);
+      if (!isSafeSlug(slug)) {
+        throw new Error(`Unsafe tag slug "${slug}" from "${name}" (${fileName})`);
+      }
+
+      const existingName = tagNames.get(slug);
+
+      if (existingName !== undefined && existingName !== name) {
+        throw new Error(
+          `Conflicting tag slug "${slug}": "${existingName}" vs "${name}" (${fileName})`
+        );
+      }
+
+      tagNames.set(slug, name);
     }
   }
 }
@@ -351,28 +360,24 @@ export function getAdjacentPosts(slug: string): {
 }
 
 export function getAllCategories(): Category[] {
-  const categories = new Map<string, Omit<Category, "id">>();
+  const frontmatters = getPublishedPostSources().map(({ frontmatter }) => frontmatter);
 
-  for (const { frontmatter } of getPublishedPostSources()) {
-    const categorySlug = slugify(frontmatter.category);
-    const category = categories.get(categorySlug);
+  return CATEGORY_TREE.map((node, index) => {
+    const posts = frontmatters.filter(({ category }) => category === node.name);
 
-    if (category) {
-      category.count += 1;
-      continue;
-    }
-
-    categories.set(categorySlug, {
-      name: frontmatter.category,
-      slug: categorySlug,
-      count: 1,
-    });
-  }
-
-  return Array.from(categories.values()).map((category, index) => ({
-    id: index + 1,
-    ...category,
-  }));
+    return {
+      id: index + 1,
+      name: node.name,
+      slug: slugify(node.name),
+      count: posts.length,
+      children: node.children?.map((child, childIndex) => ({
+        id: childIndex + 1,
+        name: child,
+        slug: slugify(child),
+        count: posts.filter(({ subcategory }) => subcategory === child).length,
+      })),
+    };
+  });
 }
 
 export function getAllTags(): Tag[] {

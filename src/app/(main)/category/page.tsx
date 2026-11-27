@@ -14,11 +14,18 @@ export default function CategoryIndex() {
   return (
     <TaxonomyIndexGrid
       title="Categories"
-      items={categories.map((cat) => ({
-        key: cat.id,
-        href: `/category/${cat.slug}`,
-        label: `${cat.name} (${cat.count})`,
-      }))}
+      items={categories.flatMap((cat) => [
+        {
+          key: cat.slug,
+          href: `/category/${cat.slug}`,
+          label: `${cat.name} (${cat.count})`,
+        },
+        ...(cat.children ?? []).map((child) => ({
+          key: `${cat.slug}/${child.slug}`,
+          href: `/category/${cat.slug}/${child.slug}`,
+          label: `${cat.name} / ${child.name} (${child.count})`,
+        })),
+      ])}
     />
   );
 }
